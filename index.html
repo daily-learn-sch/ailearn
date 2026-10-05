@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sunchaohai · AI Learn</title>
+<meta name="description" content="sunchaohai 的个人主页：记录学习 AI 的每一天。">
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --text: #1d1d1b;
+    --muted: #6b6b66;
+    --border: #e4e3dc;
+    --accent: #2f6f5e;
+    --accent-soft: #e3efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141513;
+      --surface: #1d1e1b;
+      --text: #ebebe6;
+      --muted: #9a9b93;
+      --border: #30312c;
+      --accent: #7cc4a8;
+      --accent-soft: #1f2f29;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  main { max-width: 680px; margin: 0 auto; padding: 72px 16px 48px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .hero { display: flex; gap: 20px; align-items: center; }
+  .avatar {
+    flex: none;
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: grid; place-items: center;
+    font-size: 1.8rem; font-weight: 700;
+  }
+  h1 { margin: 0; font-size: 2rem; letter-spacing: -0.01em; }
+  .tagline { margin: 2px 0 0; color: var(--muted); }
+
+  h2 {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted);
+    margin: 56px 0 16px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+  .tags li {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: .9rem;
+  }
+
+  .log { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--border); }
+  .log li { position: relative; padding: 0 0 20px 20px; }
+  .log li::before {
+    content: "";
+    position: absolute; left: -6px; top: .55em;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--surface); border: 2px solid var(--accent);
+  }
+  .log time { display: block; font-size: .85rem; color: var(--muted); }
+
+  .links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .links a {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .links a:hover { border-color: var(--accent); text-decoration: none; }
+
+  footer { margin-top: 72px; color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="avatar" aria-hidden="true">S</div>
+    <div>
+      <h1>sunchaohai</h1>
+      <p class="tagline">每天学一点 AI，把过程记录下来。</p>
+    </div>
+  </header>
+
+  <section>
+    <h2>关于我</h2>
+    <p>你好！这里是我的个人主页，也是我学习 AI 的记录本。我相信持续的小步积累胜过偶尔的冲刺，所以会把每天学到的东西、做过的小项目和踩过的坑整理在这里。</p>
+  </section>
+
+  <section>
+    <h2>正在学习</h2>
+    <ul class="tags">
+      <li>Python</li>
+      <li>大语言模型</li>
+      <li>Prompt 工程</li>
+      <li>AI 编程助手</li>
+      <li>机器学习基础</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>学习记录</h2>
+    <ol class="log">
+      <li><time datetime="2026-10-05">2026-10-05</time>搭建了这个个人主页，用 GitHub Pages 发布上线。</li>
+      <li><time datetime="2026-09-14">2026-09-14</time>写了第一个小工具：用 Python 把文本转成 URL slug。</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>找到我</h2>
+    <div class="links">
+      <a href="https://github.com/daily-learn-sch">GitHub</a>
+      <a href="https://github.com/daily-learn-sch/ailearn">本站源码</a>
+    </div>
+  </section>
+
+  <footer>© 2026 sunchaohai · 由 GitHub Pages 托管</footer>
+</main>
+</body>
+</html>
