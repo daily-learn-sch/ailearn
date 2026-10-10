@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>精听训练 · AI Learn</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a href="../" class="back">← 主页</a>
+  <h1>🎧 精听训练</h1>
+  <p class="subtitle">每天 15 分钟，解决"认识单词但听不出来"</p>
+</header>
+
+<main id="app">
+  <!-- 首页：今日 + 历史 -->
+  <section id="view-home" class="view">
+    <div id="today-card" class="card today"></div>
+    <h2>历史记录</h2>
+    <div id="history-list"></div>
+  </section>
+
+  <!-- 训练页 -->
+  <section id="view-drill" class="view hidden">
+    <button id="btn-back-home" class="btn-secondary">← 返回</button>
+    <div id="drill-header" class="card"></div>
+
+    <!-- Step 1: 盲听 -->
+    <div class="card step" id="step1">
+      <h2>步骤 1 · 盲听 <span class="step-status" data-step="1"></span></h2>
+      <p class="hint">先听 2 遍，不要看下面的文本。</p>
+      <audio id="audio1" controls preload="auto"></audio>
+      <div class="speed-row">
+        <label>语速：</label>
+        <button data-speed="0.85">0.85×</button>
+        <button data-speed="1" class="active">1×</button>
+      </div>
+      <button class="btn-primary" id="btn-step1-done">我已听完 2 遍 →</button>
+    </div>
+
+    <!-- Step 2: 听写 -->
+    <div class="card step locked" id="step2">
+      <h2>步骤 2 · 听写 <span class="step-status" data-step="2"></span></h2>
+      <p class="hint">再听 2 遍，把 3 个关键句写下来。</p>
+      <audio id="audio2" controls preload="auto"></audio>
+      <div id="dictation-fields"></div>
+      <button class="btn-primary" id="btn-check">对答案</button>
+      <div id="check-result" class="hidden"></div>
+    </div>
+
+    <!-- Step 3: 跟读 -->
+    <div class="card step locked" id="step3">
+      <h2>步骤 3 · 跟读 <span class="step-status" data-step="3"></span></h2>
+      <p class="hint">看着文本跟读 2 遍，注意连读和重音。可以降速到 0.85×。</p>
+      <audio id="audio3" controls preload="auto"></audio>
+      <div class="speed-row">
+        <label>语速：</label>
+        <button data-speed="0.85">0.85×</button>
+        <button data-speed="1" class="active">1×</button>
+      </div>
+      <div id="transcript" class="transcript"></div>
+      <div id="vocab" class="vocab"></div>
+      <button class="btn-primary" id="btn-finish">完成今日训练 ✓</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>sunchaohai · AI Learn</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

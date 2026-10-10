@@ -1,0 +1,41 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.6; }
+header { background: #1d1d1f; color: #fff; padding: 1.2rem 1rem; text-align: center; }
+header .back { color: #aaa; text-decoration: none; font-size: .85rem; display: block; text-align: left; margin-bottom: .4rem; }
+header h1 { font-size: 1.4rem; }
+header .subtitle { color: #aaa; font-size: .85rem; margin-top: .3rem; }
+main { max-width: 640px; margin: 0 auto; padding: 1rem; }
+.card { background: #fff; border-radius: 12px; padding: 1.1rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.card h2 { font-size: 1.05rem; margin-bottom: .5rem; }
+.hint { color: #666; font-size: .9rem; margin-bottom: .7rem; }
+.hidden { display: none !important; }
+.today { border-left: 4px solid #007aff; }
+.today .date { color: #666; font-size: .85rem; }
+.today .topic { font-size: 1.2rem; font-weight: bold; margin: .3rem 0; }
+.today .meta { color: #666; font-size: .85rem; margin-bottom: .8rem; }
+#history-list .hist-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border-radius: 10px; padding: .8rem 1rem; margin-bottom: .6rem; box-shadow: 0 1px 3px rgba(0,0,0,.06); cursor: pointer; }
+#history-list .hist-item .d { font-weight: bold; }
+#history-list .hist-item .t { color: #666; font-size: .85rem; }
+#history-list .hist-item .score { font-size: .85rem; color: #007aff; }
+#history-list .hist-item .score.done { color: #34c759; }
+.step.locked { opacity: .45; pointer-events: none; }
+.step-status.done { color: #34c759; font-size: .85rem; }
+audio { width: 100%; margin: .5rem 0; }
+.speed-row { margin: .5rem 0; }
+.speed-row button { border: 1px solid #ccc; background: #fff; border-radius: 6px; padding: .3rem .8rem; margin-right: .4rem; font-size: .85rem; }
+.speed-row button.active { background: #007aff; color: #fff; border-color: #007aff; }
+.btn-primary { display: block; width: 100%; background: #007aff; color: #fff; border: none; border-radius: 10px; padding: .8rem; font-size: 1rem; margin-top: .8rem; cursor: pointer; }
+.btn-primary:disabled { background: #ccc; }
+.btn-secondary { background: none; border: none; color: #007aff; font-size: .95rem; margin-bottom: .8rem; cursor: pointer; }
+.dict-field { margin-bottom: .8rem; }
+.dict-field label { font-size: .85rem; color: #666; display: block; margin-bottom: .3rem; }
+.dict-field textarea { width: 100%; min-height: 3.2rem; border: 1px solid #ddd; border-radius: 8px; padding: .6rem; font-size: .95rem; resize: vertical; }
+#check-result .correction { margin-bottom: .9rem; padding: .7rem; background: #f9f9fb; border-radius: 8px; }
+#check-result .correction .you { color: #c00; }
+#check-result .correction .std { color: #0a7d2c; font-weight: bold; }
+#check-result .score-line { font-size: 1.1rem; font-weight: bold; margin: .8rem 0; text-align: center; }
+.transcript { background: #f9f9fb; border-radius: 8px; padding: .9rem; font-size: .95rem; margin: .7rem 0; }
+.vocab .v-item { margin-bottom: .6rem; font-size: .9rem; }
+.vocab .v-item .w { font-weight: bold; }
+.vocab .v-item .p { color: #666; }
+footer { text-align: center; color: #999; font-size: .8rem; padding: 1.5rem 0; }
