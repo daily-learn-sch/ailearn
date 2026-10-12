@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>听写练习 - AI Learn</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#333;max-width:800px;margin:0 auto;padding:20px}
+h1{font-size:1.4em;margin-bottom:4px}
+.subtitle{color:#888;font-size:.9em;margin-bottom:16px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+audio{width:100%;margin:8px 0}
+textarea{width:100%;min-height:160px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;line-height:1.7;resize:vertical}
+textarea:focus{outline:none;border-color:#4a90d9}
+.btn{display:inline-block;background:#4a90d9;color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:15px;cursor:pointer;margin-top:12px;margin-right:8px}
+.btn:hover{background:#3a7bc0}
+.btn:disabled{background:#ccc;cursor:default}
+.btn.secondary{background:#eee;color:#333}
+.result{margin-top:16px;display:none}
+.score{font-size:2em;font-weight:700;color:#4a90d9}
+.diff{line-height:2;margin-top:12px;font-size:15px}
+.diff .ok{color:#333}
+.diff .miss{background:#ffe0e0;border-radius:4px;padding:1px 4px;color:#c00}
+.diff .extra{background:#e0f0ff;border-radius:4px;padding:1px 4px;color:#06c;text-decoration:line-through}
+.mistake-list{margin-top:12px;font-size:14px;color:#666}
+.mistake-list li{margin-bottom:4px}
+.status{font-size:13px;color:#888;margin-top:8px}
+.sentence-hint{font-size:13px;color:#888;margin-top:8px}
+</style>
+</head>
+<body>
+<h1>📝 听写练习</h1>
+<div class="subtitle" id="drillInfo">加载中…</div>
+
+<div class="card">
+<h3>🔊 听音频</h3>
+<audio id="player" controls preload="metadata"></audio>
+<div class="sentence-hint">建议：先盲听写一遍，再对照检查</div>
+</div>
+
+<div class="card">
+<h3>✍️ 写下你听到的内容</h3>
+<textarea id="input" placeholder="听音频，把听到的英文写在这里…"></textarea><br>
+<button class="btn" id="checkBtn" onclick="check()">对答案</button>
+<button class="btn secondary" onclick="toggleAnswer()">显示/隐藏原文</button>
+<div class="status" id="saveStatus"></div>
+</div>
+
+<div class="card result" id="resultCard">
+<h3>📊 成绩</h3>
+<div class="score" id="score"></div>
+<div class="diff" id="diff"></div>
+<ul class="mistake-list" id="mistakeList"></ul>
+</div>
+
+<div class="card" id="answerCard" style="display:none">
+<h3>📖 原文</h3>
+<p id="answerText" style="line-height:1.9;font-size:15px"></p>
+</div>
+
+<script>
+const SUPABASE_URL = "https://qydtzdewqkzonzwmxapa.supabase.co";
+const SUPABASE_KEY = "sb_publishable_979g0z6Xf84og_vjDliW-Q_Jyia_y4N";
+let drill = null;
+
+async function load() {
+  try {
+    const idx = await (await fetch("data/index.json")).json();
+    const drills = idx.drills.sort((a,b)=>a.date.localeCompare(b.date));
+    const latest = drills[drills.length - 1];
+    drill = await (await fetch(latest.data)).json();
+    document.getElementById("drillInfo").textContent =
+      `${drill.date} · ${drill.topic}（${drill.topic_cn}）· ${drill.level}`;
+    document.getElementById("player").src = drill.audio;
+    document.getElementById("answerText").textContent = drill.passage;
+  } catch(e) {
+    document.getElementById("drillInfo").textContent = "加载失败，请刷新重试";
+  }
+}
+
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9'\s]/g,"").split(/\s+/).filter(Boolean);}
+function toggleAnswer(){
+  const c = document.getElementById("answerCard");
+  c.style.display = c.style.display === "none" ? "block" : "none";
+}
+
+async function check(){
+  if(!drill) return;
+  const userText = document.getElementById("input").value.trim();
+  if(!userText){alert("先写下你听到的内容");return;}
+  const exp = norm(drill.passage), got = norm(userText);
+  const maxLen = Math.max(exp.length, got.length);
+  let correct = 0; const mistakes = []; let html = "";
+  for(let i=0;i<maxLen;i++){
+    const e = exp[i], g = got[i];
+    if(e === g){ correct++; html += `<span class="ok">${e||""} </span>`; }
+    else{
+      if(e) html += `<span class="miss">${e}</span> `;
+      if(g && g!==e) html += `<span class="extra">${g}</span> `;
+      mistakes.push({expected:e||"(缺失)", actual:g||"(未写)"});
+    }
+  }
+  const score = Math.round(correct/exp.length*100);
+  document.getElementById("score").textContent = score + " 分";
+  document.getElementById("diff").innerHTML = html;
+  document.getElementById("mistakeList").innerHTML =
+    mistakes.slice(0,20).map(m=>`<li>应为 <b>${esc(m.expected)}</b>，你写 <b>${esc(m.actual)}</b></li>`).join("")
+    + (mistakes.length>20?`<li>…等共 ${mistakes.length} 处</li>`:"");
+  document.getElementById("resultCard").style.display = "block";
+
+  // 存 Supabase
+  const st = document.getElementById("saveStatus");
+  st.textContent = "保存中…";
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/dictation_practice`,{
+      method:"POST",
+      headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
+      body:JSON.stringify({drill_date:drill.date,user_text:userText,score:score,mistakes:mistakes})
+    });
+    st.textContent = r.ok ? "✅ 已保存，明天的练习会针对这些错项" : "⚠️ 保存失败（"+r.status+"），成绩已显示";
+  }catch(e){ st.textContent = "⚠️ 网络错误，成绩已显示但未保存"; }
+  document.getElementById("resultCard").scrollIntoView({behavior:"smooth"});
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+load();
+</script>
+</body>
+</html>
