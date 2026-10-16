@@ -1,0 +1,37 @@
+{
+  "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-17.mp3",
+  "date": "2026-10-17",
+  "level": "A2",
+  "passage": "Last Sunday, my family and I took a bus to the seaside. We woke up at six and reached the bus station at seven. The bus left on time and arrived at the beach at nine. We rented two big umbrellas and a small boat near the beach. First, we walked along the sand and collected colorful shells. My daughter picked up a big red one and laughed happily. At noon, we bought some fish and rice at a small restaurant. The fish tasted fresh and the price was fair. After lunch, we rowed the boat far into the sea. The waves moved gently and the wind felt cool on our faces. We returned at four and rested under the umbrellas. On the way home, my son slept on my shoulder. We watched the sunset from the bus window. It was a perfect day, and we promised to go again next summer.",
+  "sentences": [
+    {
+      "text": "We walked along the sand and collected colorful shells."
+    },
+    {
+      "text": "At noon, we bought some fish and rice at a small restaurant."
+    },
+    {
+      "text": "On the way home, my son slept on my shoulder."
+    }
+  ],
+  "speed": 85,
+  "topic": "A bus trip to the seaside",
+  "topic_cn": "坐公交去海边",
+  "vocab": [
+    {
+      "note": "重音在第二音节，别听成开头的 am- 音",
+      "phonetic": "/ʌmˈbreləz/",
+      "word": "umbrellas"
+    },
+    {
+      "note": "row 是划船，rowed 与 ride 的过去式 rode 同音（/roʊd/），别按拼写臆断写成 road",
+      "phonetic": "/roʊd/",
+      "word": "rowed"
+    },
+    {
+      "note": "三音节词；-ed 在 t/d 结尾后发 /ɪd/，结尾别吞",
+      "phonetic": "/kəˈlektɪd/",
+      "word": "collected"
+    }
+  ]
+}
