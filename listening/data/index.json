@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-10-18",
+      "topic": "Moving to a new home",
+      "topic_cn": "搬家记",
+      "level": "A2",
+      "speed": 85,
+      "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-18.mp3",
+      "file": "listening/data/2026-10-18.json"
+    },
+    {
       "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-17.mp3",
       "data": "data/2026-10-17.json",
       "date": "2026-10-17",
@@ -81,5 +90,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-10-17"
+  "updated": "2026-10-18"
 }
