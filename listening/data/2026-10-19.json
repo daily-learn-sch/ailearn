@@ -1,0 +1,45 @@
+{
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19.mp3",
+  "date": "2026-10-19",
+  "level": "A2",
+  "passage": "Last Monday, I worked from home for the first time. My company started a new rule, and every worker stayed at home on Mondays. I woke up at seven and washed my face quickly. Then I opened my laptop and joined the morning meeting. My manager asked about my work plan, and I shared my screen with the team. After the meeting, I answered emails and finished two reports. At noon, I cooked noodles and ate at my desk. In the afternoon, my son knocked on the door and asked for help with his homework. I paused my work and helped him for twenty minutes. Then I returned to my desk and fixed a small bug in my code. At five, I closed my laptop and cleaned the desk. I liked working from home because I saved two hours of travel time. But I missed lunch with my colleagues.",
+  "sentences": [
+    {
+      "text": "My company started a new rule, and every worker stayed at home on Mondays.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s0.mp3"
+    },
+    {
+      "text": "In the afternoon, my son knocked on the door and asked for help with his homework.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s1.mp3"
+    },
+    {
+      "text": "I liked working from home because I saved two hours of travel time.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s2.mp3"
+    }
+  ],
+  "speed": 85,
+  "topic": "First day working from home",
+  "topic_cn": "在家办公第一天",
+  "vocab": [
+    {
+      "word": "manager",
+      "phonetic": "/ˈmænɪdʒər/",
+      "note": "重音在第一音节；-er 结尾"
+    },
+    {
+      "word": "screen",
+      "phonetic": "/skriːn/",
+      "note": "长元音 /iː/，别读成 skin"
+    },
+    {
+      "word": "homework",
+      "phonetic": "/ˈhoʊmwɜːrk/",
+      "note": "复合词，重音在前"
+    },
+    {
+      "word": "colleagues",
+      "phonetic": "/ˈkɒliːɡz/",
+      "note": "复数结尾 /ɡz/，注意拼写和 workmate 区分"
+    }
+  ]
+}
