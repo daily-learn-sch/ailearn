@@ -1,1 +1,37 @@
-{"audio":"https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-15.mp3","date":"2026-10-15","level":"A2","passage":"Last Friday night, my phone slipped out of my hand and landed on the stone floor. The screen cracked into a spider web of lines. I picked it up and tried to unlock it, but only half of the screen worked. I felt annoyed because I needed the phone for work. The next morning, I searched for a repair shop online and found one near the metro station. A friendly young man opened the shop door and welcomed me in. He looked at my phone and said the screen needed a new one. He offered two choices: an original screen or a cheaper one. I chose the original because I wanted it to last longer. He asked me to wait for forty minutes. I sat down and drank a cup of tea. When he finished, the phone looked brand new. I paid him and thanked him many times. On the way home, I dropped the phone into my bag very carefully.","sentences":[{"text":"I picked it up and tried to unlock it, but only half of the screen worked."},{"text":"A friendly young man opened the shop door and welcomed me in."},{"text":"I paid him and thanked him many times."}],"speed":85,"topic":"Repairing my broken phone","topic_cn":"手机碎屏维修记","vocab":[{"note":"规则过去式，-ed 发 /t/ 音，别漏掉","phonetic":"/krækt/","word":"cracked"},{"note":"规则过去式，-ed 发 /t/ 音；感谢+过去式是本周重点","phonetic":"/θæŋkt/","word":"thanked"},{"note":"过去式+宾语，句首名词短语在语速下容易丢","phonetic":"/ˈwelkəmd/","word":"welcomed"}]}
+{
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15.mp3",
+  "date": "2026-10-15",
+  "level": "A2",
+  "passage": "Last Friday night, my phone slipped out of my hand and landed on the stone floor. The screen cracked into a spider web of lines. I picked it up and tried to unlock it, but only half of the screen worked. I felt annoyed because I needed the phone for work. The next morning, I searched for a repair shop online and found one near the metro station. A friendly young man opened the shop door and welcomed me in. He looked at my phone and said the screen needed a new one. He offered two choices: an original screen or a cheaper one. I chose the original because I wanted it to last longer. He asked me to wait for forty minutes. I sat down and drank a cup of tea. When he finished, the phone looked brand new. I paid him and thanked him many times. On the way home, I dropped the phone into my bag very carefully.",
+  "sentences": [
+    {
+      "text": "I picked it up and tried to unlock it, but only half of the screen worked."
+    },
+    {
+      "text": "A friendly young man opened the shop door and welcomed me in."
+    },
+    {
+      "text": "I paid him and thanked him many times."
+    }
+  ],
+  "speed": 85,
+  "topic": "Repairing my broken phone",
+  "topic_cn": "手机碎屏维修记",
+  "vocab": [
+    {
+      "note": "规则过去式，-ed 发 /t/ 音，别漏掉",
+      "phonetic": "/krækt/",
+      "word": "cracked"
+    },
+    {
+      "note": "规则过去式，-ed 发 /t/ 音；感谢+过去式是本周重点",
+      "phonetic": "/θæŋkt/",
+      "word": "thanked"
+    },
+    {
+      "note": "过去式+宾语，句首名词短语在语速下容易丢",
+      "phonetic": "/ˈwelkəmd/",
+      "word": "welcomed"
+    }
+  ]
+}
