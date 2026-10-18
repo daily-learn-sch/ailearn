@@ -47,6 +47,8 @@ function showView(id) {
 }
 
 async function startDrill(date) {
+  const _pl = document.getElementById('practiceLink');
+  if (_pl) _pl.href = 'practice.html?date=' + date;
   const meta = drills.find(d => d.date === date);
   const res = await fetch(meta.data);
   current = await res.json();
