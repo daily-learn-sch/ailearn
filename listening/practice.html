@@ -56,6 +56,8 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <body>
 <h1>🎧 精听训练</h1>
 <div class="subtitle" id="drillInfo">加载中…</div>
+<div style="margin:8px 0 4px"><label style="font-size:14px;color:#555">选择日期：</label>
+<select id="dateSelect" onchange="location.search='?date='+this.value" style="font-size:15px;padding:6px 10px;border-radius:8px;border:1px solid #ccc"></select></div>
 <div class="tabs">
 <button class="btn" id="tabTrain" onclick="showTab('train')">训练</button>
 <button class="btn secondary" id="tabStats" onclick="showTab('stats')">统计</button>
@@ -209,6 +211,10 @@ async function load(){
     const want = getDateParam();
     let target = want ? drills.find(d=>d.date===want) : null;
     if(!target) target = drills[drills.length-1];
+    const sel = document.getElementById("dateSelect");
+    sel.innerHTML = drills.slice().reverse().map(d =>
+      `<option value="${d.date}"${d.date===target.date?" selected":""}>${d.date} · ${d.topic_cn}</option>`
+    ).join("");
     drill = await (await fetch(target.data)).json();
     document.getElementById("drillInfo").textContent =
       `${drill.date} · ${drill.topic}（${drill.topic_cn}）· ${drill.level}`;
