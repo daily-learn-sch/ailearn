@@ -12,6 +12,9 @@ async function init() {
   const res = await fetch('data/index.json');
   const idx = await res.json();
   drills = idx.drills;
+  const _latest = drills.slice().sort((a,b)=>a.date.localeCompare(b.date)).pop();
+  const _pl = document.getElementById('practiceLink');
+  if(_pl && _latest) _pl.href = 'practice.html?date=' + _latest.date;
   renderHome();
   bindGlobal();
 }
