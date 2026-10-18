@@ -51,13 +51,19 @@ textarea:focus{outline:none;border-color:#4a90d9}
 .summary-row .k{color:#666}
 .summary-row .v{font-weight:600}
 .done-check{font-size:3em;text-align:center;margin:10px 0}
+.shadow-rec{padding:10px 0;border-bottom:1px solid #f0f0f0}
+.shadow-rec:last-child{border-bottom:none}
+.shadow-item{border-bottom:none;padding:6px 0}
+.rec-result{font-size:14px;background:#f0f7ff;border-radius:8px;padding:8px 12px;margin:8px 0;line-height:1.7}
+.rec-live{color:#4a90d9}
+.rec-actions{margin:6px 0}
+.btn.rec-on{background:#e05252}
+.btn.rec-on:hover{background:#c93f3f}
 </style>
 </head>
 <body>
 <h1>🎧 精听训练</h1>
 <div class="subtitle" id="drillInfo">加载中…</div>
-<div style="margin:8px 0 4px"><label style="font-size:14px;color:#555">选择日期：</label>
-<select id="dateSelect" onchange="location.search='?date='+this.value" style="font-size:15px;padding:6px 10px;border-radius:8px;border:1px solid #ccc"></select></div>
 <div class="tabs">
 <button class="btn" id="tabTrain" onclick="showTab('train')">训练</button>
 <button class="btn secondary" id="tabStats" onclick="showTab('stats')">统计</button>
@@ -211,10 +217,6 @@ async function load(){
     const want = getDateParam();
     let target = want ? drills.find(d=>d.date===want) : null;
     if(!target) target = drills[drills.length-1];
-    const sel = document.getElementById("dateSelect");
-    sel.innerHTML = drills.slice().reverse().map(d =>
-      `<option value="${d.date}"${d.date===target.date?" selected":""}>${d.date} · ${d.topic_cn}</option>`
-    ).join("");
     drill = await (await fetch(target.data)).json();
     document.getElementById("drillInfo").textContent =
       `${drill.date} · ${drill.topic}（${drill.topic_cn}）· ${drill.level}`;
@@ -378,16 +380,119 @@ function finishDictation(){
 }
 
 // ---------- 步骤3 跟读 ----------
+// ---------- 步骤3 跟读（含录音打分） ----------
+const canRec = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+const canSR = !!(window.webkitSpeechRecognition || window.SpeechRecognition);
+let shRec = {};  // idx -> {recorder,recognition,stream,recording,transcribed,result}
 function enterShadowing(){
   moduleStart = Date.now();
+  shRec = {};
   const list = document.getElementById("shadowList");
+  const noMic = (!canRec || !canSR);
   list.innerHTML = drill.sentences.map((s,i)=>`
-    <div class="shadow-item">
-      <span class="idx">${i+1}</span>
-      <span class="txt">${esc(s.text)}</span>
-      <button class="btn small" onclick="playShadow(${i})">▶ 播放</button>
+    <div class="shadow-rec" id="shRec${i}">
+      <div class="shadow-item">
+        <span class="idx">${i+1}</span>
+        <span class="txt">${esc(s.text)}</span>
+        <button class="btn small" onclick="playShadow(${i})">▶ 播放</button>
+        <button class="btn small ghost" id="recBtn${i}" onclick="toggleRec(${i})" ${noMic?"disabled":""}>🎤 录音</button>
+      </div>
+      ${noMic?'<div class="status">⚠️ 请用电脑 Chrome 并允许麦克风，以使用录音打分</div>':""}
+      <div class="rec-result" id="recRes${i}" style="display:none"></div>
+      <div class="rec-actions" id="recAct${i}" style="display:none">
+        <button class="btn small" onclick="submitShadowScore(${i})">提交打分</button>
+        <button class="btn small secondary" id="sendBtn${i}" onclick="sendToMuse(${i})" disabled>发送给 Muse 点评</button>
+      </div>
+      <div class="sen-result" id="shadowScore${i}"></div>
     </div>`).join("");
   showView("v-shadow");
+}
+async function toggleRec(i){
+  const st = shRec[i] || (shRec[i] = {recording:false, transcribed:""});
+  if(st.recording){ stopRec(i); return; }
+  const btn = document.getElementById("recBtn"+i);
+  const res = document.getElementById("recRes"+i);
+  try{
+    st.stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){
+    res.style.display = "block";
+    res.innerHTML = '<span style="color:#c00">⚠️ 无法访问麦克风，请在浏览器地址栏允许麦克风权限后重试</span>';
+    return;
+  }
+  st.transcribed = "";
+  st.recorder = new MediaRecorder(st.stream);
+  st.recorder.start();
+  const SRC = window.webkitSpeechRecognition || window.SpeechRecognition;
+  st.recognition = new SRC();
+  st.recognition.lang = "en-US";
+  st.recognition.continuous = true;
+  st.recognition.interimResults = true;
+  st.recognition.onresult = (e)=>{
+    let fin = "";
+    for(let k=e.resultIndex;k<e.results.length;k++){
+      if(e.results[k].isFinal) fin += e.results[k][0].transcript + " ";
+    }
+    if(fin) st.transcribed += fin;
+    const interim = Array.from(e.results).slice(-1)[0][0].transcript;
+    res.style.display = "block";
+    res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
+  };
+  st.recognition.onerror = ()=>{};
+  st.recognition.onend = ()=>{ if(st.recording){ try{st.recognition.start();}catch(e){} } };
+  try{ st.recognition.start(); }catch(e){}
+  st.recording = true;
+  btn.textContent = "⏹ 停止";
+  btn.classList.add("rec-on");
+  res.style.display = "block";
+  res.innerHTML = '<span class="rec-live">🎙️ 录音中，请跟读…</span>';
+}
+function stopRec(i){
+  const st = shRec[i];
+  if(!st || !st.recording) return;
+  st.recording = false;
+  try{ st.recognition && st.recognition.stop(); }catch(e){}
+  try{ st.recorder && st.recorder.state !== "inactive" && st.recorder.stop(); }catch(e){}
+  try{ st.stream && st.stream.getTracks().forEach(t=>t.stop()); }catch(e){}
+  const btn = document.getElementById("recBtn"+i);
+  btn.textContent = "🎤 录音";
+  btn.classList.remove("rec-on");
+  const res = document.getElementById("recRes"+i);
+  st.transcribed = st.transcribed.trim();
+  res.innerHTML = st.transcribed
+    ? `识别结果：${esc(st.transcribed)}`
+    : '<span style="color:#c00">⚠️ 没识别到语音，再试一次（大声一点、离麦克风近一点）</span>';
+  document.getElementById("recAct"+i).style.display = st.transcribed ? "block" : "none";
+}
+function submitShadowScore(i){
+  const st = shRec[i];
+  const s = drill.sentences[i];
+  const said = (st.transcribed||"").trim();
+  if(!said){ alert("先录音，识别出你说的话再打分"); return; }
+  const r = scoreText(s.text, said);
+  st.result = {score: r.score, mistakes: r.mistakes};
+  document.getElementById("shadowScore"+i).innerHTML =
+    `<div class="score-big">${r.score} 分</div><div class="diff">${r.html}</div>` +
+    (r.mistakes.length ? `<ul class="mistake-list">${r.mistakes.slice(0,8).map(m=>`<li>应为 <b>${esc(m.expected)}</b>，你说 <b>${esc(m.actual)}</b></li>`).join("")}</ul>` : `<div class="status">🎉 发音全对</div>`);
+  document.getElementById("sendBtn"+i).disabled = false;
+}
+async function sendToMuse(i){
+  const st = shRec[i];
+  const s = drill.sentences[i];
+  const btn = document.getElementById("sendBtn"+i);
+  btn.disabled = true;
+  const box = document.getElementById("shadowScore"+i);
+  const note = document.createElement("div");
+  note.className = "status"; note.textContent = "发送中…"; box.appendChild(note);
+  try{
+    await sbPost("shadowing_submissions", {
+      drill_date: drill.date, sentence_idx: i,
+      expected: s.text, transcribed: st.transcribed, score: st.result.score
+    });
+    note.textContent = "✅ 已发送，Muse 会在聊天里给你逐句点评";
+  }catch(e){
+    note.textContent = "⚠️ 发送失败（表可能还没建好），稍后再试";
+    btn.disabled = false;
+  }
 }
 let shadowAudio = null;
 function playShadow(i){
