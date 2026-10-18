@@ -3,55 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>听写练习 - AI Learn</title>
+<title>精听训练 - AI Learn</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#333;max-width:800px;margin:0 auto;padding:20px}
 h1{font-size:1.4em;margin-bottom:4px}
+h3{font-size:1.05em;margin-bottom:10px}
 .subtitle{color:#888;font-size:.9em;margin-bottom:16px}
 .card{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 audio{width:100%;margin:8px 0}
-textarea{width:100%;min-height:160px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;line-height:1.7;resize:vertical}
+textarea{width:100%;min-height:110px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;line-height:1.7;resize:vertical}
 textarea:focus{outline:none;border-color:#4a90d9}
 .btn{display:inline-block;background:#4a90d9;color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:15px;cursor:pointer;margin-top:12px;margin-right:8px}
 .btn:hover{background:#3a7bc0}
 .btn:disabled{background:#ccc;cursor:default}
 .btn.secondary{background:#eee;color:#333}
-.result{margin-top:16px;display:none}
-.score{font-size:2em;font-weight:700;color:#4a90d9}
-.diff{line-height:2;margin-top:12px;font-size:15px}
+.btn.ghost{background:#fff;color:#4a90d9;border:1px solid #4a90d9}
+.btn.small{padding:6px 14px;font-size:13px;margin-top:8px}
+.view{display:none}
+.view.active{display:block}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tabs .btn{margin-top:0}
+.step-badge{display:inline-block;background:#e8f1fc;color:#2b6cb0;font-size:12px;border-radius:20px;padding:2px 12px;margin-bottom:10px}
+.timer{font-size:13px;color:#888;margin-top:8px}
+.mode-toggle{margin-bottom:12px}
+.mode-toggle .btn{margin-top:0;padding:8px 18px;font-size:14px}
+.sen-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:14px;color:#666}
+.fallback-hint{font-size:12px;color:#b7791f;background:#fff7e6;border-radius:6px;padding:6px 10px;margin:6px 0}
+.sen-result{margin-top:10px;font-size:14px}
+.diff{line-height:2;margin-top:8px;font-size:14px}
 .diff .ok{color:#333}
 .diff .miss{background:#ffe0e0;border-radius:4px;padding:1px 4px;color:#c00}
 .diff .extra{background:#e0f0ff;border-radius:4px;padding:1px 4px;color:#06c;text-decoration:line-through}
-.mistake-list{margin-top:12px;font-size:14px;color:#666}
-.mistake-list li{margin-bottom:4px}
+.mistake-list{margin-top:8px;font-size:13px;color:#666}
+.mistake-list li{margin-bottom:3px}
 .status{font-size:13px;color:#888;margin-top:8px}
-.sentence-hint{font-size:13px;color:#888;margin-top:8px}
+.score-big{font-size:2em;font-weight:700;color:#4a90d9}
+.shadow-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.shadow-item:last-child{border-bottom:none}
+.shadow-item .idx{background:#e8f1fc;color:#2b6cb0;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.shadow-item .txt{flex:1;color:#555}
+.stat-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+.stat-table th,.stat-table td{padding:8px 6px;border-bottom:1px solid #eee;text-align:left}
+.stat-table th{color:#888;font-weight:500;font-size:13px}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:15px}
+.summary-row:last-child{border-bottom:none}
+.summary-row .k{color:#666}
+.summary-row .v{font-weight:600}
+.done-check{font-size:3em;text-align:center;margin:10px 0}
 </style>
 </head>
 <body>
-<h1>📝 听写练习</h1>
+<h1>🎧 精听训练</h1>
 <div class="subtitle" id="drillInfo">加载中…</div>
-
-<div class="card">
-<h3>🔊 听音频</h3>
-<audio id="player" controls preload="metadata"></audio>
-<div class="sentence-hint">建议：先盲听写一遍，再对照检查</div>
+<div class="tabs">
+<button class="btn" id="tabTrain" onclick="showTab('train')">训练</button>
+<button class="btn secondary" id="tabStats" onclick="showTab('stats')">统计</button>
 </div>
 
-<div class="card">
-<h3>✍️ 写下你听到的内容</h3>
-<textarea id="input" placeholder="听音频，把听到的英文写在这里…"></textarea><br>
-<button class="btn" id="checkBtn" onclick="check()">对答案</button>
-<button class="btn secondary" onclick="toggleAnswer()">显示/隐藏原文</button>
-<div class="status" id="saveStatus"></div>
+<!-- ============ 训练 ============ -->
+<div id="view-train">
+  <!-- 开始 -->
+  <div class="card view active" id="v-start">
+    <div class="step-badge">今日训练</div>
+    <p id="startDesc" style="line-height:1.8">三步走：精听 → 听写（逐句/整篇）→ 跟读打卡，全程计时。</p>
+    <button class="btn" id="startBtn" onclick="startTraining()">开始训练</button>
+    <div class="status" id="startStatus"></div>
+  </div>
+
+  <!-- 步骤1 精听 -->
+  <div class="card view" id="v-listen">
+    <div class="step-badge">步骤 1 / 3 · 精听</div>
+    <h3>👂 先盲听几遍，抓大意</h3>
+    <audio id="listenPlayer" controls preload="metadata"></audio>
+    <div class="timer">播放次数：<span id="listenPlays">0</span></div>
+    <button class="btn" onclick="enterDictation()">下一步：听写 →</button>
+  </div>
+
+  <!-- 步骤2 听写 -->
+  <div class="card view" id="v-dict">
+    <div class="step-badge">步骤 2 / 3 · 听写</div>
+    <h3>✍️ 听写</h3>
+    <div class="mode-toggle">
+      <button class="btn" id="modeSenBtn" onclick="setDictMode('sentence')">听一句写一句</button>
+      <button class="btn secondary" id="modePassBtn" onclick="setDictMode('passage')">整篇听写</button>
+    </div>
+
+    <div id="senMode">
+      <div class="sen-nav"><span>第 <b id="senIdx">1</b> / <span id="senTotal"></span> 句</span><span id="senScore"></span></div>
+      <audio id="senPlayer" controls preload="metadata"></audio>
+      <div class="fallback-hint" id="senFallback" style="display:none">⚠️ 本句独立音频未生成，播放整段音频</div>
+      <textarea id="senInput" placeholder="听上面这句，把听到的英文写在这里…"></textarea><br>
+      <button class="btn" id="senNextBtn" onclick="nextSentence()">判分并下一句 →</button>
+      <div class="sen-result" id="senResult"></div>
+    </div>
+
+    <div id="passMode" style="display:none">
+      <audio id="passPlayer" controls preload="metadata"></audio>
+      <div class="status">建议：先盲听写一遍，再对照检查</div>
+      <textarea id="passInput" placeholder="听音频，把听到的英文写在这里…" style="min-height:160px"></textarea><br>
+      <button class="btn" onclick="checkPassage()">对答案</button>
+      <button class="btn secondary" onclick="toggleAnswer()">显示/隐藏原文</button>
+      <div class="sen-result" id="passResult"></div>
+    </div>
+
+    <div style="margin-top:12px"><button class="btn secondary" id="toShadowBtn" onclick="enterShadowing()" disabled>下一步：跟读 →</button></div>
+    <div class="status" id="dictStatus"></div>
+  </div>
+
+  <!-- 步骤3 跟读 -->
+  <div class="card view" id="v-shadow">
+    <div class="step-badge">步骤 3 / 3 · 跟读</div>
+    <h3>🗣️ 逐句跟读</h3>
+    <div id="shadowList"></div>
+    <button class="btn" id="shadowDoneBtn" onclick="finishShadowing()" style="background:#22a06b">跟读完成打卡 ✅</button>
+    <div class="status" id="shadowStatus"></div>
+  </div>
+
+  <!-- 完成总结 -->
+  <div class="card view" id="v-done">
+    <div class="done-check">🎉</div>
+    <h3 style="text-align:center">本次训练完成</h3>
+    <div id="summaryBody"></div>
+    <div style="text-align:center"><button class="btn ghost" onclick="showTab('stats')">查看统计 →</button></div>
+  </div>
 </div>
 
-<div class="card result" id="resultCard">
-<h3>📊 成绩</h3>
-<div class="score" id="score"></div>
-<div class="diff" id="diff"></div>
-<ul class="mistake-list" id="mistakeList"></ul>
+<!-- ============ 统计 ============ -->
+<div id="view-stats" style="display:none">
+  <div class="card"><h3>📊 周统计</h3><div id="weeklyBody" class="status">加载中…</div></div>
+  <div class="card"><h3>📊 月统计</h3><div id="monthlyBody" class="status">加载中…</div></div>
+  <div class="card"><h3>🎯 高频错词 TOP</h3><div id="mistakesBody" class="status">加载中…</div></div>
 </div>
 
 <div class="card" id="answerCard" style="display:none">
@@ -62,67 +144,312 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <script>
 const SUPABASE_URL = "https://qydtzdewqkzonzwmxapa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_979g0z6Xf84og_vjDliW-Q_Jyia_y4N";
-let drill = null;
+const SBH = {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json"};
 
-async function load() {
-  try {
-    const idx = await (await fetch("data/index.json")).json();
-    const drills = idx.drills.sort((a,b)=>a.date.localeCompare(b.date));
-    const latest = drills[drills.length - 1];
-    drill = await (await fetch(latest.data)).json();
-    document.getElementById("drillInfo").textContent =
-      `${drill.date} · ${drill.topic}（${drill.topic_cn}）· ${drill.level}`;
-    document.getElementById("player").src = drill.audio;
-    document.getElementById("answerText").textContent = drill.passage;
-  } catch(e) {
-    document.getElementById("drillInfo").textContent = "加载失败，请刷新重试";
-  }
+let drill = null;            // 当前 drill JSON
+let sessionId = null;        // Supabase drill_sessions id
+let sessionStart = 0;        // 训练开始时间戳
+let moduleStart = 0;         // 当前模块开始时间戳
+let modStats = {};           // {listening:{seconds,plays}, dictation:{seconds,mode,score}, shadowing:{seconds,completed}}
+let dictMode = "sentence";
+let senIdx = 0, senPlays = 0, senStart = 0;
+let senResults = [];         // 每句 {idx,expected,actual,score,mistakes,plays,seconds}
+let dictDone = false;
+let sbOk = true;             // Supabase 是否可用（失败则降级本地）
+
+function getDateParam(){
+  const m = location.search.match(/[?&]date=(\d{4}-\d{2}-\d{2})/);
+  return m ? m[1] : null;
+}
+function norm(s){ return s.toLowerCase().replace(/[^a-z0-9'\s]/g,"").split(/\s+/).filter(Boolean); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function fmtTime(sec){
+  sec = Math.round(sec);
+  if(sec < 60) return sec + "秒";
+  const m = Math.floor(sec/60), s = sec % 60;
+  return m + "分" + (s ? s + "秒" : "");
+}
+function showView(id){
+  document.querySelectorAll("#view-train .view").forEach(v => v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+function showTab(t){
+  const isTrain = t === "train";
+  document.getElementById("view-train").style.display = isTrain ? "block" : "none";
+  document.getElementById("view-stats").style.display = isTrain ? "none" : "block";
+  document.getElementById("tabTrain").className = "btn" + (isTrain ? "" : " secondary");
+  document.getElementById("tabStats").className = "btn" + (isTrain ? " secondary" : "");
+  if(!isTrain) loadStats();
 }
 
-function norm(s){return s.toLowerCase().replace(/[^a-z0-9'\s]/g,"").split(/\s+/).filter(Boolean);}
-function toggleAnswer(){
-  const c = document.getElementById("answerCard");
-  c.style.display = c.style.display === "none" ? "block" : "none";
-}
-
-async function check(){
-  if(!drill) return;
-  const userText = document.getElementById("input").value.trim();
-  if(!userText){alert("先写下你听到的内容");return;}
-  const exp = norm(drill.passage), got = norm(userText);
+// ---------- 词级判分（复用原逻辑） ----------
+function scoreText(expected, actual){
+  const exp = norm(expected), got = norm(actual);
   const maxLen = Math.max(exp.length, got.length);
   let correct = 0; const mistakes = []; let html = "";
   for(let i=0;i<maxLen;i++){
     const e = exp[i], g = got[i];
-    if(e === g){ correct++; html += `<span class="ok">${e||""} </span>`; }
+    if(e === g){ correct++; html += `<span class="ok">${esc(e||"")} </span>`; }
     else{
-      if(e) html += `<span class="miss">${e}</span> `;
-      if(g && g!==e) html += `<span class="extra">${g}</span> `;
-      mistakes.push({expected:e||"(缺失)", actual:g||"(未写)"});
+      if(e) html += `<span class="miss">${esc(e)}</span> `;
+      if(g && g !== e) html += `<span class="extra">${esc(g)}</span> `;
+      mistakes.push({expected: e || "(缺失)", actual: g || "(未写)"});
     }
   }
-  const score = Math.round(correct/exp.length*100);
-  document.getElementById("score").textContent = score + " 分";
-  document.getElementById("diff").innerHTML = html;
-  document.getElementById("mistakeList").innerHTML =
-    mistakes.slice(0,20).map(m=>`<li>应为 <b>${esc(m.expected)}</b>，你写 <b>${esc(m.actual)}</b></li>`).join("")
-    + (mistakes.length>20?`<li>…等共 ${mistakes.length} 处</li>`:"");
-  document.getElementById("resultCard").style.display = "block";
-
-  // 存 Supabase
-  const st = document.getElementById("saveStatus");
-  st.textContent = "保存中…";
-  try{
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/dictation_practice`,{
-      method:"POST",
-      headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
-      body:JSON.stringify({drill_date:drill.date,user_text:userText,score:score,mistakes:mistakes})
-    });
-    st.textContent = r.ok ? "✅ 已保存，明天的练习会针对这些错项" : "⚠️ 保存失败（"+r.status+"），成绩已显示";
-  }catch(e){ st.textContent = "⚠️ 网络错误，成绩已显示但未保存"; }
-  document.getElementById("resultCard").scrollIntoView({behavior:"smooth"});
+  const score = exp.length ? Math.round(correct/exp.length*100) : 0;
+  return {score, mistakes, html};
 }
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+
+// ---------- 加载 ----------
+async function load(){
+  try{
+    const idx = await (await fetch("data/index.json")).json();
+    const drills = idx.drills.slice().sort((a,b)=>a.date.localeCompare(b.date));
+    const want = getDateParam();
+    let target = want ? drills.find(d=>d.date===want) : null;
+    if(!target) target = drills[drills.length-1];
+    drill = await (await fetch(target.data)).json();
+    document.getElementById("drillInfo").textContent =
+      `${drill.date} · ${drill.topic}（${drill.topic_cn}）· ${drill.level}`;
+    document.getElementById("answerText").textContent = drill.passage;
+    document.getElementById("senTotal").textContent = drill.sentences.length;
+    document.getElementById("startDesc").textContent =
+      `${drill.date} · ${drill.topic_cn}（${drill.topic}）· ${drill.sentences.length} 个关键句，三步走全程计时。`;
+  }catch(e){
+    document.getElementById("drillInfo").textContent = "加载失败，请刷新重试";
+    document.getElementById("startBtn").disabled = true;
+  }
+}
+
+// ---------- 会话 ----------
+async function sbPost(table, body, prefer){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method:"POST", headers:{...SBH, "Prefer": prefer || "return=minimal"},
+    body: JSON.stringify(body)
+  });
+  if(!r.ok) throw new Error(table+" POST "+r.status);
+  return r;
+}
+async function sbPatch(table, query, body){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+    method:"PATCH", headers:{...SBH, "Prefer":"return=minimal"},
+    body: JSON.stringify(body)
+  });
+  if(!r.ok) throw new Error(table+" PATCH "+r.status);
+  return r;
+}
+
+async function startTraining(){
+  if(!drill) return;
+  sessionStart = Date.now();
+  document.getElementById("startStatus").textContent = "创建训练会话…";
+  try{
+    const r = await sbPost("drill_sessions", {drill_date: drill.date}, "return=representation");
+    const j = await r.json();
+    sessionId = j[0].id;
+    document.getElementById("startStatus").textContent = "";
+  }catch(e){
+    sbOk = false;
+    document.getElementById("startStatus").textContent = "⚠️ 云端会话创建失败，本次成绩仅本地显示";
+  }
+  // 步骤1 精听
+  document.getElementById("listenPlayer").src = drill.audio;
+  moduleStart = Date.now();
+  showView("v-listen");
+}
+document.getElementById("listenPlayer")?.addEventListener("play", ()=>{
+  const el = document.getElementById("listenPlays");
+  el.textContent = parseInt(el.textContent||"0")+1;
+});
+
+// ---------- 步骤2 听写 ----------
+function setDictMode(m){
+  dictMode = m;
+  document.getElementById("modeSenBtn").className = "btn" + (m==="sentence"?"":" secondary");
+  document.getElementById("modePassBtn").className = "btn" + (m==="passage"?"":" secondary");
+  document.getElementById("senMode").style.display = m==="sentence" ? "block" : "none";
+  document.getElementById("passMode").style.display = m==="passage" ? "block" : "none";
+}
+function enterDictation(){
+  modStats.listening = {
+    seconds: Math.round((Date.now()-moduleStart)/1000),
+    plays: parseInt(document.getElementById("listenPlays").textContent||"0")
+  };
+  moduleStart = Date.now();
+  senIdx = 0; senResults = []; dictDone = false;
+  document.getElementById("toShadowBtn").disabled = true;
+  document.getElementById("senResult").innerHTML = "";
+  document.getElementById("passResult").innerHTML = "";
+  setDictMode("sentence");
+  loadSentence();
+  document.getElementById("passPlayer").src = drill.audio;
+  showView("v-dict");
+}
+function senAudio(i){
+  const s = drill.sentences[i];
+  return (s && s.audio) ? s.audio : drill.audio;
+}
+function loadSentence(){
+  const s = drill.sentences[senIdx];
+  document.getElementById("senIdx").textContent = senIdx+1;
+  document.getElementById("senInput").value = "";
+  document.getElementById("senScore").textContent = "";
+  document.getElementById("senPlayer").src = senAudio(senIdx);
+  document.getElementById("senFallback").style.display = (s && s.audio) ? "none" : "block";
+  document.getElementById("senNextBtn").textContent = senIdx === drill.sentences.length-1 ? "判分并完成听写 ✅" : "判分并下一句 →";
+  senPlays = 0; senStart = Date.now();
+}
+document.getElementById("senPlayer")?.addEventListener("play", ()=>{ senPlays++; });
+
+async function nextSentence(){
+  const s = drill.sentences[senIdx];
+  const actual = document.getElementById("senInput").value.trim();
+  if(!actual){ alert("先写下你听到的内容"); return; }
+  const r = scoreText(s.text, actual);
+  const seconds = Math.round((Date.now()-senStart)/1000);
+  senResults.push({idx: senIdx, expected: s.text, actual, score: r.score, mistakes: r.mistakes, plays: senPlays, seconds});
+  document.getElementById("senScore").textContent = r.score + " 分";
+  document.getElementById("senResult").innerHTML =
+    `<div class="diff">${r.html}</div>` +
+    (r.mistakes.length ? `<ul class="mistake-list">${r.mistakes.slice(0,8).map(m=>`<li>应为 <b>${esc(m.expected)}</b>，你写 <b>${esc(m.actual)}</b></li>`).join("")}</ul>` : `<div class="status">🎉 全对</div>`);
+  // 写库（逐句实时保存，失败不阻塞）
+  if(sbOk && sessionId){
+    try{
+      await sbPost("sentence_dictations", {
+        session_id: sessionId, drill_date: drill.date, sentence_idx: senIdx,
+        expected: s.text, actual, score: r.score, mistakes: r.mistakes, plays: senPlays, seconds
+      });
+    }catch(e){ sbOk = false; }
+  }
+  await new Promise(res=>setTimeout(res, 900));
+  document.getElementById("senResult").innerHTML = "";
+  if(senIdx < drill.sentences.length-1){ senIdx++; loadSentence(); }
+  else finishDictation();
+}
+
+async function checkPassage(){
+  const userText = document.getElementById("passInput").value.trim();
+  if(!userText){ alert("先写下你听到的内容"); return; }
+  const r = scoreText(drill.passage, userText);
+  document.getElementById("passResult").innerHTML =
+    `<div class="score-big">${r.score} 分</div><div class="diff">${r.html}</div>` +
+    `<ul class="mistake-list">${r.mistakes.slice(0,20).map(m=>`<li>应为 <b>${esc(m.expected)}</b>，你写 <b>${esc(m.actual)}</b></li>`).join("")}` +
+    (r.mistakes.length>20?`<li>…等共 ${r.mistakes.length} 处</li>`:"") + `</ul>`;
+  // 兼容旧表 dictation_practice（晨练读错题用）
+  const st = document.getElementById("dictStatus");
+  if(sbOk){
+    st.textContent = "保存中…";
+    try{
+      await sbPost("dictation_practice", {drill_date: drill.date, user_text: userText, score: r.score, mistakes: r.mistakes});
+      st.textContent = "✅ 已保存";
+    }catch(e){ sbOk=false; st.textContent = "⚠️ 保存失败，成绩已显示"; }
+  }
+  // 整篇模式也按"一句"记入 sentence_dictations（idx=-1 标记整篇）
+  if(sbOk && sessionId){
+    try{
+      await sbPost("sentence_dictations", {
+        session_id: sessionId, drill_date: drill.date, sentence_idx: -1,
+        expected: drill.passage, actual: userText, score: r.score, mistakes: r.mistakes, plays: 0,
+        seconds: Math.round((Date.now()-moduleStart)/1000)
+      });
+    }catch(e){ sbOk=false; }
+  }
+  senResults.push({idx:-1, expected:drill.passage, actual:userText, score:r.score, mistakes:r.mistakes, plays:0, seconds:0});
+  finishDictation();
+}
+function toggleAnswer(){
+  const c = document.getElementById("answerCard");
+  c.style.display = c.style.display === "none" ? "block" : "none";
+}
+function finishDictation(){
+  if(dictDone) return; dictDone = true;
+  const avg = senResults.length ? Math.round(senResults.reduce((a,b)=>a+b.score,0)/senResults.length) : 0;
+  modStats.dictation = {seconds: Math.round((Date.now()-moduleStart)/1000), mode: dictMode, score: avg};
+  document.getElementById("toShadowBtn").disabled = false;
+  document.getElementById("dictStatus").textContent = `听写完成，平均 ${avg} 分 →`;
+  document.getElementById("toShadowBtn").scrollIntoView({behavior:"smooth"});
+}
+
+// ---------- 步骤3 跟读 ----------
+function enterShadowing(){
+  moduleStart = Date.now();
+  const list = document.getElementById("shadowList");
+  list.innerHTML = drill.sentences.map((s,i)=>`
+    <div class="shadow-item">
+      <span class="idx">${i+1}</span>
+      <span class="txt">${esc(s.text)}</span>
+      <button class="btn small" onclick="playShadow(${i})">▶ 播放</button>
+    </div>`).join("");
+  showView("v-shadow");
+}
+let shadowAudio = null;
+function playShadow(i){
+  if(shadowAudio) shadowAudio.pause();
+  shadowAudio = new Audio(senAudio(i));
+  shadowAudio.playbackRate = 0.75;
+  shadowAudio.play();
+}
+async function finishShadowing(){
+  modStats.shadowing = {seconds: Math.round((Date.now()-moduleStart)/1000), completed: true};
+  const btn = document.getElementById("shadowDoneBtn");
+  btn.disabled = true;
+  const st = document.getElementById("shadowStatus");
+  st.textContent = "保存中…";
+  const total = Math.round((Date.now()-sessionStart)/1000);
+  if(sbOk && sessionId){
+    try{
+      await sbPatch("drill_sessions", `id=eq.${sessionId}`, {
+        finished_at: new Date().toISOString(), total_seconds: total, modules: modStats
+      });
+      st.textContent = "✅ 打卡成功";
+    }catch(e){ st.textContent = "⚠️ 打卡保存失败，本地成绩如下"; }
+  } else {
+    st.textContent = sbOk ? "" : "⚠️ 云端不可用，本地成绩如下";
+  }
+  renderSummary(total);
+  showView("v-done");
+}
+function renderSummary(total){
+  const m = modStats;
+  const row = (k,v)=>`<div class="summary-row"><span class="k">${k}</span><span class="v">${v}</span></div>`;
+  document.getElementById("summaryBody").innerHTML =
+    row("总用时", fmtTime(total)) +
+    row("👂 精听", `${fmtTime(m.listening?.seconds||0)} · 播放 ${m.listening?.plays||0} 次`) +
+    row("✍️ 听写", `${fmtTime(m.dictation?.seconds||0)} · ${m.dictation?.mode==="sentence"?"逐句":"整篇"} · ${m.dictation?.score??"-"} 分`) +
+    row("🗣️ 跟读", `${fmtTime(m.shadowing?.seconds||0)} · ${m.shadowing?.completed?"已打卡 ✅":"-"}`);
+}
+
+// ---------- 统计页 ----------
+async function sbGet(view){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${view}?select=*&order=${view==="top_mistakes"?"times":""||"week_start"}.desc&limit=12`, {headers: SBH});
+  if(!r.ok) throw new Error(view+" "+r.status);
+  return r.json();
+}
+async function loadStats(){
+  const set = (id, html)=>{ document.getElementById(id).innerHTML = html; };
+  try{
+    const w = await sbGet("weekly_stats");
+    set("weeklyBody", w.length ? `<table class="stat-table"><tr><th>周</th><th>次数</th><th>总时长</th><th>听写均分</th></tr>${
+      w.map(x=>`<tr><td>${x.week_start}</td><td>${x.sessions}</td><td>${fmtTime(x.total_seconds)}</td><td>${x.avg_dictation_score??"-"}</td></tr>`).join("")
+    }</table>` : "暂无数据，完成一次训练后这里会有统计");
+  }catch(e){ set("weeklyBody", "⚠️ 加载失败"); }
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/monthly_stats?select=*&order=month_start.desc&limit=12`, {headers: SBH});
+    const m = await r.json();
+    set("monthlyBody", m.length ? `<table class="stat-table"><tr><th>月</th><th>次数</th><th>总时长</th><th>听写均分</th></tr>${
+      m.map(x=>`<tr><td>${x.month_start}</td><td>${x.sessions}</td><td>${fmtTime(x.total_seconds)}</td><td>${x.avg_dictation_score??"-"}</td></tr>`).join("")
+    }</table>` : "暂无数据");
+  }catch(e){ set("monthlyBody", "⚠️ 加载失败"); }
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/top_mistakes?select=*&limit=20`, {headers: SBH});
+    const t = await r.json();
+    set("mistakesBody", t.length ? `<table class="stat-table"><tr><th>单词</th><th>错次数</th><th>最近</th></tr>${
+      t.map(x=>`<tr><td>${esc(x.word)}</td><td>${x.times}</td><td>${x.last_seen}</td></tr>`).join("")
+    }</table>` : "暂无错词数据");
+  }catch(e){ set("mistakesBody", "⚠️ 加载失败"); }
+}
+
 load();
 </script>
 </body>
