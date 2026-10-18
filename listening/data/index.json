@@ -7,7 +7,7 @@
       "level": "A2",
       "speed": 85,
       "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-18.mp3",
-      "file": "listening/data/2026-10-18.json"
+      "data": "data/2026-10-18.json"
     },
     {
       "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-17.mp3",
