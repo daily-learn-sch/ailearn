@@ -1,1 +1,37 @@
-{"audio":"https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-18.mp3","date":"2026-10-18","level":"A2","passage":"Last month, my family and I moved to a new apartment. We packed our things for three days before the move. On moving day, we woke up at five in the morning. The truck arrived at seven, and two workers helped us carry the big boxes. They lifted the sofa slowly and carried it down the stairs. My wife watched the workers carefully and marked each box. My son lost his toy car during the move, so we searched the old rooms twice. At noon, we stopped for noodles at a small shop near the new building. After lunch, we unpacked the kitchen boxes first and washed the dishes. Then we hung the curtains and placed the beds against the walls. In the evening, my parents visited and brought a big dinner. We laughed and shared stories until late at night. The new home felt warm from the first night.","sentences":[{"text":"On moving day, we woke up at five in the morning."},{"text":"My son lost his toy car during the move, so we searched the old rooms twice."},{"text":"In the evening, my parents visited and brought a big dinner."}],"speed":85,"topic":"Moving to a new home","topic_cn":"搬家记","vocab":[{"note":"规则过去式 -ed 结尾：moved / marked / packed，尾音 /d/ 或 /t/ 别漏","phonetic":"/muːvd/","word":"moved"},{"note":"不规则过去式：lost（原形 lose），尾音 /st/ 别听成 lose","phonetic":"/lɔːst/","word":"lost"},{"note":"不规则过去式：brought（原形 bring）；hung 是 hang 的过去式","phonetic":"/brɔːt/","word":"brought"}]}
+{
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18.mp3",
+  "date": "2026-10-18",
+  "level": "A2",
+  "passage": "Last month, my family and I moved to a new apartment. We packed our things for three days before the move. On moving day, we woke up at five in the morning. The truck arrived at seven, and two workers helped us carry the big boxes. They lifted the sofa slowly and carried it down the stairs. My wife watched the workers carefully and marked each box. My son lost his toy car during the move, so we searched the old rooms twice. At noon, we stopped for noodles at a small shop near the new building. After lunch, we unpacked the kitchen boxes first and washed the dishes. Then we hung the curtains and placed the beds against the walls. In the evening, my parents visited and brought a big dinner. We laughed and shared stories until late at night. The new home felt warm from the first night.",
+  "sentences": [
+    {
+      "text": "On moving day, we woke up at five in the morning."
+    },
+    {
+      "text": "My son lost his toy car during the move, so we searched the old rooms twice."
+    },
+    {
+      "text": "In the evening, my parents visited and brought a big dinner."
+    }
+  ],
+  "speed": 85,
+  "topic": "Moving to a new home",
+  "topic_cn": "搬家记",
+  "vocab": [
+    {
+      "note": "规则过去式 -ed 结尾：moved / marked / packed，尾音 /d/ 或 /t/ 别漏",
+      "phonetic": "/muːvd/",
+      "word": "moved"
+    },
+    {
+      "note": "不规则过去式：lost（原形 lose），尾音 /st/ 别听成 lose",
+      "phonetic": "/lɔːst/",
+      "word": "lost"
+    },
+    {
+      "note": "不规则过去式：brought（原形 bring）；hung 是 hang 的过去式",
+      "phonetic": "/brɔːt/",
+      "word": "brought"
+    }
+  ]
+}
