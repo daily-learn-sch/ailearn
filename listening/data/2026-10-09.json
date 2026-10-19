@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "We sat by the window and watched the fields go by.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-09-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-09-s0.mp3",
+      "hint_cn": "坐在窗边看田野掠过"
     },
     {
       "text": "It took us two hours to reach the top.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-09-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-09-s1.mp3",
+      "hint_cn": "花两小时到达山顶"
     },
     {
       "text": "We were tired but happy.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-09-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-09-s2.mp3",
+      "hint_cn": "虽然疲惫但是开心"
     }
   ],
   "speed": 85,
