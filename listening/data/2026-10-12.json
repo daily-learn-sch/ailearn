@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "The screen showed stars, planets, and a man on the moon.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-12-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-12-s0.mp3",
+      "hint_cn": "屏幕上的星星、行星和登月人"
     },
     {
       "text": "My son asked many questions, and the guide answered them with a smile.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-12-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-12-s1.mp3",
+      "hint_cn": "儿子提问，讲解员笑着回答"
     },
     {
       "text": "On the way home, we talked about space and robots.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-12-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-12-s2.mp3",
+      "hint_cn": "回家路上聊太空和机器人"
     }
   ],
   "speed": 85,
