@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📻 EnglishPod365 每日一课</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:720px;margin:0 auto;padding:16px;background:#f7f7f8;color:#222}
+h1{font-size:1.4em;margin:8px 0}
+.back{color:#4a90d9;text-decoration:none}
+.card{background:#fff;border-radius:12px;padding:16px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.card h2{font-size:1.15em;margin:0 0 4px}
+.meta{color:#888;font-size:.85em;margin-bottom:10px}
+audio{width:100%;margin:8px 0}
+.vocab{background:#f0f6ff;border-radius:8px;padding:10px 12px;margin:10px 0}
+.vocab .w{font-weight:700;color:#1a56db}
+.vocab .pos{color:#888;font-size:.85em;margin-left:6px}
+.transcript{background:#fafafa;border:1px solid #eee;border-radius:8px;padding:10px 12px;white-space:pre-line;line-height:1.8;font-size:.95em;display:none;margin-top:8px}
+.btn{background:#4a90d9;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:14px;cursor:pointer;margin:4px 4px 4px 0}
+.btn.secondary{background:#e8e8e8;color:#333}
+.pdf-link{color:#4a90d9}
+.steps{color:#555;font-size:.9em;line-height:1.8;background:#fffbe6;border-radius:8px;padding:10px 12px;margin:10px 0}
+</style>
+</head>
+<body>
+<a href="./" class="back">← 听力首页</a>
+<h1>📻 EnglishPod365 每日一课</h1>
+<p style="color:#666;font-size:.9em">每天一章：盲听抓大意 → 学 Key Vocabulary → 对照文本跟读</p>
+<div id="list"><p>加载中…</p></div>
+<script>
+async function load(){
+  try{
+    const d = await (await fetch("englishpod/data.json")).json();
+    const chs = d.chapters.slice().reverse();
+    document.getElementById("list").innerHTML = chs.map((c,i)=>`
+      <div class="card">
+        <h2>${c.id}｜${c.title}</h2>
+        <div class="meta">${c.date}</div>
+        <div class="steps">步骤1 盲听对话 2 遍抓大意 → 步骤2 学下面词汇 → 步骤3 看文本跟读</div>
+        <audio controls preload="none" src="${c.dialogue_audio}"></audio>
+        <div class="vocab">${c.vocabulary.map(v=>
+          `<div><span class="w">${v.word}</span><span class="pos">${v.pos}</span><br>${v.meaning}</div>`
+        ).join("")}</div>
+        <button class="btn secondary" onclick="document.getElementById('tr-${i}').style.display=document.getElementById('tr-${i}').style.display==='block'?'none':'block'">📄 对话文本</button>
+        <a class="btn secondary" style="text-decoration:none;display:inline-block" href="${c.pdf}" target="_blank">📕 PDF 讲义</a>
+        <div class="transcript" id="tr-${i}">${c.transcript}</div>
+      </div>`).join("");
+  }catch(e){
+    document.getElementById("list").innerHTML = "<p>加载失败，请刷新重试</p>";
+  }
+}
+load();
+</script>
+</body>
+</html>
