@@ -9,15 +9,18 @@
   "sentences": [
     {
       "text": "My doctor warned me that I sat too much in front of the computer.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-13-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-13-s0.mp3",
+      "hint_cn": "医生警告久坐问题"
     },
     {
       "text": "An old man with white hair smiled and told me to walk a little every day.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-13-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-13-s1.mp3",
+      "hint_cn": "白发老人建议每天走走"
     },
     {
       "text": "After two weeks, I felt stronger and slept better at night.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-13-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-13-s2.mp3",
+      "hint_cn": "两周后更强壮、睡眠更好"
     }
   ],
   "vocab": [
