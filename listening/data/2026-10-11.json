@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "My wife joined me at ten.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-11-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-11-s0.mp3",
+      "hint_cn": "妻子十点加入一起干"
     },
     {
       "text": "We threw away the broken boxes and moved the sofa to a new corner.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-11-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-11-s1.mp3",
+      "hint_cn": "扔旧箱、挪沙发到新角落"
     },
     {
       "text": "I felt tired but happy.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-11-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-11-s2.mp3",
+      "hint_cn": "虽然疲惫但是开心"
     }
   ],
   "speed": 85,
