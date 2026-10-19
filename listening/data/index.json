@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-10-20",
+      "topic": "An evening at the book fair",
+      "topic_cn": "书展之夜",
+      "level": "A2",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-20.mp3",
+      "data": "data/2026-10-20.json"
+    },
+    {
       "date": "2026-10-19",
       "topic": "First day working from home",
       "topic_cn": "在家办公第一天",
@@ -99,5 +108,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-10-19"
+  "updated": "2026-10-20"
 }
