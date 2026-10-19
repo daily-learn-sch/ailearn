@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "An old woman handed each of us a big bag and a pair of gloves.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14-s0.mp3",
+      "hint_cn": "老妇发大袋子和手套"
     },
     {
       "text": "We walked slowly along the river and picked up every piece of trash we saw.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14-s1.mp3",
+      "hint_cn": "沿河慢走捡起垃圾"
     },
     {
       "text": "I felt proud of our team.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14-s2.mp3",
+      "hint_cn": "为我们的团队感到自豪"
     }
   ],
   "speed": 85,
