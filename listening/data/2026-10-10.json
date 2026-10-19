@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "The organizer gave each person a small tree and a shovel.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-10-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-10-s0.mp3",
+      "hint_cn": "组织者发小树和铲子"
     },
     {
       "text": "My neighbor Mr. Li showed me how to plant the tree correctly.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-10-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-10-s1.mp3",
+      "hint_cn": "邻居李先生示范种树"
     },
     {
       "text": "I felt tired but proud.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-10-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-10-s2.mp3",
+      "hint_cn": "虽然疲惫但很自豪"
     }
   ],
   "speed": 85,
