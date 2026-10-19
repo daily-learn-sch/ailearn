@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "On moving day, we woke up at five in the morning.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18-s0.mp3",
+      "hint_cn": "搬家日清晨五点起床"
     },
     {
       "text": "My son lost his toy car during the move, so we searched the old rooms twice.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18-s1.mp3",
+      "hint_cn": "儿子丢玩具车，翻找两次"
     },
     {
       "text": "In the evening, my parents visited and brought a big dinner.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18-s2.mp3",
+      "hint_cn": "晚上父母送来大餐"
     }
   ],
   "speed": 85,
