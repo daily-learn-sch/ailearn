@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "Ten minutes later, he walked in and waved to me with a big smile.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16-s0.mp3",
+      "hint_cn": "十分钟后他笑着挥手进门"
     },
     {
       "text": "He told me he moved to a new city and changed his job last year.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16-s1.mp3",
+      "hint_cn": "去年搬家又换工作"
     },
     {
       "text": "We laughed a lot and remembered funny stories from college.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16-s2.mp3",
+      "hint_cn": "回忆大学趣事笑个不停"
     }
   ],
   "speed": 85,
