@@ -96,6 +96,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
     <h3>✍️ 听写</h3>
     <div class="mode-toggle">
       <button class="btn" id="modeSenBtn" onclick="setDictMode('sentence')">听一句写一句</button>
+      <button class="btn secondary" id="modeKeyBtn" onclick="setDictMode('keypoint')">全文找重点</button>
       <button class="btn secondary" id="modePassBtn" onclick="setDictMode('passage')">整篇听写</button>
     </div>
 
@@ -115,6 +116,13 @@ textarea:focus{outline:none;border-color:#4a90d9}
       <button class="btn" onclick="checkPassage()">对答案</button>
       <button class="btn secondary" onclick="toggleAnswer()">显示/隐藏原文</button>
       <div class="sen-result" id="passResult"></div>
+    </div>
+
+    <div id="keyMode" style="display:none">
+      <audio id="keyPlayer" controls preload="metadata"></audio>
+      <div class="status">先听整段音频，抓住每张卡片的重点信息，把对应的英文句子写下来</div>
+      <div id="keyCards"></div>
+      <button class="btn" onclick="checkKeypoint()">对答案</button>
     </div>
 
     <div style="margin-top:12px"><button class="btn secondary" id="toShadowBtn" onclick="enterShadowing()" disabled>下一步：跟读 →</button></div>
@@ -230,10 +238,49 @@ async function load(){
     document.getElementById("senTotal").textContent = drill.sentences.length;
     document.getElementById("startDesc").textContent =
       `${drill.date} · ${drill.topic_cn}（${drill.topic}）· ${drill.sentences.length} 个关键句，三步走全程计时。`;
+    await checkCompletion(drill.date);
   }catch(e){
     document.getElementById("drillInfo").textContent = "加载失败，请刷新重试";
     document.getElementById("startBtn").disabled = true;
   }
+}
+
+// ---------- 已完成横幅（查 drill_sessions，避免"学完再点又重学一次"） ----------
+function redoDrill(date){
+  sessionStorage.setItem("redo_"+date, "1");
+  location.reload();
+}
+function modLine(m){
+  const parts = [];
+  if(m.listening) parts.push(`精听 ${fmtTime(m.listening.seconds||0)}`);
+  if(m.dictation) parts.push(`听写 ${fmtTime(m.dictation.seconds||0)}${m.dictation.score!=null?" · "+m.dictation.score+" 分":""}`);
+  if(m.shadowing) parts.push("跟读已打卡");
+  return parts.join(" · ");
+}
+async function checkCompletion(date){
+  if(sessionStorage.getItem("redo_"+date)) return;
+  try{
+    const r = await fetch(
+      `${SUPABASE_URL}/rest/v1/drill_sessions?drill_date=eq.${date}&finished_at=not.is.null&select=finished_at,total_seconds,modules&order=finished_at.desc&limit=1`,
+      {headers: SBH});
+    if(!r.ok) return;
+    const rows = await r.json();
+    const done = rows[0];
+    if(!done) return;
+    const m = done.modules || {};
+    const ds = (m.dictation && m.dictation.score != null) ? ` · 听写 ${m.dictation.score} 分` : "";
+    const banner = document.createElement("div");
+    banner.innerHTML = `
+      <div style="background:#f0faf3;border:1px solid #bfe6c8;border-radius:10px;padding:14px;margin-bottom:14px">
+        <div style="font-size:16px;margin-bottom:6px">✅ ${date} 已完成${ds} · 总用时 ${fmtTime(done.total_seconds||0)}</div>
+        <div class="status">${esc(modLine(m))}</div>
+        <div style="margin-top:10px">
+          <button class="btn" onclick="redoDrill('${date}')">重新练习</button>
+          <button class="btn secondary" onclick="showTab('stats')">查看统计</button>
+        </div>
+      </div>`;
+    document.getElementById("v-start").prepend(banner);
+  }catch(e){ /* 查询失败则正常开始流程 */ }
 }
 
 // ---------- 会话 ----------
@@ -281,8 +328,10 @@ document.getElementById("listenPlayer")?.addEventListener("play", ()=>{
 function setDictMode(m){
   dictMode = m;
   document.getElementById("modeSenBtn").className = "btn" + (m==="sentence"?"":" secondary");
+  document.getElementById("modeKeyBtn").className = "btn" + (m==="keypoint"?"":" secondary");
   document.getElementById("modePassBtn").className = "btn" + (m==="passage"?"":" secondary");
   document.getElementById("senMode").style.display = m==="sentence" ? "block" : "none";
+  document.getElementById("keyMode").style.display = m==="keypoint" ? "block" : "none";
   document.getElementById("passMode").style.display = m==="passage" ? "block" : "none";
 }
 function enterDictation(){
@@ -295,9 +344,12 @@ function enterDictation(){
   document.getElementById("toShadowBtn").disabled = true;
   document.getElementById("senResult").innerHTML = "";
   document.getElementById("passResult").innerHTML = "";
+  document.getElementById("dictStatus").textContent = "";
   setDictMode("sentence");
   loadSentence();
   document.getElementById("passPlayer").src = drill.audio;
+  document.getElementById("keyPlayer").src = drill.audio;
+  buildKeyCards();
   showView("v-dict");
 }
 function senAudio(i){
@@ -376,6 +428,45 @@ function toggleAnswer(){
   const c = document.getElementById("answerCard");
   c.style.display = c.style.display === "none" ? "block" : "none";
 }
+// ---------- 全文找重点 ----------
+function buildKeyCards(){
+  document.getElementById("keyCards").innerHTML = drill.sentences.map((s,i)=>`
+    <div class="card" style="padding:14px;margin:12px 0;background:#f8fafc">
+      <div class="step-badge">重点 ${i+1}</div>
+      <div style="font-size:15px;margin:6px 0 8px;color:#2b6cb0"><b>${esc(s.hint_cn || "（暂无提示）")}</b></div>
+      <textarea id="keyInput${i}" placeholder="听到这段重点对应的英文句子，写在这里…"></textarea>
+      <div class="sen-result" id="keyRes${i}"></div>
+    </div>`).join("");
+}
+async function checkKeypoint(){
+  const perSec = Math.round((Date.now()-moduleStart)/1000);
+  let allFilled = true;
+  senResults = [];
+  for(let i=0;i<drill.sentences.length;i++){
+    const s = drill.sentences[i];
+    const actual = (document.getElementById("keyInput"+i).value||"").trim();
+    if(!actual){ allFilled = false; continue; }
+    const r = scoreText(s.text, actual);
+    senResults.push({idx:i, expected:s.text, actual, score:r.score, mistakes:r.mistakes, plays:0, seconds:perSec});
+    document.getElementById("keyRes"+i).innerHTML =
+      `<div class="status">得分 <b>${r.score} 分</b></div><div class="diff">${r.html}</div>` +
+      (r.mistakes.length ? `<ul class="mistake-list">${r.mistakes.slice(0,8).map(m=>`<li>应为 <b>${esc(m.expected)}</b>，你写 <b>${esc(m.actual)}</b></li>`).join("")}</ul>` : `<div class="status">🎉 全对</div>`);
+    // 写库（复用 sentence_dictations，sentence_idx=0/1/2）
+    if(sbOk && sessionId){
+      try{
+        await sbPost("sentence_dictations", {
+          session_id: sessionId, drill_date: drill.date, sentence_idx: i,
+          expected: s.text, actual, score: r.score, mistakes: r.mistakes, plays: 0, seconds: perSec
+        });
+      }catch(e){ sbOk = false; }
+    }
+  }
+  if(!allFilled){
+    document.getElementById("dictStatus").textContent = "⚠️ 还有重点没写完，写完再对答案";
+    return;
+  }
+  finishDictation();
+}
 function finishDictation(){
   if(dictDone) return; dictDone = true;
   const avg = senResults.length ? Math.round(senResults.reduce((a,b)=>a+b.score,0)/senResults.length) : 0;
@@ -394,7 +485,8 @@ function enterShadowing(){
   moduleStart = Date.now();
   shRec = {};
   const list = document.getElementById("shadowList");
-  const noMic = (!canRec || !canSR);
+  const noMic = !canRec;               // 按钮只看 MediaRecorder，不再绑定语音识别
+  const iosNoSR = canRec && !canSR;     // iPhone Safari：可录音但无转写
   list.innerHTML = drill.sentences.map((s,i)=>`
     <div class="shadow-rec" id="shRec${i}">
       <div class="shadow-item">
@@ -403,7 +495,8 @@ function enterShadowing(){
         <button class="btn small" onclick="playShadow(${i})">▶ 播放</button>
         <button class="btn small ghost" id="recBtn${i}" onclick="toggleRec(${i})" ${noMic?"disabled":""}>🎤 录音</button>
       </div>
-      ${noMic?'<div class="status">⚠️ 请用电脑 Chrome 并允许麦克风，以使用录音打分</div>':""}
+      ${noMic?'<div class="status">⚠️ 当前浏览器不支持录音（无麦克风权限或不支持 MediaRecorder）</div>':""}
+      ${iosNoSR?'<div class="status">📱 当前浏览器不支持语音转写（iPhone Safari），可录音、自动存云端、回放自查；自动打分请用电脑 Chrome</div>':""}
       <div class="rec-result" id="recRes${i}" style="display:none"></div>
       <div class="rec-actions" id="recAct${i}" style="display:none">
         <button class="btn small" onclick="submitShadowScore(${i})">提交打分</button>
@@ -443,29 +536,32 @@ async function toggleRec(i){
     }catch(e){}
   };
   st.recorder.start();
-  const SRC = window.webkitSpeechRecognition || window.SpeechRecognition;
-  st.recognition = new SRC();
-  st.recognition.lang = "en-US";
-  st.recognition.continuous = true;
-  st.recognition.interimResults = true;
-  st.recognition.onresult = (e)=>{
-    let fin = "";
-    for(let k=e.resultIndex;k<e.results.length;k++){
-      if(e.results[k].isFinal) fin += e.results[k][0].transcript + " ";
-    }
-    if(fin) st.transcribed += fin;
-    const interim = Array.from(e.results).slice(-1)[0][0].transcript;
-    res.style.display = "block";
-    res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
-  };
-  st.recognition.onerror = ()=>{};
-  st.recognition.onend = ()=>{ if(st.recording){ try{st.recognition.start();}catch(e){} } };
-  try{ st.recognition.start(); }catch(e){}
+  if(canSR){
+    const SRC = window.webkitSpeechRecognition || window.SpeechRecognition;
+    st.recognition = new SRC();
+    st.recognition.lang = "en-US";
+    st.recognition.continuous = true;
+    st.recognition.interimResults = true;
+    st.recognition.onresult = (e)=>{
+      let fin = "";
+      for(let k=e.resultIndex;k<e.results.length;k++){
+        if(e.results[k].isFinal) fin += e.results[k][0].transcript + " ";
+      }
+      if(fin) st.transcribed += fin;
+      const interim = Array.from(e.results).slice(-1)[0][0].transcript;
+      res.style.display = "block";
+      res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
+    };
+    st.recognition.onerror = ()=>{};
+    st.recognition.onend = ()=>{ if(st.recording){ try{st.recognition.start();}catch(e){} } };
+    try{ st.recognition.start(); }catch(e){}
+  }
   st.recording = true;
   btn.textContent = "⏹ 停止";
   btn.classList.add("rec-on");
   res.style.display = "block";
-  res.innerHTML = '<span class="rec-live">🎙️ 录音中，请跟读…</span>';
+  res.innerHTML = canSR ? '<span class="rec-live">🎙️ 录音中，请跟读…</span>'
+                        : '<span class="rec-live">🎙️ 录音中，请跟读（iPhone 不支持实时转写）…</span>';
 }
 function stopRec(i){
   const st = shRec[i];
@@ -478,21 +574,26 @@ function stopRec(i){
   btn.textContent = "🎤 录音";
   btn.classList.remove("rec-on");
   const res = document.getElementById("recRes"+i);
-  st.transcribed = st.transcribed.trim();
+  st.transcribed = (st.transcribed||"").trim();
   res.innerHTML = st.transcribed
     ? `识别结果：${esc(st.transcribed)}`
-    : '<span style="color:#c00">⚠️ 没识别到语音，再试一次（大声一点、离麦克风近一点）</span>';
-  document.getElementById("recAct"+i).style.display = st.transcribed ? "block" : "none";
+    : (canSR
+        ? '<span style="color:#c00">⚠️ 没识别到语音，再试一次（大声一点、离麦克风近一点）</span>'
+        : '<span style="color:#2b6cb0">录音已保存（可回放），iPhone 上转写不可用</span>');
+  document.getElementById("recAct"+i).style.display = "block";
+  if(!canSR){ document.getElementById("sendBtn"+i).disabled = false; }  // iOS：无打分也允许发送点评
 }
 async function uploadRec(i){
   const st = shRec[i];
   if(!st || !st.audioBlob) return;
   const msg = document.getElementById("uploadMsg"+i);
-  const fn = `${drill.date}-s${i}-${Date.now()}.webm`;
+  const mt = st.recorder.mimeType || "audio/webm";
+  const ext = mt.includes("mp4") ? "m4a" : "webm";
+  const fn = `${drill.date}-s${i}-${Date.now()}.${ext}`;
   try{
     const r = await fetch(`${SUPABASE_URL}/storage/v1/object/shadowing-recordings/${fn}`, {
       method: "POST",
-      headers: {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "audio/webm"},
+      headers: {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": mt},
       body: st.audioBlob
     });
     if(!r.ok) throw new Error("http " + r.status);
@@ -529,7 +630,7 @@ async function sendToMuse(i){
   try{
     await sbPost("shadowing_submissions", {
       drill_date: drill.date, sentence_idx: i,
-      expected: s.text, transcribed: st.transcribed, score: st.result.score,
+      expected: s.text, transcribed: st.transcribed || "", score: st.result ? st.result.score : null,
       audio_url: st.audio_url || null
     });
     note.textContent = "✅ 已发送，Muse 会在聊天里给你逐句点评";
@@ -571,7 +672,7 @@ function renderSummary(total){
   document.getElementById("summaryBody").innerHTML =
     row("总用时", fmtTime(total)) +
     row("👂 精听", `${fmtTime(m.listening?.seconds||0)} · 播放 ${m.listening?.plays||0} 次`) +
-    row("✍️ 听写", `${fmtTime(m.dictation?.seconds||0)} · ${m.dictation?.mode==="sentence"?"逐句":"整篇"} · ${m.dictation?.score??"-"} 分`) +
+    row("✍️ 听写", `${fmtTime(m.dictation?.seconds||0)} · ${m.dictation?.mode==="sentence"?"逐句":(m.dictation?.mode==="keypoint"?"全文找重点":"整篇")} · ${m.dictation?.score??"-"} 分`) +
     row("🗣️ 跟读", `${fmtTime(m.shadowing?.seconds||0)} · ${m.shadowing?.completed?"已打卡 ✅":"-"}`);
 }
 
