@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "I picked it up and tried to unlock it, but only half of the screen worked.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15-s0.mp3",
+      "hint_cn": "半屏能用、半屏失灵"
     },
     {
       "text": "A friendly young man opened the shop door and welcomed me in.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15-s1.mp3",
+      "hint_cn": "年轻店员开门迎客"
     },
     {
       "text": "I paid him and thanked him many times.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15-s2.mp3",
+      "hint_cn": "付款并再三表示感谢"
     }
   ],
   "speed": 85,
