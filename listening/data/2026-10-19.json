@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "My company started a new rule, and every worker stayed at home on Mondays.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s0.mp3",
+      "hint_cn": "公司新规：每周一全体在家办公"
     },
     {
       "text": "In the afternoon, my son knocked on the door and asked for help with his homework.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s1.mp3",
+      "hint_cn": "下午儿子敲门求助作业"
     },
     {
       "text": "I liked working from home because I saved two hours of travel time.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19-s2.mp3",
+      "hint_cn": "省下两小时通勤很喜欢"
     }
   ],
   "speed": 85,
