@@ -11,15 +11,22 @@
   <a href="../" class="back">← 主页</a>
   <h1>🎧 精听训练</h1>
   <p class="subtitle">每天 15 分钟，解决"认识单词但听不出来"</p>
-  <p style="margin-top:8px"><a id="practiceLink" href="practice.html" style="color:#4a90d9">📝 去听写练习页（自动判分）→</a></p>
-  <p style="margin-top:8px"><a href="englishpod.html" style="color:#4a90d9">📻 EnglishPod365 每日一课 →</a></p>
 </header>
 
 <main id="app">
-  <!-- 首页：今日 + 历史（训练已迁移到 practice.html，本页仅做入口） -->
   <section id="view-home" class="view">
+    <!-- 今日大卡片 -->
     <div id="today-card" class="card today"></div>
-    <h2>历史记录</h2>
+
+    <!-- 为你推荐 -->
+    <h2 style="margin:14px 0 8px;font-size:1rem">为你推荐</h2>
+    <div id="rec-list"></div>
+    <a href="englishpod.html" style="display:flex;justify-content:space-between;align-items:center;text-decoration:none;background:linear-gradient(135deg,#1d1d1f,#3a3a3c);color:#fff;border-radius:12px;padding:1.1rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.15)">
+      <div><div style="font-size:1.05rem;font-weight:bold">📻 EnglishPod365 每日一课</div><div style="font-size:.85rem;color:#ccc;margin-top:4px">换个材料练耳朵：每天一章，对话 + 生词 + 跟读</div></div>
+      <div style="font-size:1rem;color:#7dd3fc;white-space:nowrap">去上课 →</div>
+    </a>
+
+    <h2 style="margin:14px 0 8px;font-size:1rem">历史记录</h2>
     <div id="history-list"></div>
   </section>
 </main>
