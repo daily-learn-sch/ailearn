@@ -490,7 +490,8 @@ function enterShadowing(){
   shRec = {};
   const list = document.getElementById("shadowList");
   const noMic = !canRec;               // 按钮只看 MediaRecorder，不再绑定语音识别
-  const iosNoSR = canRec && !canSR;     // iPhone Safari：可录音但无转写
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+  const iosNoSR = canRec && (!canSR || isIOS);  // iPhone：转写不可用或不可靠，只保证录音
   list.innerHTML = drill.sentences.map((s,i)=>`
     <div class="shadow-rec" id="shRec${i}">
       <div class="shadow-item">
@@ -500,7 +501,7 @@ function enterShadowing(){
         <button class="btn small ghost" id="recBtn${i}" onclick="toggleRec(${i})" ${noMic?"disabled":""}>🎤 录音</button>
       </div>
       ${noMic?'<div class="status">⚠️ 当前浏览器不支持录音（无麦克风权限或不支持 MediaRecorder）</div>':""}
-      ${iosNoSR?'<div class="status">📱 当前浏览器不支持语音转写（iPhone Safari），可录音、自动存云端、回放自查；自动打分请用电脑 Chrome</div>':""}
+      ${iosNoSR?'<div class="status">📱 iPhone 上语音转写不可用或不可靠：不影响录音，录音会自动存云端、可回放自查；自动打分请用电脑 Chrome</div>':""}
       <div class="rec-result" id="recRes${i}" style="display:none"></div>
       <div class="rec-actions" id="recAct${i}" style="display:none">
         <button class="btn small" onclick="submitShadowScore(${i})">提交打分</button>
@@ -542,25 +543,30 @@ async function toggleRec(i){
     }catch(e){}
   };
   st.recorder.start();
+  // 语音识别只做"尽力而为"的转写：接口存在但实际不可用（如部分 iPhone 浏览器）时，
+  // 靠 onerror 标记 srError，录音流程不受影响
+  st.srError = null;
   if(canSR){
-    const SRC = window.webkitSpeechRecognition || window.SpeechRecognition;
-    st.recognition = new SRC();
-    st.recognition.lang = "en-US";
-    st.recognition.continuous = true;
-    st.recognition.interimResults = true;
-    st.recognition.onresult = (e)=>{
-      let fin = "";
-      for(let k=e.resultIndex;k<e.results.length;k++){
-        if(e.results[k].isFinal) fin += e.results[k][0].transcript + " ";
-      }
-      if(fin) st.transcribed += fin;
-      const interim = Array.from(e.results).slice(-1)[0][0].transcript;
-      res.style.display = "block";
-      res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
-    };
-    st.recognition.onerror = ()=>{};
-    st.recognition.onend = ()=>{ if(st.recording){ try{st.recognition.start();}catch(e){} } };
-    try{ st.recognition.start(); }catch(e){}
+    try{
+      const SRC = window.webkitSpeechRecognition || window.SpeechRecognition;
+      st.recognition = new SRC();
+      st.recognition.lang = "en-US";
+      st.recognition.continuous = true;
+      st.recognition.interimResults = true;
+      st.recognition.onresult = (e)=>{
+        let fin = "";
+        for(let k=e.resultIndex;k<e.results.length;k++){
+          if(e.results[k].isFinal) fin += e.results[k][0].transcript + " ";
+        }
+        if(fin) st.transcribed += fin;
+        const interim = Array.from(e.results).slice(-1)[0][0].transcript;
+        res.style.display = "block";
+        res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
+      };
+      st.recognition.onerror = (e)=>{ st.srError = (e && e.error) || "error"; };
+      st.recognition.onend = ()=>{ if(st.recording && !st.srError){ try{st.recognition.start();}catch(e){} } };
+      st.recognition.start();
+    }catch(e){ st.srError = "ctor"; st.recognition = null; }
   }
   st.recording = true;
   btn.textContent = "⏹ 停止";
@@ -581,13 +587,14 @@ function stopRec(i){
   btn.classList.remove("rec-on");
   const res = document.getElementById("recRes"+i);
   st.transcribed = (st.transcribed||"").trim();
+  const srOK = canSR && !st.srError;  // 转写真正可用：接口存在且本次没报错
   res.innerHTML = st.transcribed
     ? `识别结果：${esc(st.transcribed)}`
-    : (canSR
-        ? '<span style="color:#c00">⚠️ 没识别到语音，再试一次（大声一点、离麦克风近一点）</span>'
-        : '<span style="color:#2b6cb0">录音已保存（可回放），iPhone 上转写不可用</span>');
+    : (srOK
+        ? '<span style="color:#c00">⚠️ 没识别到语音，再试一次（大声一点、离麦克风近一点）</span><br><span class="status">录音已保存，可点"回放我的录音"自查</span>'
+        : '<span style="color:#2b6cb0">⚠️ 浏览器语音转写不可用，录音已保存，可回放自查</span>');
   document.getElementById("recAct"+i).style.display = "block";
-  if(!canSR){ document.getElementById("sendBtn"+i).disabled = false; }  // iOS：无打分也允许发送点评
+  if(!srOK){ document.getElementById("sendBtn"+i).disabled = false; }  // 转写不可用也允许发送点评
 }
 async function uploadRec(i){
   const st = shRec[i];
