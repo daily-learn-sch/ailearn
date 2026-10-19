@@ -62,6 +62,10 @@ textarea:focus{outline:none;border-color:#4a90d9}
 </style>
 </head>
 <body>
+<div style="display:flex;gap:10px;margin-bottom:12px;max-width:800px">
+  <a href="index.html" class="btn secondary" style="text-decoration:none;margin-top:0;padding:8px 18px;font-size:14px">← 返回</a>
+  <a href="englishpod.html" class="btn ghost" style="text-decoration:none;margin-top:0;padding:8px 18px;font-size:14px">📻 EnglishPod365 每日一课 →</a>
+</div>
 <h1>🎧 精听训练</h1>
 <div class="subtitle" id="drillInfo">加载中…</div>
 <div style="margin:8px 0 4px"><label style="font-size:14px;color:#555">选择日期：</label>
@@ -501,6 +505,7 @@ function enterShadowing(){
       <div class="rec-actions" id="recAct${i}" style="display:none">
         <button class="btn small" onclick="submitShadowScore(${i})">提交打分</button>
         <button class="btn small ghost" id="replayBtn${i}" onclick="replayRec(${i})" style="display:none">▶ 回放我的录音</button>
+        <button class="btn small ghost" onclick="toggleRec(${i})">🔁 重新录制</button>
         <button class="btn small secondary" id="sendBtn${i}" onclick="sendToMuse(${i})" disabled>发送给 Muse 点评</button>
         <div class="status" id="uploadMsg${i}" style="margin-top:4px"></div>
       </div>
@@ -514,7 +519,7 @@ async function toggleRec(i){
   const btn = document.getElementById("recBtn"+i);
   const res = document.getElementById("recRes"+i);
   try{
-    st.stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    st.stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true, autoGainControl:true}});
   }catch(e){
     res.style.display = "block";
     res.innerHTML = '<span style="color:#c00">⚠️ 无法访问麦克风，请在浏览器地址栏允许麦克风权限后重试</span>';
@@ -523,6 +528,7 @@ async function toggleRec(i){
   st.transcribed = "";
   st.chunks = [];
   st.audioBlob = null; st.audioUrl = null; st.audio_url = null;
+  st.result = null;   // 重新录制：旧打分作废，新录音为准
   st.recorder = new MediaRecorder(st.stream);
   st.recorder.ondataavailable = (e)=>{ if(e.data && e.data.size) st.chunks.push(e.data); };
   st.recorder.onstop = ()=>{
