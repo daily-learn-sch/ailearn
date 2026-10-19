@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "The smell of bread fills the air.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-08-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-08-s0.mp3",
+      "hint_cn": "面包香味弥漫空气"
     },
     {
       "text": "I always buy some red flowers for my wife.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-08-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-08-s1.mp3",
+      "hint_cn": "给妻子买了一束红花"
     },
     {
       "text": "It is a simple morning, but it makes me happy.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-08-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-08-s2.mp3",
+      "hint_cn": "简单早晨却很快乐"
     }
   ],
   "speed": 85,
