@@ -6,15 +6,18 @@
   "sentences": [
     {
       "text": "We walked along the sand and collected colorful shells.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17-s0.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17-s0.mp3",
+      "hint_cn": "沙滩散步捡彩色贝壳"
     },
     {
       "text": "At noon, we bought some fish and rice at a small restaurant.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17-s1.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17-s1.mp3",
+      "hint_cn": "中午小餐馆吃鱼饭"
     },
     {
       "text": "On the way home, my son slept on my shoulder.",
-      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17-s2.mp3"
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17-s2.mp3",
+      "hint_cn": "回家路上儿子靠肩睡着"
     }
   ],
   "speed": 85,
