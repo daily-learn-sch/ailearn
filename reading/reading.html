@@ -256,33 +256,64 @@ function wordSpans(text){
 }
 
 // ---------- 查词 ----------
+// 三层：文章词库（精编）→ 内置离线词典（ECDICT 高频2万词分片，dict/<首字母>.json）→ 外链兜底
 function cleanWord(w){ return String(w||"").toLowerCase().replace(/^[^a-z']+|[^a-z']+$/g, ""); }
+const shardCache = {};
+function loadShard(letter){
+  if (!shardCache[letter]) {
+    shardCache[letter] = fetch("dict/" + letter + ".json").then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  }
+  return shardCache[letter];
+}
+function stemCandidates(w){
+  const out = [w];
+  const add = x => { if (x && x.length >= 2 && !out.includes(x)) out.push(x); };
+  if (w.endsWith("'s")) add(w.slice(0, -2));
+  if (w.endsWith("ies") && w.length > 4) add(w.slice(0, -3) + "y");
+  if (w.endsWith("ing") && w.length > 5) {
+    const b = w.slice(0, -3); add(b); add(b + "e");
+    if (b.length > 2 && b[b.length-1] === b[b.length-2]) add(b.slice(0, -1));
+  }
+  if (w.endsWith("ed") && w.length > 4) {
+    const b = w.slice(0, -2); add(w.slice(0, -1)); add(b); add(b + "e");
+    if (b.length > 2 && b[b.length-1] === b[b.length-2]) add(b.slice(0, -1));
+  }
+  if (w.endsWith("es") && w.length > 3) add(w.slice(0, -2));
+  if (w.endsWith("s") && w.length > 3) add(w.slice(0, -1));
+  return out;
+}
+async function dictLookup(w){
+  for (const cand of stemCandidates(w)) {
+    const shard = await loadShard(cand[0]);
+    if (shard && shard[cand]) return { word: cand, phonetic: shard[cand][0], tr: shard[cand][1] };
+  }
+  return null;
+}
 async function lookup(word){
   const w = cleanWord(word);
   if (!w) return;
   tapped.add(w);
   const el = document.querySelectorAll(`#artBody .w[data-w="${CSS.escape(word)}"]`);
   el.forEach(e => e.classList.add("tapped"));
-  document.getElementById("lookup").classList.remove("hidden");
-  document.getElementById("lkWord").textContent = w;
-  document.getElementById("lkPos").textContent = "";
-  document.getElementById("lkMean").textContent = "查词中…";
+  const box = document.getElementById("lookup");
+  box.classList.remove("hidden");
+  const kw = document.getElementById("lkWord"), kp = document.getElementById("lkPos"), km = document.getElementById("lkMean");
+  kw.textContent = w; kp.textContent = ""; km.textContent = "查词中…";
+  const links = `<div style="margin-top:8px;font-size:.85em"><a href="eudic://dict/${encodeURIComponent(w)}" style="color:#9ecbff;text-decoration:underline">在欧路词典打开 →</a>　<a href="https://dictionary.cambridge.org/dictionary/english-chinese-simplified/${encodeURIComponent(w)}" target="_blank" rel="noopener" style="color:#9ecbff;text-decoration:underline">剑桥词典 →</a></div>`;
   const local = vocabMap[w];
   if (local) {
-    document.getElementById("lkPos").textContent = local.pos || "";
-    document.getElementById("lkMean").textContent = local.meaning;
+    kp.textContent = local.pos || "";
+    km.innerHTML = esc(local.meaning) + links;
     return;
   }
-  try {
-    const r = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(w));
-    if (!r.ok) throw 0;
-    const j = await r.json();
-    const m = j[0].meanings[0];
-    document.getElementById("lkPos").textContent = m.partOfSpeech || "";
-    document.getElementById("lkMean").textContent = "英英释义：" + m.definitions[0].definition;
-  } catch (e) {
-    document.getElementById("lkMean").innerHTML = `站内词库暂未收录。<a href="https://dictionary.cambridge.org/dictionary/english-chinese-simplified/${encodeURIComponent(w)}" target="_blank" rel="noopener" style="color:#9ecbff;text-decoration:underline">去剑桥词典查 →</a>`;
+  const hit = await dictLookup(w);
+  if (hit) {
+    if (hit.word !== w) kw.textContent = w + " → " + hit.word;
+    kp.textContent = hit.phonetic ? "/" + hit.phonetic + "/" : "";
+    km.innerHTML = esc(hit.tr) + links;
+    return;
   }
+  km.innerHTML = "内置词典未收录，试试下面的词典：" + links;
 }
 document.addEventListener("click", e => {
   const w = e.target.closest && e.target.closest("#artBody .w");
