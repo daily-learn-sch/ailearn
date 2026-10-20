@@ -164,6 +164,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <p id="answerText" style="line-height:1.9;font-size:15px"></p>
 </div>
 
+<audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 const SUPABASE_URL = "https://qydtzdewqkzonzwmxapa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_979g0z6Xf84og_vjDliW-Q_Jyia_y4N";
@@ -557,6 +558,7 @@ async function toggleRec(i){
   // 语音识别只做"尽力而为"的转写：接口存在但实际不可用（如部分 iPhone 浏览器）时，
   // 靠 onerror 标记 srError，录音流程不受影响
   st.srError = null;
+  st.srDead = false;
   if(canSR){
     try{
       const SRC = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -565,6 +567,7 @@ async function toggleRec(i){
       st.recognition.continuous = true;
       st.recognition.interimResults = true;
       st.recognition.onresult = (e)=>{
+        if(st.srDead) return;
         let fin = "";
         for(let k=e.resultIndex;k<e.results.length;k++){
           if(e.results[k].isFinal) fin += e.results[k][0].transcript + " ";
@@ -575,7 +578,7 @@ async function toggleRec(i){
         res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
       };
       st.recognition.onerror = (e)=>{ st.srError = (e && e.error) || "error"; };
-      st.recognition.onend = ()=>{ if(st.recording && !st.srError){ try{st.recognition.start();}catch(e){} } };
+      st.recognition.onend = ()=>{ if(st.recording && !st.srError && !st.srDead){ try{st.recognition.start();}catch(e){} } };
       st.recognition.start();
     }catch(e){ st.srError = "ctor"; st.recognition = null; }
   }
@@ -590,6 +593,8 @@ function stopRec(i){
   const st = shRec[i];
   if(!st || !st.recording) return;
   st.recording = false;
+  st.srDead = true;   // 彻底停识别：防止它继续占音频通道、压住回放声音
+  try{ st.recognition && st.recognition.abort && st.recognition.abort(); }catch(e){}
   try{ st.recognition && st.recognition.stop(); }catch(e){}
   try{ st.recorder && st.recorder.state !== "inactive" && st.recorder.stop(); }catch(e){}
   try{ st.stream && st.stream.getTracks().forEach(t=>t.stop()); }catch(e){}
@@ -630,12 +635,16 @@ async function uploadRec(i){
 function replayRec(i){
   const st = shRec[i];
   const msg = document.getElementById("uploadMsg"+i);
-  if(!st){ return; }
-  const srcAudio = st.audio_url || st.audioUrl;   // 云端地址优先（本地 blob 在 iOS 上不可靠）
+  if(!st) return;
+  const srcAudio = st.audio_url || st.audioUrl;
   if(!srcAudio){ if(msg) msg.textContent = "⚠️ 还没有可回放的录音，请先录音"; return; }
+  const a = document.getElementById("recPlayer");
   try{
-    const a = new Audio(srcAudio);
+    a.pause();
+    a.src = srcAudio;
+    a.load();
     const p = a.play();
+    if(msg) msg.textContent = "▶ 正在回放…";
     if(p && p.catch) p.catch(()=>{ if(msg) msg.textContent = "⚠️ 回放没成功，再点一次试试"; });
   }catch(e){ if(msg) msg.textContent = "⚠️ 回放失败，再点一次试试"; }
 }
