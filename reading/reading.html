@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阅读训练 - AI Learn</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#333;max-width:800px;margin:0 auto;padding:20px}
+h1{font-size:1.4em;margin-bottom:4px}
+h3{font-size:1.05em;margin-bottom:10px}
+.subtitle{color:#888;font-size:.9em;margin-bottom:16px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.btn{display:inline-block;background:#4a90d9;color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:15px;cursor:pointer;margin-top:12px;margin-right:8px}
+.btn:hover{background:#3a7bc0}
+.btn:disabled{background:#ccc;cursor:default}
+.btn.secondary{background:#eee;color:#333}
+.btn.ghost{background:#fff;color:#4a90d9;border:1px solid #4a90d9}
+.status{color:#888;font-size:.88em;margin-top:10px;line-height:1.6}
+.step-badge{display:inline-block;background:#eef4fb;color:#4a90d9;font-size:.8em;font-weight:bold;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.hidden{display:none!important}
+/* 顶部计时环 */
+.timer-row{display:flex;align-items:center;gap:16px}
+.ring-wrap{position:relative;width:72px;height:72px;flex:none}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#e8edf2;stroke-width:7}
+.ring-fg{fill:none;stroke:#34c759;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .5s}
+.ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:bold;color:#333;text-align:center;line-height:1.25}
+.timer-info{font-size:.92em;color:#555;line-height:1.7}
+.timer-info b{color:#1d1d1f}
+/* 文章头 */
+.art-title{font-size:1.25em;font-weight:bold;line-height:1.45;margin-bottom:6px}
+.art-meta{color:#888;font-size:.85em;margin-bottom:10px}
+.art-meta a{color:#4a90d9;text-decoration:none}
+.reason{background:#fff8e6;border-left:4px solid #ff9f0a;border-radius:8px;padding:12px 14px;font-size:.93em;line-height:1.7}
+/* 生词预习 */
+details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#333;outline:none}
+.v-item{margin-top:10px;font-size:.92em}
+.v-item .w{font-weight:bold}
+.v-item .p{color:#888;font-size:.85em;margin:0 4px}
+/* 正文 */
+.sec{margin-bottom:22px}
+.sec h4{font-size:1.02em;margin-bottom:8px;color:#1d1d1f;border-left:3px solid #4a90d9;padding-left:8px}
+.sec p{font-size:1.02em;line-height:1.95;margin-bottom:12px;color:#222}
+.sec p .w{border-bottom:1px dotted #b9c8d8;cursor:pointer}
+.sec p .w:active{background:#fff3bf}
+.sec p .w.tapped{border-bottom:1px solid #ff9f0a;background:#fff8e6}
+/* 查词弹层 */
+#lookup{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:min(92vw,560px);background:#1d1d1f;color:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:50}
+#lookup .lw{font-size:1.1em;font-weight:bold}
+#lookup .lp{color:#9ecbff;font-size:.85em;margin-left:6px}
+#lookup .lm{margin-top:6px;font-size:.95em;line-height:1.6;color:#eee}
+#lookup .lx{position:absolute;top:8px;right:12px;color:#aaa;font-size:1.2em;cursor:pointer;background:none;border:none}
+/* 测试 */
+.q-opt{display:block;width:100%;text-align:left;background:#f5f7fa;border:1.5px solid #e2e8f0;border-radius:10px;padding:12px 14px;font-size:.98em;margin-bottom:10px;cursor:pointer;line-height:1.55}
+.q-opt.sel{border-color:#4a90d9;background:#eef4fb}
+.q-opt.right{border-color:#34c759;background:#eafaf0}
+.q-opt.wrong{border-color:#ff3b30;background:#fdeeee}
+.q-prog{color:#888;font-size:.85em;margin-bottom:8px}
+.score-big{font-size:2em;font-weight:bold;text-align:center;margin:6px 0}
+.review-item{border-top:1px solid #eee;padding:10px 0;font-size:.92em;line-height:1.65}
+.review-item .rq{font-weight:bold}
+.review-item .rex{color:#666}
+.chip{display:inline-block;background:#fff8e6;border:1px solid #ffd60a;border-radius:16px;padding:2px 10px;font-size:.85em;margin:3px 4px 3px 0}
+/* 历史 */
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:.92em;gap:10px}
+.hist-row:last-child{border-bottom:none}
+.hist-row .ht{font-weight:bold}
+.hist-row .hd{color:#888;font-size:.82em}
+.hist-badge{font-size:.82em;white-space:nowrap}
+</style>
+</head>
+<body>
+<div style="display:flex;gap:10px;margin-bottom:12px">
+  <a href="../listening/index.html" class="btn secondary" style="text-decoration:none;margin-top:0;padding:8px 18px;font-size:14px">← 学习首页</a>
+</div>
+<h1>📖 阅读训练</h1>
+<div class="subtitle">每天一篇，沉浸 30 分钟 · 读完测试打卡</div>
+
+<!-- 计时 -->
+<div class="card" id="timerCard">
+  <div class="timer-row">
+    <div class="ring-wrap">
+      <svg width="72" height="72"><circle class="ring-bg" cx="36" cy="36" r="30"/><circle class="ring-fg" id="ringFg" cx="36" cy="36" r="30" stroke-dasharray="188.5" stroke-dashoffset="188.5"/></svg>
+      <div class="ring-txt" id="ringTxt">0′</div>
+    </div>
+    <div class="timer-info" id="timerInfo">今日目标：沉浸阅读 <b>30 分钟</b><br>计时在页面切后台时自动暂停。</div>
+  </div>
+</div>
+
+<!-- 文章 -->
+<div id="articleWrap">
+  <div class="card" id="artHead"><div class="status">加载今日文章中…</div></div>
+  <div class="card hidden" id="vocabCard">
+    <details class="vocab-box" id="vocabBox">
+      <summary>🗂 生词预习（先扫一眼，读起来顺很多）</summary>
+      <div id="vocabList"></div>
+    </details>
+  </div>
+  <div class="card hidden" id="artBody"></div>
+</div>
+
+<!-- 测试入口 -->
+<div class="card hidden" id="quizGate">
+  <div class="step-badge">读完打卡</div>
+  <h3>🧪 理解测试（4 题）</h3>
+  <p class="status" style="margin-top:0">答题时原文会锁定——靠理解，不靠回看抄。≥60 分 = 今日阅读打卡 ✅</p>
+  <button class="btn" id="startQuizBtn" disabled>开始测试</button>
+  <div class="status" id="gateHint"></div>
+</div>
+
+<!-- 测试 -->
+<div class="card hidden" id="quizWrap">
+  <div class="step-badge">理解测试</div>
+  <div class="q-prog" id="qProg"></div>
+  <h3 id="qText" style="line-height:1.6"></h3>
+  <div id="qOpts"></div>
+  <button class="btn" id="qNext" disabled>下一题 →</button>
+  <button class="btn ghost" id="peekBtn">👀 回看原文</button>
+  <div class="status" id="qHint"></div>
+</div>
+
+<!-- 结果 -->
+<div class="card hidden" id="resultWrap"></div>
+
+<!-- 历史 -->
+<div class="card">
+  <h3>📚 阅读记录</h3>
+  <div id="histList"><div class="status">加载中…</div></div>
+</div>
+
+<div id="lookup" class="hidden">
+  <button class="lx" id="lookupClose">×</button>
+  <div><span class="lw" id="lkWord"></span><span class="lp" id="lkPos"></span></div>
+  <div class="lm" id="lkMean">查词中…</div>
+</div>
+
+<footer style="text-align:center;color:#999;font-size:.8rem;padding:1rem 0">sunchaohai · AI Learn</footer>
+<script>
+const SUPABASE_URL = "https://qydtzdewqkzonzwmxapa.supabase.co";
+const SUPABASE_KEY = "sb_publishable_979g0z6Xf84og_vjDliW-Q_Jyia_y4N";
+const SBH = {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json"};
+const TARGET_SEC = 30 * 60; // 每日沉浸目标 30 分钟
+
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function todayStr(){ const d = new Date(), p = n => String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; }
+function fmtMin(s){ const m = Math.floor(s/60); return m + "′"; }
+
+let article = null, vocabMap = {}, tapped = new Set();
+let elapsed = 0, curSec = null, sectionSecs = {};
+let answers = [], qIdx = 0, sessionSaved = false;
+
+// ---------- 计时 ----------
+function startClock(){
+  setInterval(() => {
+    if (document.hidden || !article) return;
+    elapsed++;
+    if (curSec != null) sectionSecs[curSec] = (sectionSecs[curSec] || 0) + 1;
+    if (elapsed % 5 === 0) renderRing();
+    if (elapsed % 10 === 0) refreshGate();
+  }, 1000);
+}
+function renderRing(){
+  const p = Math.min(elapsed / TARGET_SEC, 1);
+  document.getElementById("ringFg").style.strokeDashoffset = (188.5 * (1 - p)).toFixed(1);
+  document.getElementById("ringTxt").textContent = fmtMin(elapsed);
+}
+function refreshGate(){
+  const btn = document.getElementById("startQuizBtn"), hint = document.getElementById("gateHint");
+  if (!article || !article.quiz || article.quiz.length === 0) return;
+  const need = Math.floor((article.est_minutes || 10) * 60 * 0.4);
+  if (elapsed >= need) {
+    if (btn.disabled) { btn.disabled = false; hint.textContent = "⏰ 阅读时长已达标，可以开始测试了。"; }
+  } else {
+    btn.disabled = true;
+    hint.textContent = "⏳ 还需阅读约 " + Math.ceil((need - elapsed) / 60) + " 分钟才能解锁测试（防止秒点）。";
+  }
+}
+
+// ---------- 取文章 ----------
+async function loadArticle(){
+  const t = todayStr();
+  let rows = [];
+  try {
+    let r = await fetch(`${SUPABASE_URL}/rest/v1/reading_articles?read_date=eq.${t}&order=created_at.desc&limit=1`, {headers: SBH});
+    if (r.ok) rows = await r.json();
+    if (!rows.length) {
+      r = await fetch(`${SUPABASE_URL}/rest/v1/reading_articles?order=read_date.desc&limit=1`, {headers: SBH});
+      if (r.ok) rows = await r.json();
+    }
+  } catch (e) { /* 降级：准备中 */ }
+  if (!rows.length) {
+    document.getElementById("artHead").innerHTML = `<div class="status">🕐 今日文章还在准备中，稍后再来。</div>`;
+    return;
+  }
+  article = rows[0];
+  renderArticle();
+  document.getElementById("quizGate").classList.remove("hidden");
+  startClock();
+  observeSections();
+  refreshGate();
+}
+
+// ---------- 渲染 ----------
+function renderArticle(){
+  const a = article;
+  document.getElementById("artHead").innerHTML = `
+    <div class="step-badge">今日阅读 · ${esc(a.level || "")}</div>
+    <div class="art-title">${esc(a.title)}</div>
+    <div class="art-meta">${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">来源：${esc(a.source || "原文")}</a>` : "来源：" + esc(a.source || "站内")} · 约${a.word_count || "?"}词 · 预计${a.est_minutes || "?"}分钟 · ${esc(a.read_date || "")}</div>
+    <div class="reason">📋 推荐理由：${esc(a.reason_cn || "")}</div>`;
+  // 生词预习
+  const v = a.vocab || [];
+  vocabMap = {};
+  v.forEach(x => { vocabMap[String(x.word).toLowerCase()] = x; });
+  if (v.length) {
+    document.getElementById("vocabCard").classList.remove("hidden");
+    document.getElementById("vocabList").innerHTML = v.map(x =>
+      `<div class="v-item"><span class="w">${esc(x.word)}</span><span class="p">${esc(x.pos || "")}</span><br>${esc(x.meaning)}</div>`).join("");
+  }
+  // 外链降级模式
+  const secs = a.sections || [];
+  if (!secs.length) {
+    document.getElementById("artBody").classList.remove("hidden");
+    document.getElementById("artBody").innerHTML = `
+      <div class="step-badge">外链阅读</div>
+      <p class="status">这篇文章站内版没生成，直接去原文读（30 分钟沉浸同样生效），回来告诉我读了几分钟即可打卡。</p>
+      ${a.url ? `<a class="btn" href="${esc(a.url)}" target="_blank" rel="noopener">去原文阅读 →</a>` : ""}`;
+    document.getElementById("startQuizBtn").disabled = true;
+    document.getElementById("gateHint").textContent = "外链模式：无站内测试，完成阅读后在聊天里告诉 Muse 即可。";
+    return;
+  }
+  document.getElementById("artBody").classList.remove("hidden");
+  document.getElementById("artBody").innerHTML = secs.map((s, i) => `
+    <div class="sec" data-sec="${i}">
+      <h4>${esc(s.heading || "Section " + (i+1))}</h4>
+      ${s.paragraphs.map(p => `<p>${wordSpans(p)}</p>`).join("")}
+    </div>`).join("");
+}
+function wordSpans(text){
+  return String(text).split(/(\s+)/).map(tok => {
+    if (/[A-Za-z]/.test(tok)) {
+      const clean = tok.replace(/^[^A-Za-z']+|[^A-Za-z']+$/g, "");
+      return `<span class="w" data-w="${esc(clean)}">${esc(tok)}</span>`;
+    }
+    return esc(tok);
+  }).join("");
+}
+
+// ---------- 查词 ----------
+function cleanWord(w){ return String(w||"").toLowerCase().replace(/^[^a-z']+|[^a-z']+$/g, ""); }
+async function lookup(word){
+  const w = cleanWord(word);
+  if (!w) return;
+  tapped.add(w);
+  const el = document.querySelectorAll(`#artBody .w[data-w="${CSS.escape(word)}"]`);
+  el.forEach(e => e.classList.add("tapped"));
+  document.getElementById("lookup").classList.remove("hidden");
+  document.getElementById("lkWord").textContent = w;
+  document.getElementById("lkPos").textContent = "";
+  document.getElementById("lkMean").textContent = "查词中…";
+  const local = vocabMap[w];
+  if (local) {
+    document.getElementById("lkPos").textContent = local.pos || "";
+    document.getElementById("lkMean").textContent = local.meaning;
+    return;
+  }
+  try {
+    const r = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(w));
+    if (!r.ok) throw 0;
+    const j = await r.json();
+    const m = j[0].meanings[0];
+    document.getElementById("lkPos").textContent = m.partOfSpeech || "";
+    document.getElementById("lkMean").textContent = "英英释义：" + m.definitions[0].definition;
+  } catch (e) {
+    document.getElementById("lkMean").textContent = "没查到释义，记下来稍后问 Muse。";
+  }
+}
+document.addEventListener("click", e => {
+  const w = e.target.closest && e.target.closest("#artBody .w");
+  if (w) lookup(w.dataset.w);
+});
+document.getElementById("lookupClose").onclick = () => document.getElementById("lookup").classList.add("hidden");
+
+// ---------- 分节停留 ----------
+function observeSections(){
+  const io = new IntersectionObserver(es => {
+    es.forEach(en => {
+      const i = +en.target.dataset.sec;
+      if (en.isIntersecting && en.intersectionRatio >= 0.5) curSec = i;
+      else if (curSec === i && !en.isIntersecting) curSec = null;
+    });
+  }, {threshold: [0.5]});
+  document.querySelectorAll("#artBody .sec").forEach(s => io.observe(s));
+}
+
+// ---------- 测试 ----------
+document.getElementById("startQuizBtn").onclick = startQuiz;
+function startQuiz(){
+  answers = []; qIdx = 0;
+  document.getElementById("articleWrap").classList.add("hidden");
+  document.getElementById("quizGate").classList.add("hidden");
+  document.getElementById("quizWrap").classList.remove("hidden");
+  renderQ();
+}
+document.getElementById("peekBtn").onclick = () => {
+  const w = document.getElementById("articleWrap");
+  w.classList.toggle("hidden");
+  document.getElementById("peekBtn").textContent = w.classList.contains("hidden") ? "👀 回看原文" : "🙈 收起原文";
+};
+function renderQ(){
+  const quiz = article.quiz, q = quiz[qIdx];
+  document.getElementById("qProg").textContent = `第 ${qIdx+1} / ${quiz.length} 题`;
+  document.getElementById("qText").textContent = q.q;
+  document.getElementById("qOpts").innerHTML = q.options.map((o, i) =>
+    `<button class="q-opt" data-i="${i}">${["A","B","C","D"][i]}. ${esc(o)}</button>`).join("");
+  document.getElementById("qNext").disabled = true;
+  document.getElementById("qNext").textContent = qIdx === quiz.length - 1 ? "提交打分" : "下一题 →";
+  document.querySelectorAll("#qOpts .q-opt").forEach(b => b.onclick = () => {
+    document.querySelectorAll("#qOpts .q-opt").forEach(x => x.classList.remove("sel"));
+    b.classList.add("sel");
+    answers[qIdx] = +b.dataset.i;
+    document.getElementById("qNext").disabled = false;
+  });
+}
+document.getElementById("qNext").onclick = () => {
+  if (answers[qIdx] == null) return;
+  if (qIdx < article.quiz.length - 1) { qIdx++; renderQ(); }
+  else finishQuiz();
+};
+function finishQuiz(){
+  const quiz = article.quiz;
+  let right = 0;
+  const review = quiz.map((q, i) => {
+    const ok = answers[i] === q.answer;
+    if (ok) right++;
+    return `<div class="review-item"><div class="rq">${ok ? "✅" : "❌"} ${esc(q.q)}</div>
+      <div>你的答案：${["A","B","C","D"][answers[i]]} · 正确答案：${["A","B","C","D"][q.answer]}</div>
+      <div class="rex">解析：${esc(q.explain || "")}</div></div>`;
+  }).join("");
+  const score = Math.round(right / quiz.length * 100);
+  const passed = score >= 60;
+  saveSession(score, passed);
+  const rw = document.getElementById("resultWrap");
+  rw.classList.remove("hidden");
+  document.getElementById("quizWrap").classList.add("hidden");
+  const words = [...tapped];
+  rw.innerHTML = `
+    <div class="step-badge">测试结果</div>
+    <div class="score-big" style="color:${passed ? "#34c759" : "#ff9f0a"}">${score} 分</div>
+    <p class="status" style="text-align:center">${passed ? "✅ 今日阅读打卡成功！" : "😅 差一点，再读一遍试试——下面是错题解析"} · 阅读用时 ${Math.round(elapsed/60)} 分钟 · 查了 ${words.length} 个词</p>
+    ${passed && words.length ? `<div style="margin-top:10px"><b>今日生词回顾：</b><br>${words.map(w=>`<span class="chip">${esc(w)}</span>`).join("")}</div>` : ""}
+    ${review}
+    ${passed ? "" : `<button class="btn" onclick="location.reload()">再读一遍</button><button class="btn secondary" id="retryQuiz">直接重测</button>`}`;
+  const rq = document.getElementById("retryQuiz");
+  if (rq) rq.onclick = () => { document.getElementById("resultWrap").classList.add("hidden"); document.getElementById("quizWrap").classList.remove("hidden"); startQuiz(); };
+  rw.scrollIntoView({behavior:"smooth"});
+}
+async function saveSession(score, passed){
+  if (sessionSaved) return; sessionSaved = true;
+  const secs = {};
+  Object.keys(sectionSecs).forEach(k => { secs[k] = sectionSecs[k]; });
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/reading_sessions`, {
+      method: "POST", headers: {...SBH, "Prefer": "return=minimal"},
+      body: JSON.stringify({
+        article_id: article.id, read_date: todayStr(), total_seconds: elapsed,
+        section_seconds: secs, tapped_words: [...tapped], quiz_score: score, passed
+      })
+    });
+  } catch (e) { /* 离线也显示结果，不阻塞 */ }
+}
+
+// ---------- 历史 ----------
+async function loadHistory(){
+  const box = document.getElementById("histList");
+  try {
+    const [ar, sr] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/reading_articles?order=read_date.desc&limit=20`, {headers: SBH}),
+      fetch(`${SUPABASE_URL}/rest/v1/reading_sessions?order=created_at.desc&limit=200`, {headers: SBH})
+    ]);
+    if (!ar.ok) throw 0;
+    const arts = await ar.json();
+    const sess = sr.ok ? await sr.json() : [];
+    const best = {};
+    sess.forEach(s => { if (!best[s.article_id]) best[s.article_id] = s; });
+    if (!arts.length) { box.innerHTML = `<div class="status">还没有阅读记录。</div>`; return; }
+    box.innerHTML = arts.map(a => {
+      const s = best[a.id];
+      const badge = s
+        ? (s.passed ? `<span class="hist-badge" style="color:#34c759">✅ ${s.quiz_score}分</span>` : `<span class="hist-badge" style="color:#ff9f0a">${s.quiz_score}分·未通过</span>`)
+        : `<span class="hist-badge" style="color:#888">未测</span>`;
+      return `<div class="hist-row"><div><div class="ht">${esc(a.title)}</div><div class="hd">${esc(a.read_date || "")} · ${esc(a.level || "")}</div></div>${badge}</div>`;
+    }).join("");
+  } catch (e) {
+    box.innerHTML = `<div class="status">记录加载失败。</div>`;
+  }
+}
+
+loadArticle();
+loadHistory();
+</script>
+</body>
+</html>
