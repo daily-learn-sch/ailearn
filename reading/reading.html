@@ -148,7 +148,7 @@ function fmtMin(s){ const m = Math.floor(s/60); return m + "′"; }
 
 let article = null, vocabMap = {}, tapped = new Set();
 let elapsed = 0, curSec = null, sectionSecs = {};
-let answers = [], qIdx = 0, sessionSaved = false;
+let answers = [], qIdx = 0, sessionSaved = false, extMode = false;
 
 // ---------- 计时 ----------
 function startClock(){
@@ -167,6 +167,11 @@ function renderRing(){
 }
 function refreshGate(){
   const btn = document.getElementById("startQuizBtn"), hint = document.getElementById("gateHint");
+  if (extMode) {
+    if (elapsed >= 1800) { if (btn.disabled) { btn.disabled = false; hint.textContent = "⏰ 已读满 30 分钟，可以打卡了。"; } }
+    else { btn.disabled = true; hint.textContent = `外链模式：已读 ${Math.floor(elapsed/60)} / 30 分钟，读满后在本页打卡。`; }
+    return;
+  }
   if (!article || !article.quiz || article.quiz.length === 0) return;
   const need = Math.floor((article.est_minutes || 10) * 60 * 0.4);
   if (elapsed >= need) {
@@ -224,10 +229,13 @@ function renderArticle(){
     document.getElementById("artBody").classList.remove("hidden");
     document.getElementById("artBody").innerHTML = `
       <div class="step-badge">外链阅读</div>
-      <p class="status">这篇文章站内版没生成，直接去原文读（30 分钟沉浸同样生效），回来告诉我读了几分钟即可打卡。</p>
+      <p class="status">这篇文章站内版没生成，直接去原文读；本页计时环会继续跑，读满 30 分钟后回到本页点按钮打卡。</p>
       ${a.url ? `<a class="btn" href="${esc(a.url)}" target="_blank" rel="noopener">去原文阅读 →</a>` : ""}`;
     document.getElementById("startQuizBtn").disabled = true;
-    document.getElementById("gateHint").textContent = "外链模式：无站内测试，完成阅读后在聊天里告诉 Muse 即可。";
+    document.getElementById("gateHint").textContent = "外链模式：读满 30 分钟后在本页打卡（不用回聊天）。";
+    extMode = true;
+    document.getElementById("startQuizBtn").textContent = "✅ 读满 30 分钟打卡";
+    document.getElementById("startQuizBtn").onclick = extCheckin;
     return;
   }
   document.getElementById("artBody").classList.remove("hidden");
@@ -273,7 +281,7 @@ async function lookup(word){
     document.getElementById("lkPos").textContent = m.partOfSpeech || "";
     document.getElementById("lkMean").textContent = "英英释义：" + m.definitions[0].definition;
   } catch (e) {
-    document.getElementById("lkMean").textContent = "没查到释义，记下来稍后问 Muse。";
+    document.getElementById("lkMean").innerHTML = `站内词库暂未收录。<a href="https://dictionary.cambridge.org/dictionary/english-chinese-simplified/${encodeURIComponent(w)}" target="_blank" rel="noopener" style="color:#9ecbff;text-decoration:underline">去剑桥词典查 →</a>`;
   }
 }
 document.addEventListener("click", e => {
@@ -354,6 +362,17 @@ function finishQuiz(){
     ${passed ? "" : `<button class="btn" onclick="location.reload()">再读一遍</button><button class="btn secondary" id="retryQuiz">直接重测</button>`}`;
   const rq = document.getElementById("retryQuiz");
   if (rq) rq.onclick = () => { document.getElementById("resultWrap").classList.add("hidden"); document.getElementById("quizWrap").classList.remove("hidden"); startQuiz(); };
+  rw.scrollIntoView({behavior:"smooth"});
+}
+function extCheckin(){
+  saveSession(null, true);
+  document.getElementById("articleWrap").classList.add("hidden");
+  document.getElementById("quizGate").classList.add("hidden");
+  const rw = document.getElementById("resultWrap");
+  rw.classList.remove("hidden");
+  rw.innerHTML = `<div class="step-badge">外链阅读</div>
+    <div class="score-big" style="color:#34c759">✅</div>
+    <p class="status" style="text-align:center">今日阅读打卡成功！沉浸阅读 ${Math.round(elapsed/60)} 分钟 · 查了 ${tapped.size} 个词</p>`;
   rw.scrollIntoView({behavior:"smooth"});
 }
 async function saveSession(score, passed){
