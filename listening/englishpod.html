@@ -204,6 +204,13 @@ input[type=range]{width:100%;margin:10px 0;accent-color:#4a90d9}
 <audio id="segPlayer" preload="metadata" style="display:none"></audio>
 
 <script>
+// 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
+const PAGE_V = "20261020-2340";
+fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
+  const m = t.match(/const PAGE_V = "([^"]+)"/);
+  if (m && m[1] !== PAGE_V) location.reload();
+}).catch(() => {});
+
 const SUPABASE_URL = "https://qydtzdewqkzonzwmxapa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_979g0z6Xf84og_vjDliW-Q_Jyia_y4N";
 const SBH = {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json"};
