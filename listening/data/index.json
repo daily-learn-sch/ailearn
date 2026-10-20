@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-10-21",
+      "topic": "Buying a used bike at the flea market",
+      "topic_cn": "旧货市场淘二手自行车",
+      "level": "A2",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-21.mp3",
+      "data": "data/2026-10-21.json"
+    },
+    {
       "date": "2026-10-20",
       "topic": "An evening at the book fair",
       "topic_cn": "书展之夜",
@@ -108,5 +117,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-10-20"
+  "updated": "2026-10-21"
 }
