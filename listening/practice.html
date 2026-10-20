@@ -641,16 +641,58 @@ async function sendToMuse(i){
   const note = document.createElement("div");
   note.className = "status"; note.textContent = "发送中…"; box.appendChild(note);
   try{
-    await sbPost("shadowing_submissions", {
+    const r = await sbPost("shadowing_submissions", {
       drill_date: drill.date, sentence_idx: i,
       expected: s.text, transcribed: st.transcribed || "", score: st.result ? st.result.score : null,
       audio_url: st.audio_url || null
-    });
-    note.textContent = "✅ 已发送，Muse 会在聊天里给你逐句点评";
+    }, "return=representation");
+    const row = (await r.json())[0] || {};
+    if(st.transcribed){
+      note.textContent = "✅ 已发送，Muse 会在聊天里给你逐句点评";
+    }else{
+      // iPhone：浏览器转写不可用，等服务端 Whisper 转写
+      note.textContent = "☁️ 已发送，服务端转写中（约1-3分钟），完成后自动打分…";
+      if(row.id) pollTranscription(row.id, i, box);
+      else note.textContent = "⚠️ 发送成功但没拿到记录ID，录音已保存，可回放";
+    }
   }catch(e){
     note.textContent = "⚠️ 发送失败（表可能还没建好），稍后再试";
     btn.disabled = false;
   }
+}
+
+// 服务端转写轮询（iPhone 用）：拿到文字后自动打分并把分数回写到该行
+async function pollTranscription(rowId, i, box){
+  const t0 = Date.now();
+  while(Date.now() - t0 < 6*60*1000){
+    await new Promise(r=>setTimeout(r, 10000));
+    let t = "";
+    try{
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/shadowing_submissions?id=eq.${rowId}&select=transcribed`, {headers: SBH});
+      const j = await r.json();
+      t = (j[0] && j[0].transcribed) || "";
+    }catch(e){}
+    if(t && t !== "__working__"){
+      const st = shRec[i];
+      st.transcribed = t;
+      submitShadowScore(i);
+      document.getElementById("shadowScore"+i).insertAdjacentHTML("afterbegin",
+        `<div class="status">识别结果（服务端转写）：${esc(t)}</div>`);
+      const btn = document.getElementById("sendBtn"+i);
+      btn.disabled = true; btn.textContent = "已发送 ✅";
+      try{
+        await fetch(`${SUPABASE_URL}/rest/v1/shadowing_submissions?id=eq.${rowId}`, {
+          method:"PATCH", headers:{...SBH, "Prefer":"return=minimal"},
+          body: JSON.stringify({score: st.result.score})
+        });
+      }catch(e){}
+      return;
+    }
+  }
+  const note = document.createElement("div");
+  note.className = "status";
+  note.textContent = "⚠️ 转写超时（可能排队中），录音已保存；可回放自查，或过几分钟刷新页面重试";
+  box.appendChild(note);
 }
 let shadowAudio = null;
 function playShadow(i){
