@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📻 EnglishPod365 每日一课</title>
+<title>📻 EnglishPod365 每日一课 · 五阶段精听</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#333;max-width:800px;margin:0 auto;padding:20px}
@@ -18,11 +18,13 @@ audio{width:100%;margin:8px 0}
 .btn:disabled{background:#ccc;cursor:default}
 .btn.secondary{background:#eee;color:#333}
 .btn.ghost{background:#fff;color:#4a90d9;border:1px solid #4a90d9}
+.btn.small{padding:6px 14px;font-size:13px;margin-top:8px}
+.btn.green{background:#22a06b}
 .view{display:none}
 .view.active{display:block}
 .step-badge{display:inline-block;background:#e8f1fc;color:#2b6cb0;font-size:12px;border-radius:20px;padding:2px 12px;margin-bottom:10px}
 .timer{font-size:13px;color:#888;margin-top:8px}
-.status{font-size:13px;color:#888;margin-top:8px}
+.status{font-size:13px;color:#888;margin-top:8px;line-height:1.7}
 .done-check{font-size:3em;text-align:center;margin:10px 0}
 .summary-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:15px}
 .summary-row:last-child{border-bottom:none}
@@ -30,6 +32,7 @@ audio{width:100%;margin:8px 0}
 .summary-row .v{font-weight:600}
 select.chap{font-size:15px;padding:8px 12px;border-radius:8px;border:1px solid #ccc;max-width:100%}
 .done-banner{background:#e6f7ee;border:1px solid #bfe6cf;color:#1c7a3d;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:14px;line-height:1.8}
+.warn-banner{background:#fff7e6;border:1px solid #f0d9a0;color:#8a6d1a;border-radius:10px;padding:10px 14px;margin:12px 0;font-size:13px;line-height:1.7;display:none}
 .flip-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
 .flip-card{perspective:700px;cursor:pointer;min-height:120px;-webkit-tap-highlight-color:transparent}
 .flip-inner{position:relative;width:100%;height:100%;min-height:120px;transition:transform .45s;transform-style:preserve-3d}
@@ -40,220 +43,1117 @@ select.chap{font-size:15px;padding:8px 12px;border-radius:8px;border:1px solid #
 .flip-front .pos{color:#888;font-size:12px}
 .flip-front .tap{color:#2b6cb0;font-size:11px;margin-top:4px}
 .flip-back{background:#fff7e6;transform:rotateY(180deg);font-size:14px;line-height:1.7;color:#5a4a1f}
-.transcript{background:#fafafa;border:1px solid #eee;border-radius:8px;padding:12px;white-space:pre-line;line-height:1.9;font-size:15px;margin:10px 0}
+.transcript{background:#fafafa;border:1px solid #eee;border-radius:8px;padding:12px;line-height:1.9;font-size:15px;margin:10px 0}
 .locked-note{font-size:13px;color:#999;background:#f5f5f5;border-radius:8px;padding:10px 12px;margin-top:8px}
+.stage.locked{opacity:.55}
+.stage.locked .stage-body{pointer-events:none;filter:grayscale(.4)}
+.stage .lock-ico{margin-left:6px}
+textarea{width:100%;min-height:90px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;line-height:1.7;resize:vertical;margin-top:8px}
+textarea:focus{outline:none;border-color:#4a90d9}
+.diff{line-height:2;margin-top:8px;font-size:14px}
+.diff .ok{color:#333}
+.diff .miss{background:#ffe0e0;border-radius:4px;padding:1px 4px;color:#c00}
+.diff .extra{background:#e0f0ff;border-radius:4px;padding:1px 4px;color:#06c;text-decoration:line-through}
+.mistake-list{margin-top:8px;font-size:13px;color:#666}
+.mistake-list li{margin-bottom:6px;list-style:none}
+.sen-result{margin-top:10px;font-size:14px}
+.score-big{font-size:2em;font-weight:700;color:#4a90d9}
+input[type=range]{width:100%;margin:10px 0;accent-color:#4a90d9}
+.rate-val{font-size:1.6em;font-weight:700;color:#4a90d9}
+.tag{display:inline-block;border-radius:20px;padding:2px 10px;font-size:12px;margin:2px 4px 2px 0;cursor:pointer;border:1px solid #ddd;background:#f5f5f5;color:#999}
+.tag.on-A{background:#ffe0e0;color:#c00;border-color:#f3b8b8}
+.tag.on-B{background:#e0f0ff;color:#06c;border-color:#a9cdf3}
+.tag.on-C{background:#fff3cd;color:#8a6d1a;border-color:#ecd28a}
+.tag.static{cursor:default}
+.sen-line{padding:10px 12px;border-radius:8px;margin:6px 0;background:#fafafa;border:1px solid #eee;line-height:1.8;font-size:15px}
+.sen-line.weak{background:#fff8d6;border-color:#ecd28a}
+.sen-line .spk{color:#2b6cb0;font-weight:600;margin-right:6px}
+.sen-line .plays{font-size:12px;color:#888}
+.review-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.review-item:last-child{border-bottom:none}
+.shadow-cell{border:1px solid #eee;border-radius:10px;padding:12px 14px;margin:10px 0;background:#fcfcfc}
+.shadow-cell .orig{line-height:1.8;font-size:15px}
+.rec-result{font-size:14px;background:#f0f7ff;border-radius:8px;padding:8px 12px;margin:8px 0;line-height:1.7;display:none}
+.btn.rec-on{background:#e05252}
+.btn.rec-on:hover{background:#c93f3f}
+.checkline{font-size:14px;margin-top:10px;display:block;line-height:1.7}
+.progress-note{font-size:13px;color:#2b6cb0;background:#e8f1fc;border-radius:8px;padding:8px 12px;margin-top:8px;line-height:1.7}
 @media (max-width:480px){.flip-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <a href="./" class="back">← 听力首页</a>
 <h1>📻 EnglishPod365 每日一课</h1>
-<div class="subtitle">每天一章：盲听抓大意 → 学 Key Vocabulary → 对照文本跟读</div>
-<div style="margin:8px 0 4px"><label style="font-size:14px;color:#555">选择章节：</label>
-<select id="chapSelect" class="chap" onchange="selectChapter(this.value)"></select></div>
+<div class="subtitle">五阶段门禁精听：盲听 → 逐句听写 → 文本精听 → 影子跟读 → 复测打卡</div>
+<div class="warn-banner" id="globalWarn"></div>
 
-<!-- ============ 训练 ============ -->
-<div id="view-train">
-  <!-- 开始 -->
-  <div class="card view active" id="v-start">
-    <div class="step-badge">今日课程</div>
-    <h3 id="chapTitle">加载中…</h3>
-    <p class="status" id="chapMeta" style="margin-bottom:8px"></p>
-    <div class="done-banner" id="doneBanner" style="display:none"></div>
-    <p class="status" style="line-height:1.8">三步走：盲听 → 学词汇（翻卡片）→ 跟读打卡。</p>
-    <button class="btn" id="startBtn" onclick="startChapter()">开始学习</button>
-    <a class="btn secondary" id="pdfLink" href="#" target="_blank" style="text-decoration:none">📕 PDF 讲义</a>
+<div id="viewMain">
+  <div style="margin:8px 0 4px"><label style="font-size:14px;color:#555">选择章节：</label>
+  <select id="chapSelect" class="chap" onchange="selectChapter(this.value)"></select></div>
+  <p class="status" id="chapMeta"></p>
+  <p class="status" id="noStampNote" style="display:none;color:#b7791f">本章暂无逐句时间戳</p>
+  <div class="done-banner" id="chapterDoneBanner" style="display:none"></div>
+
+  <!-- 今日复习 -->
+  <div class="card">
+    <div class="step-badge">今日复习</div>
+    <h3>🔁 今日复习</h3>
+    <div id="reviewList"><span class="status">加载中…</span></div>
   </div>
 
-  <!-- 步骤1 盲听 -->
-  <div class="card view" id="v-s1">
-    <div class="step-badge">步骤 1 / 3 · 盲听</div>
-    <h3>👂 先盲听 2 遍，抓大意</h3>
-    <p class="status">谁在跟谁谈什么？不用每个词都懂。</p>
-    <audio id="s1Player" controls preload="metadata"></audio>
-    <div class="timer">播放次数：<span id="s1Plays">0</span></div><br>
-    <button class="btn" onclick="goStep(2)">我已听完 →</button>
+  <!-- 阶段1 盲听 -->
+  <div class="card stage" id="stage1">
+    <div class="step-badge">阶段 1 / 5 · 盲听<span class="lock-ico" id="lock1" style="display:none">🔒</span></div>
+    <h3>👂 盲听对话 2 遍，抓大意</h3>
+    <div class="stage-body">
+      <p class="status">只听对话段，不看文本。听满 2 遍（按有效收听时长计，快进不算）后解锁自评。</p>
+      <audio id="blind1" controls preload="metadata"></audio>
+      <div class="timer" id="blind1Info">已听 0 / 2 遍</div>
+      <div id="rate1Box" style="display:none">
+        <p class="status" style="margin-top:12px">凭感觉，你听懂了多少？</p>
+        <div style="text-align:center"><span class="rate-val" id="rate1Val">50%</span></div>
+        <input type="range" id="rate1" min="0" max="100" value="50" oninput="document.getElementById('rate1Val').textContent=this.value+'%'">
+        <button class="btn" id="rate1Btn" onclick="submitRating1()">提交自评</button>
+      </div>
+      <div class="status" id="s1Status"></div>
+    </div>
   </div>
 
-  <!-- 步骤2 词汇 -->
-  <div class="card view" id="v-s2">
-    <div class="step-badge">步骤 2 / 3 · 学词汇</div>
-    <h3>📖 Key Vocabulary</h3>
-    <p class="status">点卡片翻面看中文释义，翻完再下一步</p>
-    <div class="flip-grid" id="vocabGrid"></div>
-    <div class="timer">已翻开 <span id="flipCount">0</span> / <span id="flipTotal">0</span></div><br>
-    <button class="btn" id="toS3Btn" onclick="goStep(3)" disabled>记住了，下一步 →</button>
-    <div class="locked-note" id="flipHint">把卡片都翻开才能解锁下一步</div>
+  <!-- 阶段2 逐句听写 -->
+  <div class="card stage locked" id="stage2">
+    <div class="step-badge">阶段 2 / 5 · 逐句听写<span class="lock-ico" id="lock2">🔒</span></div>
+    <h3>✍️ 一句一句听写，判完看清错点再下一句</h3>
+    <div class="stage-body">
+      <div id="dictArea"></div>
+      <div id="dictSummary"></div>
+      <div class="status" id="s2Status"></div>
+    </div>
   </div>
 
-  <!-- 步骤3 跟读 -->
-  <div class="card view" id="v-s3">
-    <div class="step-badge">步骤 3 / 3 · 跟读</div>
-    <h3>🗣️ 对照文本跟读 1–2 遍</h3>
-    <audio id="s3Player" controls preload="metadata"></audio>
-    <div class="transcript" id="transcriptBox"></div>
-    <button class="btn" id="doneBtn" style="background:#22a06b" onclick="finishChapter()">完成打卡 ✅</button>
-    <div class="status" id="doneStatus"></div>
+  <!-- 阶段3 文本精听 -->
+  <div class="card stage locked" id="stage3">
+    <div class="step-badge">阶段 3 / 5 · 文本精听<span class="lock-ico" id="lock3">🔒</span></div>
+    <h3>🔍 对照文本精听，弱句重点多听</h3>
+    <div class="stage-body">
+      <p class="status">黄色的是阶段2的弱句。点每句的播放按钮精听；弱句每句至少播 2 次才达标（没有弱句时任意 3 句各播 2 次）。</p>
+      <div id="transcriptList"></div>
+      <div class="progress-note" id="stage3Progress">达标进度：-</div>
+      <h3 style="margin-top:18px">📖 Key Vocabulary</h3>
+      <p class="status">点卡片翻面看中文释义</p>
+      <div class="flip-grid" id="vocabGrid"></div>
+      <button class="btn" id="stage3DoneBtn" onclick="finishStage3()" disabled>完成阶段 3 →</button>
+      <div class="status" id="s3Status"></div>
+    </div>
   </div>
 
-  <!-- 完成 -->
-  <div class="card view" id="v-done">
-    <div class="done-check">🎉</div>
-    <h3 style="text-align:center">本章完成</h3>
-    <div id="doneSummary"></div>
-    <div style="text-align:center;margin-top:8px">
-      <button class="btn ghost" onclick="location.href='./'">返回听力首页</button>
-      <button class="btn secondary" onclick="restartChapter()">再学一次</button>
+  <!-- 阶段4 影子跟读 -->
+  <div class="card stage locked" id="stage4">
+    <div class="step-badge">阶段 4 / 5 · 影子跟读<span class="lock-ico" id="lock4">🔒</span></div>
+    <h3>🗣️ 弱句跟读：先慢速、再原速，各录一遍</h3>
+    <div class="stage-body">
+      <p class="status">录音会自动存云端并由服务端 Whisper 转写打分（约 1–3 分钟回填，分数不设门槛，录完即可）。</p>
+      <div id="shadowArea"></div>
+      <div class="status" id="s4Status"></div>
+    </div>
+  </div>
+
+  <!-- 阶段5 复测+打卡 -->
+  <div class="card stage locked" id="stage5">
+    <div class="step-badge">阶段 5 / 5 · 复测 + 打卡<span class="lock-ico" id="lock5">🔒</span></div>
+    <h3>🎯 再盲听复测，和第一次对比</h3>
+    <div class="stage-body">
+      <p class="status">再盲听对话段 2 遍，然后自评第二次，并重做弱句里错最多的 2–3 句听写。</p>
+      <audio id="blind2" controls preload="metadata"></audio>
+      <div class="timer" id="blind2Info">已听 0 / 2 遍</div>
+      <div id="rate2Box" style="display:none">
+        <p class="status" style="margin-top:12px">第二次自评：这次听懂了多少？</p>
+        <div style="text-align:center"><span class="rate-val" id="rate2Val">50%</span></div>
+        <input type="range" id="rate2" min="0" max="100" value="50" oninput="document.getElementById('rate2Val').textContent=this.value+'%'">
+      </div>
+      <div id="retestArea" style="margin-top:14px"></div>
+      <button class="btn" id="genSummaryBtn" onclick="genSummary()" disabled>生成汇总</button>
+      <div id="finalSummary" style="margin-top:12px"></div>
+      <button class="btn green" id="finishBtn" onclick="finishChapter()" disabled>完成打卡 ✅</button>
+      <div id="finishResult"></div>
+      <div class="status" id="s5Status"></div>
     </div>
   </div>
 </div>
+
+<!-- ============ 轻复习流（独立小视图） ============ -->
+<div id="viewReview" style="display:none">
+  <div class="card">
+    <div class="step-badge">轻复习</div>
+    <h3 id="revTitle">复习</h3>
+    <p class="status">第 1 步：盲听对话段 1 遍</p>
+    <audio id="revPlayer" controls preload="metadata"></audio>
+    <div class="timer" id="revBlindInfo">已听 0 / 1 遍</div>
+    <div id="revDictBox" style="display:none">
+      <p class="status" style="margin-top:12px">第 2 步：弱句听写抽测（判完停在本句看错点，手动下一句）</p>
+      <div id="revDictArea"></div>
+      <p class="status" style="margin-top:12px">第 3 步：自评这次听懂了多少</p>
+      <div style="text-align:center"><span class="rate-val" id="revRateVal">50%</span></div>
+      <input type="range" id="revRate" min="0" max="100" value="50" oninput="document.getElementById('revRateVal').textContent=this.value+'%'">
+      <button class="btn green" id="revDoneBtn" onclick="finishReview()" disabled>完成复习</button>
+    </div>
+    <div class="status" id="revStatus"></div>
+    <br><button class="btn secondary" onclick="exitReview()">← 返回</button>
+  </div>
+</div>
+
+<audio id="segPlayer" preload="metadata" style="display:none"></audio>
 
 <script>
 const SUPABASE_URL = "https://qydtzdewqkzonzwmxapa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_979g0z6Xf84og_vjDliW-Q_Jyia_y4N";
 const SBH = {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json"};
 
-let chapters = [];
-let chapter = null;
-let flipped = new Set();
-
+// ---------- 通用小工具（移植自 practice.html） ----------
+function norm(s){ return s.toLowerCase().replace(/[^a-z0-9'\s]/g,"").split(/\s+/).filter(Boolean); }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
-function showView(id){
-  document.querySelectorAll("#view-train .view").forEach(v => v.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
+function scoreText(expected, actual){
+  const exp = norm(expected), got = norm(actual);
+  const maxLen = Math.max(exp.length, got.length);
+  let correct = 0; const mistakes = []; let html = "";
+  for(let i=0;i<maxLen;i++){
+    const e = exp[i], g = got[i];
+    if(e === g){ correct++; html += '<span class="ok">' + esc(e||"") + " </span>"; }
+    else{
+      if(e) html += '<span class="miss">' + esc(e) + "</span> ";
+      if(g && g !== e) html += '<span class="extra">' + esc(g) + "</span> ";
+      mistakes.push({expected: e || "(缺失)", actual: g || "(未写)"});
+    }
+  }
+  const score = exp.length ? Math.round(correct/exp.length*100) : 0;
+  return {score, mistakes, html};
+}
+function levenshtein(a, b){
+  const m = a.length, n = b.length;
+  if(!m) return n; if(!n) return m;
+  let prev = []; for(let j=0;j<=n;j++) prev[j] = j;
+  for(let i=1;i<=m;i++){
+    const cur = [i];
+    for(let j=1;j<=n;j++){
+      cur[j] = Math.min(prev[j]+1, cur[j-1]+1, prev[j-1] + (a[i-1]===b[j-1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[n];
+}
+function pad2(n){ return String(n).padStart(2,"0"); }
+function localDateStr(d){
+  d = d || new Date();
+  return d.getFullYear() + "-" + pad2(d.getMonth()+1) + "-" + pad2(d.getDate());
+}
+function addDays(baseStr, days){
+  const p = baseStr.split("-").map(Number);
+  const d = new Date(p[0], p[1]-1, p[2] + days);
+  return localDateStr(d);
+}
+function showWarn(msg){
+  const el = document.getElementById("globalWarn");
+  el.style.display = "block";
+  el.textContent = "⚠️ " + msg + "（本地进度照常推进，不影响继续学习）";
 }
 
+// ---------- Supabase REST helper（照 practice.html 的 sbPost 风格） ----------
+async function sbGet(table, query){
+  const r = await fetch(SUPABASE_URL + "/rest/v1/" + table + (query ? "?" + query : ""), {headers: SBH});
+  if(!r.ok) throw new Error(table + " GET " + r.status);
+  return r.json();
+}
+async function sbPost(table, body, prefer){
+  const r = await fetch(SUPABASE_URL + "/rest/v1/" + table, {
+    method: "POST", headers: Object.assign({}, SBH, {"Prefer": prefer || "return=minimal"}),
+    body: JSON.stringify(body)
+  });
+  if(!r.ok) throw new Error(table + " POST " + r.status);
+  return r;
+}
+async function sbPatch(table, query, body){
+  const r = await fetch(SUPABASE_URL + "/rest/v1/" + table + "?" + query, {
+    method: "PATCH", headers: Object.assign({}, SBH, {"Prefer": "return=minimal"}),
+    body: JSON.stringify(body)
+  });
+  if(!r.ok) throw new Error(table + " PATCH " + r.status);
+  return r;
+}
+// 写库统一入口：失败可见提示、不阻塞流程
+async function sbWrite(fn, what){
+  try{ return await fn(); }
+  catch(e){ showWarn(what + "保存失败：" + e.message); return null; }
+}
+async function patchSession(body, what){
+  if(!session || !session.id) return null;
+  const r = await sbWrite(function(){ return sbPatch("englishpod_sessions", "id=eq." + session.id, body); }, what || "进度");
+  if(r) Object.assign(session, body);
+  return r;
+}
+</script>
+<script>
+// ---------- 全局状态 ----------
+let chapters = [];
+let chapter = null;          // 当前章节（主流程）
+let sentences = [];          // [{speaker,text,start,end}]，无时间戳时 start/end 为 null
+let hasStamps = false;       // 是否有逐句时间戳（turns）
+let dlgRange = null;         // [s,e] 秒；无时间戳时为 null（整篇）
+let completedSet = new Set(); // englishpod_completions 里的章节
+let session = null;          // 当前 englishpod_sessions 行
+let stageDone = [false, false, false, false, false]; // 阶段1..5 是否完成
+
+function buildSentences(ch){
+  if(ch.turns && ch.turns.length){
+    return ch.turns.map(function(t){ return {speaker: t.speaker || "", text: t.text, start: (typeof t.start === "number" ? t.start : null), end: (typeof t.end === "number" ? t.end : null)}; });
+  }
+  // 降级：按 transcript 行切句（"A: ...." 一行一句，空行分隔）
+  const out = [];
+  String(ch.transcript || "").split(/\n+/).forEach(function(line){
+    const s = line.trim();
+    if(!s) return;
+    const m = s.match(/^([A-Za-z])\s*:\s*(.*)$/);
+    if(m) out.push({speaker: m[1], text: m[2], start: null, end: null});
+    else out.push({speaker: "", text: s, start: null, end: null});
+  });
+  return out;
+}
+function computeRange(ch, sens){
+  if(ch.dialogue_range && ch.dialogue_range.length === 2) return [ch.dialogue_range[0], ch.dialogue_range[1]];
+  if(sens.length && sens[0].start != null && sens[sens.length-1].end != null) return [sens[0].start, sens[sens.length-1].end];
+  return null;
+}
+function audioUrl(ch){ return ch.dialogue_audio; } // 旧页面直接用 dialogue_audio 原值（已含 englishpod/ 前缀），照旧拼法
+
+// ---------- 区间播放器（逐句播放共用一个隐藏 audio） ----------
+const segAudio = document.getElementById("segPlayer");
+let segState = {end: null, cb: null, fired: true};
+segAudio.addEventListener("timeupdate", function(){
+  if(segState.end != null && segAudio.currentTime >= segState.end){
+    segAudio.pause();
+    if(!segState.fired){ segState.fired = true; if(segState.cb) segState.cb(); }
+  }
+});
+segAudio.addEventListener("ended", function(){
+  if(segState.end == null && !segState.fired){ segState.fired = true; if(segState.cb) segState.cb(); }
+});
+// 播放某章某句：有时间戳则区间播放并在结束时回调；无时间戳则整篇播放（不做区间限制）
+function playSegment(ch, sens, idx, rate, cb){
+  const s = sens[idx];
+  if(!s) return;
+  try{ segAudio.pause(); }catch(e){}
+  segState = {end: (s.end != null ? s.end : null), cb: cb || null, fired: false};
+  segAudio.src = audioUrl(ch);
+  segAudio.playbackRate = rate || 1;
+  segAudio.currentTime = (s.start != null ? s.start : 0);
+  const p = segAudio.play();
+  if(p && p.catch) p.catch(function(){ segState.fired = true; });
+}
+
+// ---------- 盲听计数器（阶段1/阶段5/复习共用逻辑，各自独立实例） ----------
+// 有效收听：相邻两次 timeupdate 的 currentTime 差在 0~2 秒内才累加（快进/拖动不计）；
+// 累计 >= 区间长度*0.9 记 1 遍并清零重计。有区间时 seek 到起点、到终点自动 pause。
+function makeBlindListen(audioEl, infoEl, opts){
+  const st = {acc: 0, last: null, passes: 0, needed: opts.needed, done: false};
+  function segLen(){
+    if(opts.getRange && opts.getRange()){ const r = opts.getRange(); return r[1] - r[0]; }
+    return isFinite(audioEl.duration) && audioEl.duration > 0 ? audioEl.duration : 0;
+  }
+  function render(){
+    infoEl.textContent = "已听 " + st.passes + " / " + st.needed + " 遍" +
+      (segLen() ? "（本遍进度 " + Math.min(100, Math.round(st.acc / (segLen()*0.9) * 100)) + "%）" : "");
+  }
+  audioEl.addEventListener("play", function(){
+    const r = opts.getRange && opts.getRange();
+    if(r && (audioEl.currentTime < r[0] - 0.05 || audioEl.currentTime >= r[1])) audioEl.currentTime = r[0];
+    st.last = audioEl.currentTime;
+  });
+  audioEl.addEventListener("seeking", function(){ st.last = null; });
+  audioEl.addEventListener("timeupdate", function(){
+    const ct = audioEl.currentTime;
+    const r = opts.getRange && opts.getRange();
+    if(st.last != null){
+      const dt = ct - st.last;
+      if(dt > 0 && dt <= 2) st.acc += dt;
+    }
+    st.last = ct;
+    if(r && ct >= r[1]) audioEl.pause();
+    const len = segLen();
+    if(len && st.acc >= len * 0.9){
+      st.passes++; st.acc = 0;
+      if(st.passes >= st.needed && !st.done){ st.done = true; if(opts.onDone) opts.onDone(); }
+      else if(opts.onPass) opts.onPass(st.passes);
+    }
+    render();
+  });
+  audioEl.addEventListener("ended", function(){
+    const len = segLen();
+    if(len && st.acc >= len * 0.9){
+      st.passes++; st.acc = 0;
+      if(st.passes >= st.needed && !st.done){ st.done = true; if(opts.onDone) opts.onDone(); }
+    }
+    render();
+  });
+  return {
+    reset: function(){ st.acc = 0; st.last = null; st.passes = 0; st.done = false; render(); },
+    setDone: function(){ st.passes = st.needed; st.done = true; render(); },
+    passes: function(){ return st.passes; },
+    render: render
+  };
+}
+let blind1 = null, blind2 = null, revBlind = null;
+
+// ---------- 阶段锁定/解锁 ----------
+function applyLocks(){
+  for(let i=0;i<5;i++){
+    const card = document.getElementById("stage" + (i+1));
+    const lock = document.getElementById("lock" + (i+1));
+    const unlocked = (i === 0) || stageDone[i-1];
+    if(unlocked){ card.classList.remove("locked"); if(lock) lock.style.display = "none"; }
+    else{ card.classList.add("locked"); if(lock) lock.style.display = ""; }
+  }
+}
+</script>
+<script>
+// ---------- 加载与选章 ----------
 async function load(){
   try{
     const d = await (await fetch("englishpod/data.json")).json();
-    chapters = d.chapters.slice().reverse(); // 最新在前
-    const sel = document.getElementById("chapSelect");
-    sel.innerHTML = chapters.map(c =>
-      `<option value="${c.id}">${c.id}｜${esc(c.title)}</option>`).join("");
-    selectChapter(chapters[0].id);
+    chapters = d.chapters.slice().reverse(); // 最新在前（沿用旧页面）
   }catch(e){
-    document.getElementById("chapTitle").textContent = "加载失败，请刷新重试";
-  }
-}
-function selectChapter(id){
-  chapter = chapters.find(c => c.id === id) || chapters[0];
-  document.getElementById("chapSelect").value = chapter.id;
-  flipped = new Set();
-  renderStart();
-  checkCompletion();
-}
-function renderStart(){
-  document.getElementById("chapTitle").textContent = `${chapter.id}｜${chapter.title}`;
-  document.getElementById("chapMeta").textContent = `${chapter.date} · ${chapter.vocabulary.length} 个生词`;
-  document.getElementById("pdfLink").href = chapter.pdf;
-  document.getElementById("doneBanner").style.display = "none";
-  document.getElementById("startBtn").textContent = "开始学习";
-  showView("v-start");
-}
-async function checkCompletion(){
-  const banner = document.getElementById("doneBanner");
-  try{
-    const r = await fetch(
-      `${SUPABASE_URL}/rest/v1/englishpod_completions?chapter=eq.${encodeURIComponent(chapter.id)}&select=completed_at`,
-      {headers: SBH});
-    if(!r.ok) throw new Error("http "+r.status);
-    const rows = await r.json();
-    if(rows.length){
-      const dt = new Date(rows[0].completed_at);
-      const ds = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
-      banner.style.display = "block";
-      banner.innerHTML = `✅ 本章已于 ${ds} 打卡完成<br><button class="btn small secondary" style="margin-top:8px;padding:6px 14px;font-size:13px" onclick="document.getElementById('doneBanner').style.display='none';document.getElementById('startBtn').textContent='重新练习'">重新练习</button>`;
-      document.getElementById("startBtn").textContent = "重新练习";
-    }
-  }catch(e){ /* 云端不可用时静默跳过，不阻塞学习 */ }
-}
-
-function startChapter(){
-  // 步骤1
-  const p1 = document.getElementById("s1Player");
-  p1.src = chapter.dialogue_audio;
-  document.getElementById("s1Plays").textContent = "0";
-  showView("v-s1");
-}
-document.getElementById("s1Player").addEventListener("play", ()=>{
-  const el = document.getElementById("s1Plays");
-  el.textContent = parseInt(el.textContent||"0")+1;
-});
-
-function goStep(n){
-  if(n === 2){
-    // 步骤2：翻卡片
-    flipped = new Set();
-    const g = document.getElementById("vocabGrid");
-    g.innerHTML = chapter.vocabulary.map((v,i)=>`
-      <div class="flip-card" id="fc${i}" onclick="flipCard(${i})">
-        <div class="flip-inner">
-          <div class="flip-face flip-front">
-            <span class="w">${esc(v.word)}</span>
-            <span class="pos">${esc(v.pos||"")}</span>
-            <span class="tap">👆 点我翻面</span>
-          </div>
-          <div class="flip-face flip-back">${esc(v.meaning)}</div>
-        </div>
-      </div>`).join("");
-    document.getElementById("flipTotal").textContent = chapter.vocabulary.length;
-    document.getElementById("flipCount").textContent = "0";
-    document.getElementById("toS3Btn").disabled = true;
-    document.getElementById("flipHint").style.display = "block";
-    showView("v-s2");
-  }else if(n === 3){
-    document.getElementById("s3Player").src = chapter.dialogue_audio;
-    document.getElementById("transcriptBox").textContent = chapter.transcript;
-    document.getElementById("doneStatus").textContent = "";
-    document.getElementById("doneBtn").disabled = false;
-    showView("v-s3");
-  }
-}
-function flipCard(i){
-  const el = document.getElementById("fc"+i);
-  if(!el.classList.contains("flipped")){
-    el.classList.add("flipped");
-    flipped.add(i);
-    document.getElementById("flipCount").textContent = flipped.size;
-    if(flipped.size >= chapter.vocabulary.length){
-      document.getElementById("toS3Btn").disabled = false;
-      document.getElementById("flipHint").style.display = "none";
-    }
-  }else{
-    el.classList.remove("flipped");
-  }
-}
-
-async function finishChapter(){
-  const btn = document.getElementById("doneBtn");
-  const st = document.getElementById("doneStatus");
-  btn.disabled = true;
-  st.textContent = "打卡中…";
-  try{
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/englishpod_completions`, {
-      method: "POST",
-      headers: {...SBH, "Prefer": "resolution=merge-duplicates,return=minimal"},
-      body: JSON.stringify({chapter: chapter.id})
-    });
-    if(!r.ok) throw new Error("http "+r.status);
-    st.textContent = "✅ 打卡成功";
-  }catch(e){
-    st.textContent = "⚠️ 打卡失败（云端表可能还没建好），稍后再试";
-    btn.disabled = false;
+    document.getElementById("chapMeta").textContent = "加载失败，请刷新重试";
     return;
   }
-  const row = (k,v)=>`<div class="summary-row"><span class="k">${k}</span><span class="v">${v}</span></div>`;
-  document.getElementById("doneSummary").innerHTML =
-    row("章节", `${chapter.id}｜${esc(chapter.title)}`) +
-    row("生词", `${chapter.vocabulary.length} 个`) +
-    row("状态", "已打卡 ✅");
-  showView("v-done");
+  // 已完成章节集合（下拉里带 ✅）
+  try{
+    const rows = await sbGet("englishpod_completions", "select=chapter");
+    completedSet = new Set(rows.map(function(r){ return r.chapter; }));
+  }catch(e){ /* 查不到不阻塞 */ }
+  renderChapSelect();
+  loadReviews();
+  if(chapters.length) selectChapter(chapters[0].id);
 }
-function restartChapter(){
-  renderStart();
+function renderChapSelect(){
+  const sel = document.getElementById("chapSelect");
+  sel.innerHTML = chapters.map(function(c){
+    return '<option value="' + esc(c.id) + '">' + esc(c.id) + "｜" + esc(c.title) + (completedSet.has(c.id) ? " ✅" : "") + "</option>";
+  }).join("");
+  if(chapter) sel.value = chapter.id;
 }
 
+async function selectChapter(id){
+  chapter = chapters.find(function(c){ return c.id === id; }) || chapters[0];
+  if(!chapter) return;
+  document.getElementById("chapSelect").value = chapter.id;
+  sentences = buildSentences(chapter);
+  hasStamps = !!(chapter.turns && chapter.turns.length && sentences.length && sentences[0].start != null);
+  dlgRange = computeRange(chapter, sentences);
+  document.getElementById("chapMeta").textContent =
+    chapter.id + "｜" + chapter.title + (chapter.date ? " · " + chapter.date : "") +
+    " · " + sentences.length + " 句 · " + ((chapter.vocabulary || []).length) + " 个生词" +
+    (chapter.pdf ? "" : "");
+  document.getElementById("noStampNote").style.display = hasStamps ? "none" : "block";
+  const banner = document.getElementById("chapterDoneBanner");
+  if(completedSet.has(chapter.id)){
+    banner.style.display = "block";
+    banner.textContent = "✅ 本章已打卡完成，可以重新练习一遍";
+  }else banner.style.display = "none";
+  // 音频源（旧页面拼法：直接用 dialogue_audio）
+  document.getElementById("blind1").src = audioUrl(chapter);
+  document.getElementById("blind2").src = audioUrl(chapter);
+  resetAllStages();
+  await restoreOrCreateSession();
+  buildStage2();
+  buildStage3();
+  buildStage4();
+  buildStage5();
+  applyLocks();
+}
+
+function resetAllStages(){
+  session = null;
+  stageDone = [false, false, false, false, false];
+  dictIdx = 0; dictResults = []; dictGraded = false; dictFinished = false;
+  s3Counts = {}; s3Flipped = new Set();
+  shState = {}; shadowRows = {};
+  retestIdxs = []; retestResults = {}; retestGraded = {};
+  summarySaved = false; blind2Done = false; shCompleting = false;
+  document.getElementById("rate1Box").style.display = "none";
+  document.getElementById("rate1").value = 50;
+  document.getElementById("rate1Val").textContent = "50%";
+  document.getElementById("s1Status").textContent = "";
+  document.getElementById("dictSummary").innerHTML = "";
+  document.getElementById("s2Status").textContent = "";
+  document.getElementById("s3Status").textContent = "";
+  document.getElementById("s4Status").textContent = "";
+  document.getElementById("s5Status").textContent = "";
+  document.getElementById("rate2Box").style.display = "none";
+  document.getElementById("finalSummary").innerHTML = "";
+  document.getElementById("finishResult").innerHTML = "";
+  document.getElementById("finishBtn").disabled = true;
+  document.getElementById("genSummaryBtn").disabled = true;
+  if(blind1) blind1.reset();
+  if(blind2) blind2.reset();
+}
+
+// 查该章未完成的最近一条 session 恢复进度；没有则新建
+async function restoreOrCreateSession(){
+  let rows = null;
+  try{
+    rows = await sbGet("englishpod_sessions",
+      "chapter=eq." + encodeURIComponent(chapter.id) + "&completed=eq.false&select=*&order=created_at.desc&limit=1");
+  }catch(e){ showWarn("读取学习进度失败：" + e.message); }
+  if(rows && rows.length){
+    session = rows[0];
+  }else{
+    const r = await sbWrite(function(){
+      return sbPost("englishpod_sessions", {chapter: chapter.id, study_date: localDateStr()}, "return=representation");
+    }, "新建学习记录");
+    if(r){ try{ session = (await r.json())[0] || null; }catch(e){ session = null; } }
+  }
+  if(!session) return;
+  // 按已有字段推断已完成阶段
+  const sr = (session.shadow_rounds && typeof session.shadow_rounds === "object") ? session.shadow_rounds : {};
+  if(session.self_rating_1 != null){
+    stageDone[0] = true;
+    if(blind1) blind1.setDone();
+    document.getElementById("s1Status").textContent = "已恢复进度：阶段 1 已完成（自评 " + session.self_rating_1 + "%）";
+  }
+  if(session.dictation_score != null){
+    stageDone[1] = true;
+    dictFinished = true;
+    document.getElementById("s2Status").textContent = "已恢复进度：阶段 2 已完成（听写 " + session.dictation_score + " 分）";
+  }
+  if(sr.stage3_done) stageDone[2] = true;
+  if(Array.isArray(sr.rounds) && sr.rounds.length && sr.rounds.length >= shadowIdxs().length * 2) stageDone[3] = true;
+}
+
+// ---------- 阶段 1：盲听 + 自评 ----------
+async function submitRating1(){
+  const v = parseInt(document.getElementById("rate1").value, 10);
+  document.getElementById("rate1Btn").disabled = true;
+  await patchSession({self_rating_1: v}, "阶段1自评");
+  stageDone[0] = true;
+  document.getElementById("s1Status").textContent = "✅ 自评已记录：" + v + "%，阶段 2 已解锁";
+  applyLocks();
+  buildStage2();
+  document.getElementById("stage2").scrollIntoView({behavior: "smooth"});
+}
+
+// ---------- 离线词典分片（阅读模块 ../reading/dict/<首字母>.json，懒加载缓存） ----------
+const dictCache = {};   // letter -> Promise<object|null>
+let dictFailed = false;
+function loadDictShard(word){
+  const letter = (word || "").charAt(0).toLowerCase();
+  if(!/^[a-z]$/.test(letter)) return Promise.resolve(null);
+  if(!dictCache[letter]){
+    dictCache[letter] = fetch("../reading/dict/" + letter + ".json")
+      .then(function(r){ if(!r.ok) throw new Error("http " + r.status); return r.json(); })
+      .catch(function(){ dictFailed = true; return null; });
+  }
+  return dictCache[letter];
+}
+async function wordInDict(word){
+  const shard = await loadDictShard(word);
+  if(!shard) return null; // 加载失败 → 调用方按"全部 B"处理
+  const w = word.toLowerCase();
+  return Object.prototype.hasOwnProperty.call(shard, w);
+}
+// 每个错词的 A/B 预标：
+//  先判 B —— e 在词典分片里（常见词）却漏/错，或用户写的 g 与 e 音近（首字母同或编辑距离<=2）；
+//  都不满足（漏写、或写成完全不同的词且 e 不在词典里）→ A；词典分片加载失败则全部预标 B。
+async function classifyMistakes(mistakes){
+  const out = [];
+  for(const m of mistakes){
+    const e = m.expected, g = m.actual;
+    if(!e || e === "(缺失)") continue; // 多写的词不归类
+    const inDict = await wordInDict(e);
+    if(inDict === null){ out.push({word: e, got: g, type: "B"}); continue; }
+    let type;
+    if(inDict) type = "B";
+    else if(g && g !== "(未写)" && (g.charAt(0) === e.charAt(0) || levenshtein(e, g) <= 2)) type = "B";
+    else type = "A";
+    out.push({word: e, got: g, type: type});
+  }
+  return out;
+}
+</script>
+<script>
+// ---------- 阶段 2：逐句听写 ----------
+let dictIdx = 0, dictResults = [], dictGraded = false, dictFinished = false;
+
+function getWeakIdxs(){
+  if(dictResults.length){
+    return dictResults.filter(function(r){
+      const errWords = r.mistakes.filter(function(m){ return m.expected && m.expected !== "(缺失)"; }).length;
+      return r.score < 70 || errWords >= 2;
+    }).map(function(r){ return r.idx; });
+  }
+  if(session && Array.isArray(session.weak_sentences)) return session.weak_sentences.slice();
+  return [];
+}
+function buildStage2(){
+  const area = document.getElementById("dictArea");
+  if(stageDone[1] || dictFinished){
+    area.innerHTML = '<div class="progress-note">阶段 2 已完成' +
+      (session && session.dictation_score != null ? "，听写得分 " + session.dictation_score + " 分" : "") + "</div>";
+    return;
+  }
+  renderDictSentence();
+}
+function renderDictSentence(){
+  const area = document.getElementById("dictArea");
+  const s = sentences[dictIdx];
+  if(!s){ area.innerHTML = ""; return; }
+  dictGraded = false;
+  area.innerHTML =
+    '<div class="timer">第 ' + (dictIdx+1) + " / " + sentences.length + " 句" + (s.speaker ? " · 说话人 " + esc(s.speaker) : "") + "</div>" +
+    '<button class="btn small" onclick="playSegment(chapter, sentences, ' + dictIdx + ', 1, null)">▶ 播放本句</button>' +
+    (hasStamps ? "" : '<p class="status">本章无逐句时间戳，播放的是整篇对话，请找到这一句听。</p>') +
+    '<textarea id="dictInput" placeholder="听这一句，把听到的英文写在这里…"></textarea><br>' +
+    '<button class="btn" id="dictGradeBtn" onclick="gradeDict()">判分</button>' +
+    '<div class="sen-result" id="dictResult"></div>' +
+    '<button class="btn" id="dictNextBtn" style="display:none" onclick="nextDict()">' +
+      (dictIdx === sentences.length - 1 ? "完成听写汇总 →" : "下一句 →") + "</button>";
+}
+async function gradeDict(){
+  const actual = document.getElementById("dictInput").value.trim();
+  if(!actual){ alert("先写下你听到的内容"); return; }
+  const btn = document.getElementById("dictGradeBtn");
+  btn.disabled = true; btn.textContent = "判分中…";
+  const s = sentences[dictIdx];
+  const r = scoreText(s.text, actual);
+  const wordTypes = await classifyMistakes(r.mistakes);
+  const entry = {idx: dictIdx, expected: s.text, actual: actual, score: r.score, mistakes: r.mistakes, wordTypes: wordTypes, cFlag: false};
+  dictResults[dictIdx] = entry;
+  renderDictResult(entry, r);
+  dictGraded = true;
+  document.getElementById("dictNextBtn").style.display = "";
+  document.getElementById("dictResult").scrollIntoView({behavior: "smooth", block: "nearest"});
+}
+function renderDictResult(entry, r){
+  const box = document.getElementById("dictResult");
+  let html = '<div class="status">本句得分 <b>' + r.score + " 分</b></div>" +
+    '<div class="diff">' + r.html + "</div>";
+  if(entry.wordTypes.length){
+    html += '<p class="status" style="margin-top:10px">每个错词的类型（可点改）：A 单词不认识 · B 认识但听不出 · C 听到但不懂意思</p><ul class="mistake-list">';
+    entry.wordTypes.forEach(function(wt, mi){
+      html += "<li>应为 <b>" + esc(wt.word) + "</b>，你写 <b>" + esc(wt.got) + "</b> " +
+        '<span class="tag' + (wt.type === "A" ? " on-A" : "") + '" onclick="setWordType(' + mi + ',\'A\')">A 不认识</span>' +
+        '<span class="tag' + (wt.type === "B" ? " on-B" : "") + '" onclick="setWordType(' + mi + ',\'B\')">B 听不出</span></li>';
+    });
+    html += "</ul>";
+  } else if(!r.mistakes.length){
+    html += '<div class="status">🎉 全对</div>';
+  }
+  html += '<label class="checkline"><input type="checkbox" id="dictCFlag" onchange="setCFlag(this.checked)"> 词基本都对，但整句意思没懂（标为 C 类）</label>';
+  box.innerHTML = html;
+}
+function setWordType(mi, type){
+  const entry = dictResults[dictIdx];
+  if(!entry || !entry.wordTypes[mi]) return;
+  entry.wordTypes[mi].type = type;
+  const r = scoreText(entry.expected, entry.actual);
+  renderDictResult(entry, r);
+  const cb = document.getElementById("dictCFlag");
+  if(cb) cb.checked = !!entry.cFlag;
+}
+function setCFlag(checked){
+  const entry = dictResults[dictIdx];
+  if(entry) entry.cFlag = !!checked; // C 勾选优先于该句的 A/B 预标汇总展示
+}
+function nextDict(){
+  if(!dictGraded) return;
+  if(dictIdx < sentences.length - 1){ dictIdx++; renderDictSentence(); }
+  else finishDictation();
+}
+async function finishDictation(){
+  dictFinished = true;
+  const done = dictResults.filter(Boolean);
+  const avg = done.length ? Math.round(done.reduce(function(a, b){ return a + b.score; }, 0) / done.length) : 0;
+  const agg = {A: {count: 0, words: []}, B: {count: 0, words: []}, C: {count: 0, words: []}};
+  const seen = {A: new Set(), B: new Set()};
+  let cSentences = 0;
+  done.forEach(function(r){
+    if(r.cFlag) cSentences++; // C 以句计：count = 标 C 的句数，words 不适用留空
+    r.wordTypes.forEach(function(wt){
+      if(!seen[wt.type].has(wt.word)) { seen[wt.type].add(wt.word); agg[wt.type].words.push(wt.word); }
+    });
+  });
+  agg.A.count = agg.A.words.length;
+  agg.B.count = agg.B.words.length;
+  agg.C.count = cSentences;
+  const weak = getWeakIdxs();
+  await patchSession({dictation_score: avg, error_types: agg, weak_sentences: weak}, "阶段2听写");
+  stageDone[1] = true;
+  document.getElementById("dictSummary").innerHTML =
+    '<div class="progress-note">听写完成：平均 <b>' + avg + "</b> 分 · 弱句 " + weak.length + " 句（第 " +
+    (weak.length ? weak.map(function(i){ return i + 1; }).join("、") : "无") + " 句）<br>" +
+    "错误分布：A 不认识 " + agg.A.count + " 个词 · B 听不出 " + agg.B.count + " 个词 · C 不懂意思 " + agg.C.count + " 句</div>";
+  document.getElementById("dictArea").innerHTML = "";
+  applyLocks();
+  buildStage3(); buildStage4(); buildStage5();
+  document.getElementById("stage3").scrollIntoView({behavior: "smooth"});
+}
+
+// ---------- 阶段 3：文本精听 + 词汇翻卡 ----------
+let s3Counts = {}, s3Flipped = new Set();
+function stage3Targets(){
+  const weak = getWeakIdxs();
+  if(weak.length) return weak.slice();
+  return sentences.slice(0, 3).map(function(_, i){ return i; });
+}
+function sentenceTags(idx){
+  const entry = dictResults[idx];
+  if(!entry) return [];
+  const tags = [];
+  if(entry.wordTypes.some(function(w){ return w.type === "A"; })) tags.push("A");
+  if(entry.wordTypes.some(function(w){ return w.type === "B"; })) tags.push("B");
+  if(entry.cFlag) tags.push("C");
+  return tags;
+}
+function buildStage3(){
+  const weak = getWeakIdxs();
+  const list = document.getElementById("transcriptList");
+  list.innerHTML = sentences.map(function(s, i){
+    const isWeak = weak.indexOf(i) >= 0;
+    const tags = sentenceTags(i).map(function(t){ return '<span class="tag static on-' + t + '">' + t + "</span>"; }).join("");
+    return '<div class="sen-line' + (isWeak ? " weak" : "") + '">' +
+      (s.speaker ? '<span class="spk">' + esc(s.speaker) + ":</span>" : "") + esc(s.text) + " " + tags + "<br>" +
+      '<button class="btn small ghost" onclick="playStage3(' + i + ')">▶ 播放本句</button> ' +
+      '<span class="plays" id="s3Plays' + i + '">已播 ' + (s3Counts[i] || 0) + " 次</span></div>";
+  }).join("");
+  const g = document.getElementById("vocabGrid");
+  s3Flipped = new Set();
+  g.innerHTML = (chapter.vocabulary || []).map(function(v, i){
+    return '<div class="flip-card" id="fc3_' + i + '" onclick="flipCard3(' + i + ')"><div class="flip-inner">' +
+      '<div class="flip-face flip-front"><span class="w">' + esc(v.word) + '</span><span class="pos">' + esc(v.pos || "") + '</span><span class="tap">👆 点我翻面</span></div>' +
+      '<div class="flip-face flip-back">' + esc(v.meaning) + "</div></div></div>";
+  }).join("");
+  const btn = document.getElementById("stage3DoneBtn");
+  if(stageDone[2]){ btn.disabled = true; btn.textContent = "阶段 3 已完成 ✅"; }
+  else { btn.textContent = "完成阶段 3 →"; }
+  updateStage3Progress();
+}
+function flipCard3(i){
+  const el = document.getElementById("fc3_" + i);
+  if(el) el.classList.toggle("flipped");
+}
+function playStage3(i){
+  playSegment(chapter, sentences, i, 1, function(){
+    s3Counts[i] = (s3Counts[i] || 0) + 1;
+    const el = document.getElementById("s3Plays" + i);
+    if(el) el.textContent = "已播 " + s3Counts[i] + " 次";
+    updateStage3Progress();
+  });
+}
+function stage3Met(){
+  const targets = stage3Targets();
+  return targets.length > 0 && targets.every(function(i){ return (s3Counts[i] || 0) >= 2; });
+}
+function updateStage3Progress(){
+  const targets = stage3Targets();
+  const doneN = targets.filter(function(i){ return (s3Counts[i] || 0) >= 2; }).length;
+  document.getElementById("stage3Progress").textContent =
+    "达标进度：" + doneN + " / " + targets.length + " 句已各播满 2 次" +
+    (getWeakIdxs().length ? "（目标：全部弱句）" : "（无弱句，目标：前 3 句）");
+  if(!stageDone[2]) document.getElementById("stage3DoneBtn").disabled = !stage3Met();
+}
+async function finishStage3(){
+  if(!stage3Met()) return;
+  const cur = (session && session.shadow_rounds && typeof session.shadow_rounds === "object") ? session.shadow_rounds : {};
+  const merged = Object.assign({}, cur, {stage3_done: true}); // 保留已有 rounds
+  await patchSession({shadow_rounds: merged}, "阶段3进度");
+  stageDone[2] = true;
+  document.getElementById("stage3DoneBtn").disabled = true;
+  document.getElementById("stage3DoneBtn").textContent = "阶段 3 已完成 ✅";
+  document.getElementById("s3Status").textContent = "✅ 阶段 4 已解锁";
+  applyLocks();
+  buildStage4();
+  document.getElementById("stage4").scrollIntoView({behavior: "smooth"});
+}
+</script>
+<script>
+// ---------- 阶段 4：影子跟读（录音 → Storage → englishpod_shadow → 轮询 Whisper 回填） ----------
+let shState = {};      // key "idx-round" -> 录音状态
+let shadowRows = {};   // key -> {id, transcribed, score}
+let shCompleting = false;
+const canRec = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+
+function shadowIdxs(){
+  const weak = getWeakIdxs();
+  const src = weak.length ? weak : sentences.map(function(_, i){ return i; });
+  return src.slice(0, 3);
+}
+function buildStage4(){
+  const area = document.getElementById("shadowArea");
+  if(stageDone[3]){
+    area.innerHTML = '<div class="progress-note">阶段 4 已完成（进度已恢复，跟读记录在云端）</div>';
+    return;
+  }
+  const idxs = shadowIdxs();
+  if(!idxs.length){ area.innerHTML = '<p class="status">暂无句子</p>'; return; }
+  let html = "";
+  idxs.forEach(function(idx){
+    [1, 2].forEach(function(round){
+      const key = idx + "-" + round;
+      html += '<div class="shadow-cell" id="shCell' + key + '">' +
+        '<div class="step-badge">' + (round === 1 ? "慢速跟读 0.85x" : "原速跟读 1.0x") + " · 第 " + (idx+1) + " 句</div>" +
+        '<div class="orig">' + esc(sentences[idx].text) + "</div>" +
+        '<button class="btn small" onclick="playSegment(chapter, sentences, ' + idx + ", " + (round === 1 ? "0.85" : "1") + ', null)">▶ 播放原句</button> ' +
+        '<button class="btn small ghost" id="shRecBtn' + key + '" onclick="toggleShadowRec(\'' + key + "', " + idx + ", " + round + ')"' + (canRec ? "" : " disabled") + ">🎤 录音</button>" +
+        (canRec ? "" : '<div class="status">⚠️ 当前浏览器不支持录音（无麦克风权限或不支持 MediaRecorder）</div>') +
+        '<div class="rec-result" id="shRes' + key + '"></div></div>';
+    });
+  });
+  area.innerHTML = html;
+}
+async function toggleShadowRec(key, idx, round){
+  const st = shState[key] || (shState[key] = {recording: false});
+  if(st.recording){ stopShadowRec(key, idx, round); return; }
+  const btn = document.getElementById("shRecBtn" + key);
+  const res = document.getElementById("shRes" + key);
+  try{
+    st.stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true, autoGainControl: true}});
+  }catch(e){
+    res.style.display = "block";
+    res.innerHTML = '<span style="color:#c00">⚠️ 无法访问麦克风，请在浏览器里允许麦克风权限后重试</span>';
+    return;
+  }
+  st.chunks = []; st.blob = null;
+  st.recorder = new MediaRecorder(st.stream);
+  st.recorder.ondataavailable = function(e){ if(e.data && e.data.size) st.chunks.push(e.data); };
+  st.recorder.onstop = function(){
+    try{
+      st.blob = new Blob(st.chunks, {type: st.recorder.mimeType || "audio/webm"});
+      uploadShadow(key, idx, round);
+    }catch(e){}
+  };
+  st.recorder.start();
+  st.recording = true;
+  btn.textContent = "⏹ 停止";
+  btn.classList.add("rec-on");
+  res.style.display = "block";
+  res.innerHTML = '<span style="color:#4a90d9">🎙️ 录音中，请跟读这一句…</span>';
+}
+function stopShadowRec(key, idx, round){
+  const st = shState[key];
+  if(!st || !st.recording) return;
+  st.recording = false;
+  try{ st.recorder && st.recorder.state !== "inactive" && st.recorder.stop(); }catch(e){}
+  try{ st.stream && st.stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+  const btn = document.getElementById("shRecBtn" + key);
+  btn.textContent = "🎤 重新录音";
+  btn.classList.remove("rec-on");
+  const res = document.getElementById("shRes" + key);
+  res.style.display = "block";
+  res.textContent = "录音结束，正在上传…";
+}
+async function uploadShadow(key, idx, round){
+  const st = shState[key];
+  const res = document.getElementById("shRes" + key);
+  if(!st || !st.blob) return;
+  const mt = (st.recorder && st.recorder.mimeType) || "audio/webm";
+  const ext = mt.indexOf("mp4") >= 0 ? "m4a" : "webm";
+  const fn = "ep-" + chapter.id + "-s" + idx + "-r" + round + "-" + Date.now() + "." + ext;
+  let publicUrl = null;
+  try{
+    const r = await fetch(SUPABASE_URL + "/storage/v1/object/shadowing-recordings/" + fn, {
+      method: "POST",
+      headers: {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": mt},
+      body: st.blob
+    });
+    if(!r.ok) throw new Error("http " + r.status);
+    publicUrl = SUPABASE_URL + "/storage/v1/object/public/shadowing-recordings/" + fn;
+  }catch(e){
+    showWarn("跟读录音上传失败：" + e.message);
+    res.innerHTML = "⚠️ 上传失败，可以重新录一次";
+    return;
+  }
+  const post = await sbWrite(function(){
+    return sbPost("englishpod_shadow", {
+      chapter: chapter.id, sentence_idx: idx, round: round,
+      expected: sentences[idx].text, audio_url: publicUrl
+    }, "return=representation");
+  }, "跟读记录");
+  if(!post){ res.innerHTML = "⚠️ 录音已上传，但记录保存失败，可以重新录一次"; return; }
+  let row = null;
+  try{ row = (await post.json())[0] || null; }catch(e){}
+  if(!row || !row.id){ res.innerHTML = "⚠️ 记录保存异常，请重新录一次"; return; }
+  shadowRows[key] = {id: row.id, transcribed: null, score: null};
+  res.innerHTML = "☁️ 已保存，Whisper 转写中（约 1–3 分钟）…";
+  checkStage4Complete();
+  pollShadow(key, row.id);
+}
+async function pollShadow(key, rowId){
+  const res = document.getElementById("shRes" + key);
+  const t0 = Date.now();
+  while(Date.now() - t0 < 3 * 60 * 1000){
+    await new Promise(function(r){ setTimeout(r, 4000); });
+    let row = null;
+    try{
+      const rows = await sbGet("englishpod_shadow", "id=eq." + rowId + "&select=transcribed,score");
+      row = rows[0] || null;
+    }catch(e){}
+    if(row && row.transcribed && row.transcribed !== "__working__"){
+      shadowRows[key] = {id: rowId, transcribed: row.transcribed, score: row.score};
+      if(res) res.innerHTML = "Whisper 转写：" + esc(row.transcribed) + "<br>得分：" + (row.score != null ? row.score : "（打分中）");
+      return;
+    }
+  }
+  if(res && !(shadowRows[key] && shadowRows[key].transcribed))
+    res.innerHTML = "☁️ 录音与记录已保存，转写还在排队，稍后刷新页面可看分数（不影响继续）";
+}
+async function checkStage4Complete(){
+  if(stageDone[3] || shCompleting) return;
+  const idxs = shadowIdxs();
+  const keys = [];
+  idxs.forEach(function(idx){ [1, 2].forEach(function(round){ keys.push(idx + "-" + round); }); });
+  if(!keys.length || !keys.every(function(k){ return shadowRows[k] && shadowRows[k].id; })) return;
+  shCompleting = true;
+  const rounds = keys.map(function(k){
+    const p = k.split("-");
+    return {sentence_idx: parseInt(p[0], 10), round: parseInt(p[1], 10), shadow_id: shadowRows[k].id};
+  });
+  const cur = (session && session.shadow_rounds && typeof session.shadow_rounds === "object") ? session.shadow_rounds : {};
+  const merged = Object.assign({}, cur, {rounds: rounds});
+  if(cur.stage3_done || stageDone[2]) merged.stage3_done = true;
+  await patchSession({shadow_rounds: merged}, "阶段4跟读");
+  stageDone[3] = true;
+  document.getElementById("s4Status").textContent = "✅ 全部跟读格子已完成，阶段 5 已解锁";
+  applyLocks();
+  buildStage5();
+}
+
+// ---------- 阶段 5：复测 + 汇总 + 打卡 ----------
+let blind2Done = false, summarySaved = false;
+let retestIdxs = [], retestResults = {}, retestGraded = {};
+
+function computeRetestIdxs(){
+  if(dictResults.filter(Boolean).length){
+    const sorted = dictResults.filter(Boolean).slice().sort(function(a, b){ return a.score - b.score; });
+    const weakSet = new Set(getWeakIdxs());
+    const weakOnes = sorted.filter(function(r){ return weakSet.has(r.idx); });
+    const picks = (weakOnes.length ? weakOnes : sorted).slice(0, 3);
+    return picks.map(function(r){ return r.idx; });
+  }
+  return getWeakIdxs().slice(0, 3);
+}
+function buildStage5(){
+  retestIdxs = computeRetestIdxs();
+  retestResults = {}; retestGraded = {};
+  const area = document.getElementById("retestArea");
+  if(!blind2Done){
+    area.innerHTML = '<p class="status">先完成上面的盲听复听（2 遍），再做弱句复测听写。</p>';
+    return;
+  }
+  buildRetest();
+}
+function buildRetest(){
+  const area = document.getElementById("retestArea");
+  if(!retestIdxs.length){
+    area.innerHTML = '<p class="status">没有弱句需要复测。</p>';
+    checkGenSummary();
+    return;
+  }
+  area.innerHTML = '<h3 style="margin-bottom:6px">弱句复测听写（错最多的 ' + retestIdxs.length + " 句）</h3>" +
+    retestIdxs.map(function(idx){
+      return '<div class="shadow-cell"><div class="timer">第 ' + (idx+1) + " 句</div>" +
+        '<button class="btn small" onclick="playSegment(chapter, sentences, ' + idx + ', 1, null)">▶ 播放本句</button>' +
+        '<textarea id="retestInput' + idx + '" placeholder="把听到的英文写在这里…"></textarea><br>' +
+        '<button class="btn small" id="retestBtn' + idx + '" onclick="gradeRetest(' + idx + ')">判分</button>' +
+        '<div class="sen-result" id="retestRes' + idx + '"></div></div>';
+    }).join("");
+}
+function gradeRetest(idx){
+  const actual = document.getElementById("retestInput" + idx).value.trim();
+  if(!actual){ alert("先写下你听到的内容"); return; }
+  const r = scoreText(sentences[idx].text, actual);
+  retestResults[idx] = r.score;
+  retestGraded[idx] = true;
+  document.getElementById("retestBtn" + idx).disabled = true;
+  document.getElementById("retestRes" + idx).innerHTML =
+    '<div class="status">复测得分 <b>' + r.score + " 分</b></div>" +
+    '<div class="diff">' + r.html + "</div>" +
+    (r.mistakes.length ? '<ul class="mistake-list">' + r.mistakes.slice(0, 8).map(function(m){ return "<li>应为 <b>" + esc(m.expected) + "</b>，你写 <b>" + esc(m.actual) + "</b></li>"; }).join("") + "</ul>" : '<div class="status">🎉 全对</div>');
+  checkGenSummary();
+}
+function checkGenSummary(){
+  const allGraded = retestIdxs.every(function(idx){ return retestGraded[idx]; });
+  document.getElementById("genSummaryBtn").disabled = !(blind2Done && allGraded);
+}
+async function genSummary(){
+  const scores = retestIdxs.map(function(idx){ return retestResults[idx]; }).filter(function(v){ return typeof v === "number"; });
+  const retestScore = scores.length ? Math.round(scores.reduce(function(a, b){ return a + b; }, 0) / scores.length) : 0;
+  const rating2 = parseInt(document.getElementById("rate2").value, 10);
+  await patchSession({self_rating_2: rating2, retest_score: retestScore}, "阶段5复测");
+  summarySaved = true;
+  // 跟读分数：优先查云端最新行，回退到本地轮询结果
+  const shScores = {};
+  try{
+    const rows = await sbGet("englishpod_shadow",
+      "chapter=eq." + encodeURIComponent(chapter.id) + "&select=sentence_idx,round,score,transcribed,created_at&order=created_at.desc&limit=60");
+    rows.forEach(function(r){
+      const k = r.sentence_idx + "-" + r.round;
+      if(!shScores[k]) shScores[k] = r.score;
+    });
+  }catch(e){ /* 用本地结果兜底 */ }
+  Object.keys(shadowRows).forEach(function(k){
+    if(shScores[k] == null && shadowRows[k].score != null) shScores[k] = shadowRows[k].score;
+  });
+  const et = (session && session.error_types) || {A: {count: 0}, B: {count: 0}, C: {count: 0}};
+  const row = function(k, v){ return '<div class="summary-row"><span class="k">' + k + '</span><span class="v">' + v + "</span></div>"; };
+  let html = row("自评 1（盲听后）", (session && session.self_rating_1 != null ? session.self_rating_1 + "%" : "-"));
+  html += row("听写实测（阶段 2）", (session && session.dictation_score != null ? session.dictation_score + " 分" : "-"));
+  html += row("自评 2（复测前）", rating2 + "%");
+  html += row("复测实测", retestScore + " 分");
+  html += row("错误分布 A 不认识", ((et.A && et.A.count) || 0) + " 个词");
+  html += row("错误分布 B 听不出", ((et.B && et.B.count) || 0) + " 个词");
+  html += row("错误分布 C 不懂意思", ((et.C && et.C.count) || 0) + " 句");
+  shadowIdxs().forEach(function(idx){
+    const s1 = shScores[idx + "-1"], s2 = shScores[idx + "-2"];
+    html += row("跟读 第 " + (idx+1) + " 句",
+      "慢速 " + (s1 != null ? s1 + " 分" : "—") + " · 原速 " + (s2 != null ? s2 + " 分" : "—"));
+  });
+  document.getElementById("finalSummary").innerHTML = '<div class="card" style="background:#fcfcfc;margin:0">' + html + "</div>";
+  document.getElementById("finishBtn").disabled = false;
+  document.getElementById("s5Status").textContent = "汇总已保存，可以完成打卡了";
+}
+async function finishChapter(){
+  const btn = document.getElementById("finishBtn");
+  btn.disabled = true;
+  await sbWrite(function(){
+    return sbPost("englishpod_completions", {chapter: chapter.id}, "resolution=merge-duplicates,return=minimal");
+  }, "打卡");
+  await patchSession({completed: true}, "完成状态");
+  stageDone[4] = true;
+  const today = localDateStr();
+  const plan = [
+    {chapter: chapter.id, due_date: addDays(today, 1), kind: "review"},
+    {chapter: chapter.id, due_date: addDays(today, 2), kind: "quick"},
+    {chapter: chapter.id, due_date: addDays(today, 4), kind: "review"},
+    {chapter: chapter.id, due_date: addDays(today, 7), kind: "review"}
+  ];
+  await sbWrite(function(){ return sbPost("englishpod_reviews", plan); }, "复习计划");
+  completedSet.add(chapter.id);
+  renderChapSelect();
+  document.getElementById("finishResult").innerHTML =
+    '<div class="done-banner"><div class="done-check">🎉</div>本章打卡完成！<br>复习计划：' +
+    plan.map(function(p){ return p.due_date + "（" + (p.kind === "quick" ? "快速复习" : "复习") + "）"; }).join(" · ") +
+    "<br>到日期后会在页面顶部「今日复习」里出现。</div>";
+  loadReviews();
+}
+
+// ---------- 今日复习（轻复习流） ----------
+let revRows = {}, revChapter = null, revSentences = [], revRange = null, revIdxs = [], revGraded = {}, revRow = null;
+async function loadReviews(){
+  const box = document.getElementById("reviewList");
+  let rows = [];
+  try{
+    rows = await sbGet("englishpod_reviews",
+      "done=eq.false&due_date=lte." + localDateStr() + "&select=*&order=due_date.asc");
+  }catch(e){ box.innerHTML = '<span class="status">⚠️ 复习列表加载失败，刷新可重试</span>'; return; }
+  revRows = {};
+  rows.forEach(function(r){ revRows[r.id] = r; });
+  if(!rows.length){ box.innerHTML = '<span class="status">今天没有到期的复习 🎉</span>'; return; }
+  box.innerHTML = rows.map(function(r){
+    return '<div class="review-item"><span>' + esc(r.chapter) + " · " + (r.kind === "quick" ? "快速复习" : "复习") + " · 到期 " + esc(r.due_date) + "</span>" +
+      '<button class="btn small" onclick="startReview(\'' + r.id + "')\">开始复习</button></div>";
+  }).join("");
+}
+async function startReview(rowId){
+  revRow = revRows[rowId];
+  if(!revRow) return;
+  revChapter = chapters.find(function(c){ return c.id === revRow.chapter; });
+  if(!revChapter){ alert("这一章的数据不在当前列表里"); return; }
+  revSentences = buildSentences(revChapter);
+  revRange = computeRange(revChapter, revSentences);
+  document.getElementById("revTitle").textContent = "复习：" + revChapter.id + "｜" + revChapter.title;
+  document.getElementById("revDictBox").style.display = "none";
+  document.getElementById("revDictArea").innerHTML = "";
+  document.getElementById("revDoneBtn").disabled = true;
+  document.getElementById("revStatus").textContent = "";
+  document.getElementById("revPlayer").src = audioUrl(revChapter);
+  document.getElementById("viewMain").style.display = "none";
+  document.getElementById("viewReview").style.display = "block";
+  window.scrollTo(0, 0);
+  if(revBlind) revBlind.reset();
+}
+async function buildRevDict(){
+  let weak = [];
+  try{
+    const rows = await sbGet("englishpod_sessions",
+      "chapter=eq." + encodeURIComponent(revChapter.id) + "&select=weak_sentences&order=created_at.desc&limit=1");
+    if(rows.length && Array.isArray(rows[0].weak_sentences)) weak = rows[0].weak_sentences;
+  }catch(e){ /* 查不到就用前 3 句 */ }
+  revIdxs = (weak.length ? weak : [0, 1, 2]).filter(function(i){ return i < revSentences.length; }).slice(0, 5);
+  revGraded = {};
+  document.getElementById("revDictArea").innerHTML = revIdxs.map(function(idx){
+    return '<div class="shadow-cell"><div class="timer">第 ' + (idx+1) + " 句</div>" +
+      '<button class="btn small" onclick="playSegment(revChapter, revSentences, ' + idx + ', 1, null)">▶ 播放本句</button>' +
+      '<textarea id="revInput' + idx + '" placeholder="把听到的英文写在这里…"></textarea><br>' +
+      '<button class="btn small" id="revBtn' + idx + '" onclick="gradeRev(' + idx + ')">判分</button>' +
+      '<div class="sen-result" id="revRes' + idx + '"></div></div>';
+  }).join("");
+}
+function gradeRev(idx){
+  const actual = document.getElementById("revInput" + idx).value.trim();
+  if(!actual){ alert("先写下你听到的内容"); return; }
+  const r = scoreText(revSentences[idx].text, actual);
+  revGraded[idx] = true;
+  document.getElementById("revBtn" + idx).disabled = true;
+  document.getElementById("revRes" + idx).innerHTML =
+    '<div class="status">得分 <b>' + r.score + " 分</b></div>" +
+    '<div class="diff">' + r.html + "</div>" +
+    (r.mistakes.length ? '<ul class="mistake-list">' + r.mistakes.slice(0, 8).map(function(m){ return "<li>应为 <b>" + esc(m.expected) + "</b>，你写 <b>" + esc(m.actual) + "</b></li>"; }).join("") + "</ul>" : '<div class="status">🎉 全对</div>');
+  if(revIdxs.every(function(i){ return revGraded[i]; }))
+    document.getElementById("revDoneBtn").disabled = false;
+}
+async function finishReview(){
+  if(!revRow) return;
+  const btn = document.getElementById("revDoneBtn");
+  btn.disabled = true;
+  await sbWrite(function(){
+    return sbPatch("englishpod_reviews", "id=eq." + revRow.id, {done: true, done_at: new Date().toISOString()});
+  }, "复习完成状态");
+  document.getElementById("revStatus").textContent = "✅ 复习完成";
+  exitReview();
+}
+function exitReview(){
+  document.getElementById("viewReview").style.display = "none";
+  document.getElementById("viewMain").style.display = "block";
+  try{ document.getElementById("revPlayer").pause(); }catch(e){}
+  loadReviews();
+}
+
+// ---------- 初始化：盲听计数器（引用全局变量，选章/复习时自动适配） ----------
+blind1 = makeBlindListen(document.getElementById("blind1"), document.getElementById("blind1Info"), {
+  needed: 2,
+  getRange: function(){ return dlgRange; },
+  onDone: function(){
+    if(!stageDone[0]){
+      document.getElementById("rate1Box").style.display = "block";
+      document.getElementById("rate1Btn").disabled = false;
+      document.getElementById("s1Status").textContent = "已听满 2 遍，请完成自评解锁阶段 2";
+    }
+  }
+});
+blind2 = makeBlindListen(document.getElementById("blind2"), document.getElementById("blind2Info"), {
+  needed: 2,
+  getRange: function(){ return dlgRange; },
+  onDone: function(){
+    blind2Done = true;
+    document.getElementById("rate2Box").style.display = "block";
+    buildStage5();
+    checkGenSummary();
+  }
+});
+revBlind = makeBlindListen(document.getElementById("revPlayer"), document.getElementById("revBlindInfo"), {
+  needed: 1,
+  getRange: function(){ return revRange; },
+  onDone: function(){
+    document.getElementById("revDictBox").style.display = "block";
+    buildRevDict();
+  }
+});
 load();
 </script>
 </body>
