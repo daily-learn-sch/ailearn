@@ -1,1 +1,79 @@
-{"chapters":[{"date":"2026-10-19","dialogue_audio":"englishpod/C0013-dialogue.mp3","id":"C0013","pdf":"englishpod/C0013.pdf","title":"The Office - Out Of Control Spending","transcript":"A: OK, so now the last point on our agenda. Jill, let's go over the profit and loss statement.\n\nB: Great. Well, the main issue here, as you can see, is that our expenses are through the roof.\n\nA: Let's see... These numbers are off the charts! What's going on here!\n\nB: Well, um, sir, the company expenditures on entertainment and travel are out of control. Look at these bills for example. Just this month we've paid over twenty thousand dollars for hotel charges!\n\nA: OK, thank you. I'll look into it.\n\nB: The list goes on and on. Here, this is a bill for five thousand dollars for spa treatments!\n\nA: Thank you; that will be all. I'll take care of it.","vocabulary":[{"meaning":"检查、过一遍（revise, check）","pos":"phrase","word":"go over"},{"meaning":"高得离谱（suddenly very high）","pos":"phrase","word":"off the charts"},{"meaning":"开支、花销（amount of money spent）","pos":"noun","word":"expenditures"},{"meaning":"失控（not in control）","pos":"phrase","word":"out of control"},{"meaning":"冲上天（very high）","pos":"phrase","word":"through the roof"}]}]}
+{
+  "chapters": [
+    {
+      "date": "2026-10-19",
+      "dialogue_audio": "englishpod/C0013-dialogue.mp3",
+      "id": "C0013",
+      "pdf": "englishpod/C0013.pdf",
+      "title": "The Office - Out Of Control Spending",
+      "transcript": "A: OK, so now the last point on our agenda. Jill, let's go over the profit and loss statement.\n\nB: Great. Well, the main issue here, as you can see, is that our expenses are through the roof.\n\nA: Let's see... These numbers are off the charts! What's going on here!\n\nB: Well, um, sir, the company expenditures on entertainment and travel are out of control. Look at these bills for example. Just this month we've paid over twenty thousand dollars for hotel charges!\n\nA: OK, thank you. I'll look into it.\n\nB: The list goes on and on. Here, this is a bill for five thousand dollars for spa treatments!\n\nA: Thank you; that will be all. I'll take care of it.",
+      "vocabulary": [
+        {
+          "meaning": "检查、过一遍（revise, check）",
+          "pos": "phrase",
+          "word": "go over"
+        },
+        {
+          "meaning": "高得离谱（suddenly very high）",
+          "pos": "phrase",
+          "word": "off the charts"
+        },
+        {
+          "meaning": "开支、花销（amount of money spent）",
+          "pos": "noun",
+          "word": "expenditures"
+        },
+        {
+          "meaning": "失控（not in control）",
+          "pos": "phrase",
+          "word": "out of control"
+        },
+        {
+          "meaning": "冲上天（very high）",
+          "pos": "phrase",
+          "word": "through the roof"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-20",
+      "dialogue_audio": "englishpod/B0014-dialogue.mp3",
+      "id": "B0014",
+      "pdf": "englishpod/B0014.pdf",
+      "title": "I'm in Debt",
+      "transcript": "A: Hello, I'm here to see Mr. Corleone.\n\nB: Right this way, sir.\n\nC: Charlie! What can I do for you?\n\nB: Mr. Corlone, I'm really sorry to trouble you, but I need your help.\n\nC: Anything for you, Charlie! Your father was like a brother to me.\n\nB: Well, sir, you see, this recession has hit me pretty hard; I lost my job and I'm in a lot of debt.\n\nC: I see......\n\nB: Yeah, you know, I've got credit card bills, car payments, I've got to pay my mortgage; and on top of all that, I have to pay my son's college tuition.\n\nC: So you're asking for a loan.\n\nB: Well, I just thought maybe you could help me out.\n\nC: What? At a time like this? I'm broke too, you know! You're not the only one who has been hit by the recession! I lost half my money in the stock market crash! Go on! Get outa here!",
+      "vocabulary": [
+        {
+          "meaning": "打扰、麻烦（disturb or bother）",
+          "pos": "verb",
+          "word": "trouble"
+        },
+        {
+          "meaning": "经济衰退（a period of time when the economy of a country is bad）",
+          "pos": "noun",
+          "word": "recession"
+        },
+        {
+          "meaning": "对我打击很大（had a strong, negative effect on me）",
+          "pos": "phrase",
+          "word": "hit me pretty hard"
+        },
+        {
+          "meaning": "债务、欠款（the amount of money you owe）",
+          "pos": "noun",
+          "word": "debt"
+        },
+        {
+          "meaning": "除此之外（besides that, in addition to）",
+          "pos": "phrase",
+          "word": "on top of all that"
+        },
+        {
+          "meaning": "身无分文（not have any money）",
+          "pos": "adjective",
+          "word": "broke"
+        }
+      ]
+    }
+  ]
+}
