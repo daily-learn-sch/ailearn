@@ -28,32 +28,6 @@ async function fetchCloudSessions() {
 }
 
 // 阅读：今日文章 + 当天 session（latest）
-async function fetchReadingStatus() {
-  const d = new Date(), p2 = n => String(n).padStart(2,"0");
-  const today = `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
-  const out = { article: null, session: null };
-  try {
-    const r = await fetch(
-      `${SUPABASE_URL}/rest/v1/reading_articles?read_date=eq.${today}&order=created_at.desc&limit=1`,
-      { headers: SBH }
-    );
-    if (r.ok) { const rows = await r.json(); if (rows.length) out.article = rows[0]; }
-  } catch (e) { /* 阅读表可能还没建 */ }
-  if (!out.article) return out;
-  try {
-    const r = await fetch(
-      `${SUPABASE_URL}/rest/v1/reading_sessions?read_date=eq.${today}&order=created_at.desc&limit=10`,
-      { headers: SBH }
-    );
-    if (r.ok) {
-      const rows = await r.json();
-      const passed = rows.find(s => s.passed);
-      out.session = passed || rows[0] || null;
-    }
-  } catch (e) { /* 静默 */ }
-  return out;
-}
-
 function fmtMin(sec) {
   if (sec == null) return "未知";
   const m = Math.floor(sec / 60), s = Math.round(sec % 60);
@@ -102,7 +76,6 @@ async function init() {
   const prog = loadProgress();
   const cloud = await fetchCloudSessions();
   renderToday(prog, cloud);
-  renderReadingCard(await fetchReadingStatus());
   renderRecommend(prog, cloud);
   renderHistory(prog, cloud);
 }
@@ -116,39 +89,6 @@ function renderToday(prog, cloud) {
     <div class="topic">${esc(today.topic_cn)}</div>
     <div class="meta">${esc(today.topic)} · ${st.label}</div>
     <button class="btn-primary" onclick="location.href='practice.html?date=${today.date}'">${st.done ? "重新练习" : "开始今日精练"}</button>`;
-}
-
-// 阅读训练大卡片（与精听平级）
-function renderReadingCard(reading) {
-  const box = document.getElementById('reading-card');
-  const a = reading.article, s = reading.session;
-  if (!a) {
-    box.innerHTML = `
-      <div class="date">📖 阅读训练 · 每天 30 分钟沉浸</div>
-      <div class="topic">今日文章还在准备中</div>
-      <div class="meta">明早 7:10 会推送第一篇</div>`;
-    return;
-  }
-  const meta = `Level ${esc(a.level || "")} · 约${a.est_minutes || "?"}分钟`;
-  if (!s) {
-    box.innerHTML = `
-      <div class="date">📖 阅读训练 · ${meta}</div>
-      <div class="topic">${esc(a.title)}</div>
-      <div class="meta">${esc(a.reason_cn || "")} · <b>未做</b></div>
-      <button class="btn-primary" onclick="location.href='../reading/reading.html'">开始今日阅读</button>`;
-  } else if (s.passed) {
-    box.innerHTML = `
-      <div class="date">📖 阅读训练 · ${meta}</div>
-      <div class="topic">${esc(a.title)}</div>
-      <div class="meta">✅ 已打卡 · 测试 ${s.quiz_score} 分 · 用时 ${fmtMin(s.total_seconds)}</div>
-      <button class="btn-primary" onclick="location.href='../reading/reading.html'">重新阅读</button>`;
-  } else {
-    box.innerHTML = `
-      <div class="date">📖 阅读训练 · ${meta}</div>
-      <div class="topic">${esc(a.title)}</div>
-      <div class="meta">已测 ${s.quiz_score} 分，未通过</div>
-      <button class="btn-primary" onclick="location.href='../reading/reading.html'">继续挑战</button>`;
-  }
 }
 
 // 为你推荐：最近未完成的一天 / 历史听写最低的一天（建议重练）
