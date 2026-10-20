@@ -75,6 +75,7 @@ async function init() {
   }
   const prog = loadProgress();
   const cloud = await fetchCloudSessions();
+  renderIeltsBar();
   renderToday(prog, cloud);
   renderRecommend(prog, cloud);
   renderHistory(prog, cloud);
@@ -137,6 +138,53 @@ function renderHistory(prog, cloud) {
     return `<div class="hist-item" onclick="location.href='practice.html?date=${d.date}'">
       <div><div class="d">${d.date}</div><div class="t">${esc(d.topic_cn)} · ${esc(d.topic)}</div></div>${badge}</div>`;
   }).join('');
+}
+
+// ==== IELTS 7.0 进度条（与 practice.html 统计页同一套估值口径）====
+const IELTS_MILES = [[4.5,"4.5 A2·起点"],[5.0,"5.0"],[5.5,"5.5 B1"],[6.0,"6.0"],[6.5,"6.5 B2"],[7.0,"7.0 🎯目标"]];
+const IELTS_NEXT_NAME = {5.0:"5.0", 5.5:"B1 · 5.5", 6.0:"6.0", 6.5:"B2 · 6.5", 7.0:"目标 · 7.0"};
+function ieltsEstimate(sessions){
+  const scores = [];
+  for(const s of (sessions||[])){
+    const sc = s && s.modules && s.modules.dictation ? s.modules.dictation.score : null;
+    if(sc != null){ scores.push(sc); if(scores.length >= 7) break; }
+  }
+  if(scores.length < 3) return {enough:false, n:scores.length, band:4.5, avg: scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : null};
+  const avg = scores.reduce((a,b)=>a+b,0)/scores.length;
+  const band = Math.min(6.0, 4.5 + Math.max(0, avg-70)*0.05);
+  return {enough:true, n:scores.length, band, avg};
+}
+function ieltsBarInner(sessions){
+  const est = ieltsEstimate(sessions);
+  const pct = Math.round(Math.max(0, Math.min(100, (est.band-4.5)/2.5*100))*10)/10;
+  const marks = IELTS_MILES.map(([v])=>`<span class="ielts-mark" style="left:${(v-4.5)/2.5*100}%"></span>`).join("");
+  const ticks = IELTS_MILES.map(([v,label],i)=>{
+    const cls = i===0 ? "ielts-tick first" : (i===IELTS_MILES.length-1 ? "ielts-tick last" : "ielts-tick");
+    return `<span class="${cls}" style="left:${(v-4.5)/2.5*100}%">${label}</span>`;
+  }).join("");
+  let note;
+  if(est.enough){
+    const next = IELTS_MILES.find(m=>m[0] > est.band + 0.04);
+    const distTxt = next ? `距 ${IELTS_NEXT_NAME[next[0]]} 还差 ${(next[0]-est.band).toFixed(1)}` : "已非常接近 7.0 目标";
+    note = `${distTxt} · 近 ${est.n} 次听写均分 ${est.avg.toFixed(1)}<br><span class="ielts-sub">按近期听写成绩粗估，非官方分数；现阶段材料为 A2 难度，估值暂封顶 6.0</span>`;
+  } else {
+    note = `数据积累中（已完成 ${est.n} 次带听写分的训练，满 3 次后开始估算）<br><span class="ielts-sub">按近期听写成绩粗估，非官方分数</span>`;
+  }
+  const bubbleStyle = pct < 10 ? ' style="left:0;transform:none"' : (pct > 90 ? ' style="left:auto;right:0;transform:none"' : "");
+  return `<div class="ielts-track"><div class="ielts-fill" style="width:${pct}%"></div>${marks}<div class="ielts-dot" style="left:${pct}%"><div class="ielts-bubble"${bubbleStyle}>当前估计 ≈${est.band.toFixed(1)}</div></div></div><div class="ielts-ticks">${ticks}</div><div class="ielts-note">${note}</div>`;
+}
+async function renderIeltsBar(){
+  const el = document.getElementById('ielts-bar');
+  if(!el) return;
+  try{
+    const r = await fetch(
+      `${SUPABASE_URL}/rest/v1/drill_sessions?select=drill_date,total_seconds,modules,finished_at&finished_at=not.is.null&order=finished_at.desc&limit=40`,
+      { headers: SBH }
+    );
+    if(!r.ok) throw new Error(r.status);
+    const sessions = await r.json();
+    el.innerHTML = `<h2 style="margin:0 0 2px">🏁 通往 IELTS 7.0</h2>` + ieltsBarInner(sessions);
+  }catch(e){ el.style.display = "none"; }
 }
 
 document.addEventListener('DOMContentLoaded', init);
