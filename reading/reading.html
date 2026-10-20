@@ -36,6 +36,15 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
 .sec p .w{border-bottom:1px dotted #b9c8d8;cursor:pointer}
 .sec p .w:active{background:#fff3bf}
 .sec p .w.tapped{border-bottom:1px solid #ff9f0a;background:#fff8e6}
+/* 词组：与单词明显区分（实线下划线+浅蓝底） */
+.sec p .w.phrase{border-bottom:2px solid #4a90d9;background:#eef4fb;border-radius:3px;padding:0 2px}
+.sec p .w.phrase.tapped{border-bottom-color:#ff9f0a;background:#fff3bf}
+/* 生词预习标签 */
+.v-tag{display:inline-block;font-size:.72em;font-weight:bold;border-radius:10px;padding:1px 8px;margin-left:6px}
+.v-tag.phrase{background:#e3f0ff;color:#1f6fd0;border:1px solid #bcd8f7}
+.v-tag.word{background:#f1f3f5;color:#888;border:1px solid #e2e8f0}
+/* 查词弹窗词组徽标 */
+#lookup .lbadge{display:inline-block;background:#4a90d9;color:#fff;font-size:.66em;border-radius:9px;padding:1px 8px;margin-left:7px;vertical-align:2px}
 /* 查词弹层 */
 #lookup{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:min(92vw,560px);background:#1d1d1f;color:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:50}
 #lookup .lw{font-size:1.1em;font-weight:bold}
@@ -125,6 +134,7 @@ function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace
 function todayStr(){ const d = new Date(), p = n => String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; }
 
 let article = null, vocabMap = {}, tapped = new Set();
+let phraseList = [];  // vocab 中含空格的词组（小写，长→短），正文优先整组匹配
 let sectionSecs = {};  // 已按用户要求去掉计时，不再统计停留时长，写库时为空
 let answers = [], qIdx = 0, sessionSaved = false, extMode = false;
 
@@ -161,10 +171,16 @@ function renderArticle(){
   const v = a.vocab || [];
   vocabMap = {};
   v.forEach(x => { vocabMap[String(x.word).toLowerCase()] = x; });
+  phraseList = v.filter(x => String(x.word || "").trim().includes(" "))
+    .map(x => String(x.word).toLowerCase().trim())
+    .sort((p, q) => q.length - p.length);
   if (v.length) {
     document.getElementById("vocabCard").classList.remove("hidden");
-    document.getElementById("vocabList").innerHTML = v.map(x =>
-      `<div class="v-item"><span class="w">${esc(x.word)}</span><span class="p">${esc(x.pos || "")}</span><br>${esc(x.meaning)}</div>`).join("");
+    document.getElementById("vocabList").innerHTML = v.map(x => {
+      const isPh = String(x.word || "").includes(" ") || x.pos === "词组";
+      const tag = isPh ? `<span class="v-tag phrase">词组</span>` : `<span class="v-tag word">单词</span>`;
+      return `<div class="v-item"><span class="w">${esc(x.word)}</span>${tag}<span class="p">${isPh ? "" : esc(x.pos || "")}</span><br>${esc(x.meaning)}</div>`;
+    }).join("");
   }
   // 外链降级模式
   const secs = a.sections || [];
@@ -188,12 +204,40 @@ function renderArticle(){
     </div>`).join("");
 }
 function wordSpans(text){
-  return String(text).split(/(\s+)/).map(tok => {
-    if (/[A-Za-z]/.test(tok)) {
-      const clean = tok.replace(/^[^A-Za-z']+|[^A-Za-z']+$/g, "");
-      return `<span class="w" data-w="${esc(clean)}">${esc(tok)}</span>`;
+  // 1) 先把词组整段切出来（长词组优先，大小写不敏感，前后须为非字母边界）
+  let segs = [{ t: String(text), phrase: null }];
+  for (const ph of phraseList) {
+    const out = [];
+    for (const s of segs) {
+      if (s.phrase) { out.push(s); continue; }
+      let rest = s.t;
+      while (rest) {
+        const idx = rest.toLowerCase().indexOf(ph);
+        if (idx < 0) { out.push({ t: rest, phrase: null }); break; }
+        const before = idx === 0 ? "" : rest[idx - 1];
+        const after = idx + ph.length >= rest.length ? "" : rest[idx + ph.length];
+        if (/[A-Za-z]/.test(before) || /[A-Za-z]/.test(after)) {
+          out.push({ t: rest.slice(0, idx + 1), phrase: null });
+          rest = rest.slice(idx + 1);
+          continue;
+        }
+        if (idx > 0) out.push({ t: rest.slice(0, idx), phrase: null });
+        out.push({ t: rest.slice(idx, idx + ph.length), phrase: ph });
+        rest = rest.slice(idx + ph.length);
+      }
     }
-    return esc(tok);
+    segs = out;
+  }
+  // 2) 词组整段一个 span；其余文本沿用按词切分
+  return segs.map(s => {
+    if (s.phrase) return `<span class="w phrase" data-w="${esc(s.phrase)}">${esc(s.t)}</span>`;
+    return s.t.split(/(\s+)/).map(tok => {
+      if (/[A-Za-z]/.test(tok)) {
+        const clean = tok.replace(/^[^A-Za-z']+|[^A-Za-z']+$/g, "");
+        return `<span class="w" data-w="${esc(clean)}">${esc(tok)}</span>`;
+      }
+      return esc(tok);
+    }).join("");
   }).join("");
 }
 
@@ -242,6 +286,13 @@ async function lookup(word){
   const kw = document.getElementById("lkWord"), kp = document.getElementById("lkPos"), km = document.getElementById("lkMean");
   kw.textContent = w; kp.textContent = ""; km.textContent = "查词中…";
   const links = `<div style="margin-top:8px;font-size:.85em"><a href="eudic://dict/${encodeURIComponent(w)}" style="color:#9ecbff;text-decoration:underline">在欧路词典打开 →</a>　<a href="https://dictionary.cambridge.org/dictionary/english-chinese-simplified/${encodeURIComponent(w)}" target="_blank" rel="noopener" style="color:#9ecbff;text-decoration:underline">剑桥词典 →</a></div>`;
+  if (w.includes(" ")) {
+    kw.innerHTML = esc(w) + `<span class="lbadge">词组</span>`;
+    const lp = vocabMap[w];
+    kp.textContent = "";
+    km.innerHTML = lp ? esc(lp.meaning) + links : "这个词组暂未收录，试试下面的词典：" + links;
+    return;
+  }
   const local = vocabMap[w];
   if (local) {
     kp.textContent = local.pos || "";
@@ -262,8 +313,6 @@ document.addEventListener("click", e => {
   if (w) lookup(w.dataset.w);
 });
 document.getElementById("lookupClose").onclick = () => document.getElementById("lookup").classList.add("hidden");
-
-// ---------- 分节停留 ----------
 
 // ---------- 测试 ----------
 document.getElementById("startQuizBtn").onclick = startQuiz;
