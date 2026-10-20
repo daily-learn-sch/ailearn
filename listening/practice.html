@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261020-2355";
+const PAGE_V = "20261020-2340";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -603,12 +603,6 @@ async function toggleRec(i){
   st.chunks = [];
   st.audioBlob = null; st.audioUrl = null; st.audio_url = null;
   st.result = null;   // 重新录制：旧打分作废，新录音为准
-  st.gen = (st.gen || 0) + 1;   // 代次+1：上一轮的转写轮询就此作废，不许覆盖新录音的状态
-  document.getElementById("recAct"+i).style.display = "none";
-  document.getElementById("shadowScore"+i).innerHTML = "";
-  const um0 = document.getElementById("uploadMsg"+i); if(um0) um0.textContent = "";
-  const sb0 = document.getElementById("sendBtn"+i);
-  if(sb0){ sb0.disabled = true; sb0.textContent = "发送给 Muse 点评"; }
   st.recorder = new MediaRecorder(st.stream);
   st.recorder.ondataavailable = (e)=>{ if(e.data && e.data.size) st.chunks.push(e.data); };
   st.recorder.onstop = ()=>{
@@ -701,7 +695,6 @@ function replayRec(i){
   const st = shRec[i];
   const msg = document.getElementById("uploadMsg"+i);
   if(!st) return;
-  if(shRec.some(s => s && s.recording)){ if(msg) msg.textContent = "⏺ 正在录音，停录后再回放"; return; }
   const srcAudio = st.audio_url || st.audioUrl;
   if(!srcAudio){ if(msg) msg.textContent = "⚠️ 还没有可回放的录音，请先录音"; return; }
   const a = document.getElementById("recPlayer");
@@ -711,7 +704,7 @@ function replayRec(i){
     a.load();
     const p = a.play();
     if(msg) msg.textContent = "▶ 正在回放…";
-    if(p && p.catch) p.catch(()=>{ setTimeout(()=>{ const p2 = a.play(); if(p2 && p2.catch) p2.catch(()=>{ if(msg) msg.textContent = "⚠️ 回放没成功，再点一次试试"; }); }, 350); });
+    if(p && p.catch) p.catch(()=>{ if(msg) msg.textContent = "⚠️ 回放没成功，再点一次试试"; });
   }catch(e){ if(msg) msg.textContent = "⚠️ 回放失败，再点一次试试"; }
 }
 function submitShadowScore(i){
@@ -728,8 +721,6 @@ function submitShadowScore(i){
 }
 async function sendToMuse(i){
   const st = shRec[i];
-  if(!st || st.recording) return;
-  const gen = st.gen || 0;
   const s = drill.sentences[i];
   const btn = document.getElementById("sendBtn"+i);
   btn.disabled = true;
@@ -750,7 +741,7 @@ async function sendToMuse(i){
     }else{
       // iPhone：浏览器转写不可用，等服务端 Whisper 转写
       note.textContent = "☁️ 已发送，服务端转写中（约1-3分钟），完成后自动打分…";
-      if(row.id) pollTranscription(row.id, i, box, gen);
+      if(row.id) pollTranscription(row.id, i, box);
       else note.textContent = "⚠️ 发送成功但没拿到记录ID，录音已保存，可回放";
     }
   }catch(e){
@@ -760,19 +751,24 @@ async function sendToMuse(i){
 }
 
 // 服务端转写轮询（iPhone 用）：拿到文字后自动打分并把分数回写到该行
-async function pollTranscription(rowId, i, box, gen){
+async function pollTranscription(rowId, i, box){
   const t0 = Date.now();
   while(Date.now() - t0 < 6*60*1000){
     await new Promise(r=>setTimeout(r, 10000));
-    if((shRec[i].gen || 0) !== gen) return;   // 已重新录制：旧轮询作废
     let t = "";
     try{
       const r = await fetch(`${SUPABASE_URL}/rest/v1/shadowing_submissions?id=eq.${rowId}&select=transcribed`, {headers: SBH});
       const j = await r.json();
       t = (j[0] && j[0].transcribed) || "";
     }catch(e){}
+    if(t === "__failed_empty__"){
+      const note = document.createElement("div");
+      note.className = "status";
+      note.textContent = "❌ 这条录音上传成了空文件，没能转写。请点「重新录制」录完后再发送一次";
+      box.appendChild(note);
+      return;
+    }
     if(t && t !== "__working__"){
-      if((shRec[i].gen || 0) !== gen) return;
       const st = shRec[i];
       st.transcribed = t;
       submitShadowScore(i);
@@ -789,7 +785,6 @@ async function pollTranscription(rowId, i, box, gen){
       return;
     }
   }
-  if((shRec[i].gen || 0) !== gen) return;
   const note = document.createElement("div");
   note.className = "status";
   note.textContent = "⚠️ 转写超时（可能排队中），录音已保存；可回放自查，或过几分钟刷新页面重试";
