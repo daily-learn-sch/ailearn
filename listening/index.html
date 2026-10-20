@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>精听训练 · AI Learn</title>
 <link rel="stylesheet" href="style.css">
+<style>
+.ielts-track{position:relative;height:12px;background:#e9e9ee;border-radius:6px;margin:30px 2px 4px}
+.ielts-fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:linear-gradient(90deg,#4a90d9,#30d158)}
+.ielts-mark{position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:#fff;border:1.5px solid #bbb;transform:translate(-50%,-50%);z-index:1}
+.ielts-dot{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid #4a90d9;transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:2}
+.ielts-bubble{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;font-size:12px;padding:3px 8px;border-radius:8px;white-space:nowrap}
+.ielts-ticks{position:relative;height:18px;margin:2px 2px 0}
+.ielts-tick{position:absolute;transform:translateX(-50%);font-size:11px;color:#888;white-space:nowrap}
+.ielts-tick.first{transform:none}
+.ielts-tick.last{transform:translateX(-100%)}
+.ielts-note{font-size:13px;color:#555;margin-top:6px;line-height:1.6}
+.ielts-sub{color:#999;font-size:12px}
+</style>
 </head>
 <body>
 <header>
@@ -15,6 +28,9 @@
 
 <main id="app">
   <section id="view-home" class="view">
+    <!-- IELTS 7.0 进度条 -->
+    <div id="ielts-bar" class="card"><div class="meta">加载中…</div></div>
+
     <!-- 今日大卡片：精听入口 -->
     <div id="today-card" class="card today"></div>
 
