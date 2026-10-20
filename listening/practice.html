@@ -153,6 +153,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 
 <!-- ============ 统计 ============ -->
 <div id="view-stats" style="display:none">
+  <div class="card"><h3>📅 最近记录</h3><div id="dailyBody" class="status">加载中…</div></div>
   <div class="card"><h3>📊 周统计</h3><div id="weeklyBody" class="status">加载中…</div></div>
   <div class="card"><h3>📊 月统计</h3><div id="monthlyBody" class="status">加载中…</div></div>
   <div class="card"><h3>🎯 高频错词 TOP</h3><div id="mistakesBody" class="status">加载中…</div></div>
@@ -618,7 +619,15 @@ async function uploadRec(i){
 }
 function replayRec(i){
   const st = shRec[i];
-  if(st && st.audioUrl){ new Audio(st.audioUrl).play(); }
+  const msg = document.getElementById("uploadMsg"+i);
+  if(!st){ return; }
+  const srcAudio = st.audio_url || st.audioUrl;   // 云端地址优先（本地 blob 在 iOS 上不可靠）
+  if(!srcAudio){ if(msg) msg.textContent = "⚠️ 还没有可回放的录音，请先录音"; return; }
+  try{
+    const a = new Audio(srcAudio);
+    const p = a.play();
+    if(p && p.catch) p.catch(()=>{ if(msg) msg.textContent = "⚠️ 回放没成功，再点一次试试"; });
+  }catch(e){ if(msg) msg.textContent = "⚠️ 回放失败，再点一次试试"; }
 }
 function submitShadowScore(i){
   const st = shRec[i];
@@ -739,6 +748,16 @@ async function sbGet(view){
 }
 async function loadStats(){
   const set = (id, html)=>{ document.getElementById(id).innerHTML = html; };
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/drill_sessions?select=drill_date,total_seconds,modules&finished_at=not.is.null&order=drill_date.desc,created_at.desc&limit=14`, {headers: SBH});
+    const d = await r.json();
+    const _n = new Date(), _p = n=>String(n).padStart(2,"0");
+    const today = `${_n.getFullYear()}-${_p(_n.getMonth()+1)}-${_p(_n.getDate())}`;
+    set("dailyBody", d.length ? `<table class="stat-table"><tr><th>日期</th><th>听写</th><th>总时长</th><th>精听·听写·跟读</th></tr>${
+      d.map(x=>{ const m = x.modules||{}; const isT = x.drill_date===today;
+        return `<tr${isT?' style="font-weight:bold"':""}><td>${x.drill_date}${isT?" · 今天":""}</td><td>${m.dictation&&m.dictation.score!=null?m.dictation.score+" 分":"-"}</td><td>${fmtTime(x.total_seconds)}</td><td>${fmtTime((m.listening||{}).seconds||0)} · ${fmtTime((m.dictation||{}).seconds||0)} · ${fmtTime((m.shadowing||{}).seconds||0)}</td></tr>`; }).join("")
+    }</table>` : "暂无记录，完成一次训练后这里会显示");
+  }catch(e){ set("dailyBody", "⚠️ 加载失败"); }
   try{
     const w = await sbGet("weekly_stats");
     set("weeklyBody", w.length ? `<table class="stat-table"><tr><th>周</th><th>次数</th><th>总时长</th><th>听写均分</th></tr>${
