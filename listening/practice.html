@@ -59,6 +59,30 @@ textarea:focus{outline:none;border-color:#4a90d9}
 .rec-actions{margin:6px 0}
 .btn.rec-on{background:#e05252}
 .btn.rec-on:hover{background:#c93f3f}
+.ielts-track{position:relative;height:12px;background:#e9e9ee;border-radius:6px;margin:30px 2px 4px}
+.ielts-fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:linear-gradient(90deg,#4a90d9,#30d158)}
+.ielts-mark{position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:#fff;border:1.5px solid #bbb;transform:translate(-50%,-50%);z-index:1}
+.ielts-dot{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid #4a90d9;transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:2}
+.ielts-bubble{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;font-size:12px;padding:3px 8px;border-radius:8px;white-space:nowrap}
+.ielts-ticks{position:relative;height:18px;margin:2px 2px 0}
+.ielts-tick{position:absolute;transform:translateX(-50%);font-size:11px;color:#888;white-space:nowrap}
+.ielts-tick.first{transform:none}
+.ielts-tick.last{transform:translateX(-100%)}
+.ielts-note{font-size:13px;color:#555;margin-top:6px;line-height:1.6}
+.ielts-sub{color:#999;font-size:12px}
+.day-item{padding:10px 0;border-bottom:1px solid #f0f0f0}
+.day-item:last-child{border-bottom:none}
+.day-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;font-size:14px}
+.day-head span{color:#666}
+.day-mist{font-size:13px;color:#666;margin-top:5px;line-height:1.6}
+.day-coach{font-size:13px;color:#2b6cb0;background:#f0f7ff;border-radius:8px;padding:7px 10px;margin-top:6px;line-height:1.6}
+.weak-row{padding:9px 0;border-bottom:1px solid #f0f0f0}
+.weak-row:last-child{border-bottom:none}
+.weak-head{display:flex;justify-content:space-between;font-size:14px}
+.weak-n{color:#888;font-size:13px}
+.weak-bar{height:8px;background:#f0f0f3;border-radius:4px;margin:6px 0 4px}
+.weak-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#ff9f0a,#e05252)}
+.weak-ex{font-size:13px;color:#666}
 </style>
 </head>
 <body>
@@ -153,6 +177,9 @@ textarea:focus{outline:none;border-color:#4a90d9}
 
 <!-- ============ 统计 ============ -->
 <div id="view-stats" style="display:none">
+  <div class="card"><h3>🏁 通往 IELTS 7.0</h3><div id="ieltsBarBody" class="status">加载中…</div></div>
+  <div class="card"><h3>📅 每日详情</h3><div id="dailyDetailBody" class="status">加载中…</div></div>
+  <div class="card"><h3>🎯 薄弱点分析</h3><div id="weakBody" class="status">加载中…</div></div>
   <div class="card"><h3>📅 最近记录</h3><div id="dailyBody" class="status">加载中…</div></div>
   <div class="card"><h3>📊 周统计</h3><div id="weeklyBody" class="status">加载中…</div></div>
   <div class="card"><h3>📊 月统计</h3><div id="monthlyBody" class="status">加载中…</div></div>
@@ -797,7 +824,180 @@ async function loadStats(){
       t.map(x=>`<tr><td>${esc(x.word)}</td><td>${x.times}</td><td>${x.last_seen}</td></tr>`).join("")
     }</table>` : "暂无错词数据");
   }catch(e){ set("mistakesBody", "⚠️ 加载失败"); }
+  loadStatsExtra();
 }
+
+// ==== IELTS 7.0 进度条 + 每日详情 + 薄弱点分析 ====
+const IELTS_MILES = [[4.5,"4.5 A2·起点"],[5.0,"5.0"],[5.5,"5.5 B1"],[6.0,"6.0"],[6.5,"6.5 B2"],[7.0,"7.0 🎯目标"]];
+const IELTS_NEXT_NAME = {5.0:"5.0", 5.5:"B1 · 5.5", 6.0:"6.0", 6.5:"B2 · 6.5", 7.0:"目标 · 7.0"};
+function ieltsEstimate(sessions){
+  const scores = [];
+  for(const s of (sessions||[])){
+    const sc = s && s.modules && s.modules.dictation ? s.modules.dictation.score : null;
+    if(sc != null){ scores.push(sc); if(scores.length >= 7) break; }
+  }
+  if(scores.length < 3) return {enough:false, n:scores.length, band:4.5, avg: scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : null};
+  const avg = scores.reduce((a,b)=>a+b,0)/scores.length;
+  const band = Math.min(6.0, 4.5 + Math.max(0, avg-70)*0.05);
+  return {enough:true, n:scores.length, band, avg};
+}
+function ieltsBarInner(sessions){
+  const est = ieltsEstimate(sessions);
+  const pct = Math.round(Math.max(0, Math.min(100, (est.band-4.5)/2.5*100))*10)/10;
+  const marks = IELTS_MILES.map(([v])=>`<span class="ielts-mark" style="left:${(v-4.5)/2.5*100}%"></span>`).join("");
+  const ticks = IELTS_MILES.map(([v,label],i)=>{
+    const cls = i===0 ? "ielts-tick first" : (i===IELTS_MILES.length-1 ? "ielts-tick last" : "ielts-tick");
+    return `<span class="${cls}" style="left:${(v-4.5)/2.5*100}%">${label}</span>`;
+  }).join("");
+  let note;
+  if(est.enough){
+    const next = IELTS_MILES.find(m=>m[0] > est.band + 0.04);
+    const distTxt = next ? `距 ${IELTS_NEXT_NAME[next[0]]} 还差 ${(next[0]-est.band).toFixed(1)}` : "已非常接近 7.0 目标";
+    note = `${distTxt} · 近 ${est.n} 次听写均分 ${est.avg.toFixed(1)}<br><span class="ielts-sub">按近期听写成绩粗估，非官方分数；现阶段材料为 A2 难度，估值暂封顶 6.0</span>`;
+  } else {
+    note = `数据积累中（已完成 ${est.n} 次带听写分的训练，满 3 次后开始估算）<br><span class="ielts-sub">按近期听写成绩粗估，非官方分数</span>`;
+  }
+  const bubbleStyle = pct < 10 ? ' style="left:0;transform:none"' : (pct > 90 ? ' style="left:auto;right:0;transform:none"' : "");
+  return `<div class="ielts-track"><div class="ielts-fill" style="width:${pct}%"></div>${marks}<div class="ielts-dot" style="left:${pct}%"><div class="ielts-bubble"${bubbleStyle}>当前估计 ≈${est.band.toFixed(1)}</div></div></div><div class="ielts-ticks">${ticks}</div><div class="ielts-note">${note}</div>`;
+}
+
+const WK_ARTICLES = new Set(["a","an","the"]);
+const WK_IRREG = new Set(["went","saw","took","got","made","came","gave","found","thought","told","said","left","felt","knew","heard","began","brought","became","ran","sat","stood","wrote","was","were","had","did","lost","woke","slept","kept","spent","built","sent","paid","met","read","grew","drove","spoke","broke","chose","forgot","understood"]);
+const WK_PREPS = new Set(["in","on","at","to","of","for","with","from","by","about","into","over","under","after","before","between","through","during","behind","near"]);
+const WK_CATS = [
+  {key:"articles", name:"冠词 a / an / the", tip:"明天精听时特别留意 a / the 这种小词，它们最容易被吞掉。"},
+  {key:"ed", name:"过去式 -ed / 不规则过去式", tip:"明天精听留意动词的过去式，先听出「过去」这个信号。"},
+  {key:"prep", name:"介词 in / on / at 等", tip:"明天多注意介词短语，in / on / at 往往一闪而过。"},
+  {key:"s", name:"词尾 -s（复数 / 三单）", tip:"明天留意词尾的 -s，复数和三单的 s 经常被漏听。"},
+  {key:"content", name:"实词听错 / 漏听", tip:"明天遇到听不出的实词先记下读音，听完立刻查词补上。"}
+];
+function wkClassify(word){
+  const w = String(word||"").toLowerCase().replace(/[^a-z']/g,"");
+  if(!w) return null;
+  if(WK_ARTICLES.has(w)) return "articles";
+  if(WK_IRREG.has(w) || (w.endsWith("ed") && w.length > 3)) return "ed";
+  if(WK_PREPS.has(w)) return "prep";
+  if(w.endsWith("s") && w.length > 2) return "s";
+  return "content";
+}
+function wkAggregate(sdRows){
+  const cats = {};
+  WK_CATS.forEach(c=>{ cats[c.key] = {count:0, pairs:new Map()}; });
+  let total = 0;
+  for(const r of (sdRows||[])){
+    for(const m of (r.mistakes||[])){
+      const key = wkClassify(m.expected);
+      if(!key) continue;
+      total++;
+      const c = cats[key];
+      c.count++;
+      const pk = m.expected + "" + m.actual;
+      const cur = c.pairs.get(pk) || {expected:m.expected, actual:m.actual, n:0};
+      cur.n++;
+      c.pairs.set(pk, cur);
+    }
+  }
+  return {total, cats};
+}
+function wkTopPair(cat){
+  let best = null;
+  for(const p of cat.pairs.values()) if(!best || p.n > best.n) best = p;
+  return best;
+}
+function weakHTML(sdRows){
+  const agg = wkAggregate(sdRows);
+  if(!agg.total) return "近 30 天暂无听写错题数据";
+  const max = Math.max(1, ...WK_CATS.map(c=>agg.cats[c.key].count));
+  return WK_CATS.map(c=>{
+    const d = agg.cats[c.key];
+    const ex = wkTopPair(d);
+    const pctTxt = Math.round(d.count/agg.total*100);
+    return `<div class="weak-row"><div class="weak-head"><span>${c.name}</span><span class="weak-n">${d.count} 次 · ${pctTxt}%</span></div><div class="weak-bar"><div class="weak-fill" style="width:${Math.round(d.count/max*100)}%"></div></div>${ex ? `<div class="weak-ex">例：应为 <b>${esc(ex.expected)}</b>，你写 <b>${esc(ex.actual)}</b>${ex.n>1 ? " ×"+ex.n : ""}</div>` : ""}</div>`;
+  }).join("") + `<div class="status">近 30 天共 ${agg.total} 处听写错误，按错误词分类统计</div>`;
+}
+function coachComment(score, prevScores, dayAgg, topCat){
+  let s = "";
+  if(score != null && prevScores.length){
+    const prevAvg = prevScores.reduce((a,b)=>a+b,0)/prevScores.length;
+    const diff = score - prevAvg;
+    if(diff >= 3) s += `${score} 分，比此前 ${prevScores.length} 次均分 ${prevAvg.toFixed(1)} 高出 ${diff.toFixed(1)} 分，状态在往上走 📈。`;
+    else if(diff <= -3) s += `${score} 分，比此前均分 ${prevAvg.toFixed(1)} 低 ${(-diff).toFixed(1)} 分，别灰心——看清错在哪，比分数本身更重要。`;
+    else s += `${score} 分，和此前均分 ${prevAvg.toFixed(1)} 基本持平，稳住节奏。`;
+  } else if(score != null){
+    s += `${score} 分，这是你的起点记录，之后的进步都跟它比。`;
+  }
+  if(dayAgg.total && topCat && dayAgg.cats[topCat.key].count > 0){
+    const ex = wkTopPair(dayAgg.cats[topCat.key]);
+    s += ` 当天主要卡在「${topCat.name}」（${dayAgg.cats[topCat.key].count} 处${ex ? `，如 应为 ${esc(ex.expected)}，你写 ${esc(ex.actual)}` : ""}）。${topCat.tip}`;
+  } else {
+    s += " 当天没有记录到听写错题，很稳。";
+  }
+  return s;
+}
+function dailyDetailHTML(sessions, sdRows, todayStr){
+  const byDate = new Map();
+  for(const s of (sessions||[])){
+    if(!byDate.has(s.drill_date)) byDate.set(s.drill_date, []);
+    byDate.get(s.drill_date).push(s);
+  }
+  const dates = [...byDate.keys()].sort().reverse().slice(0,7);
+  if(!dates.length) return "暂无记录，完成一次训练后这里会显示";
+  const sdByDate = new Map();
+  for(const r of (sdRows||[])){
+    if(!sdByDate.has(r.drill_date)) sdByDate.set(r.drill_date, []);
+    sdByDate.get(r.drill_date).push(r);
+  }
+  return dates.map(date=>{
+    const daySessions = byDate.get(date); // finished_at 倒序：[0] 为当日最后一次
+    const last = daySessions[0];
+    const score = last.modules && last.modules.dictation ? last.modules.dictation.score : null;
+    const totalSec = daySessions.reduce((a,s)=>a+(s.total_seconds||0), 0);
+    const dayRows = sdByDate.get(date) || [];
+    const pairMap = new Map();
+    for(const r of dayRows) for(const m of (r.mistakes||[])){
+      const pk = m.expected + "" + m.actual;
+      const cur = pairMap.get(pk) || {expected:m.expected, actual:m.actual, n:0};
+      cur.n++;
+      pairMap.set(pk, cur);
+    }
+    const top3 = [...pairMap.values()].sort((a,b)=>b.n-a.n).slice(0,3);
+    const prevScores = [];
+    for(const s of sessions){
+      if(s.drill_date < date){
+        const sc = s.modules && s.modules.dictation ? s.modules.dictation.score : null;
+        if(sc != null){ prevScores.push(sc); if(prevScores.length >= 7) break; }
+      }
+    }
+    const dayAgg = wkAggregate(dayRows);
+    let topCat = null;
+    for(const c of WK_CATS) if(!topCat || dayAgg.cats[c.key].count > dayAgg.cats[topCat.key].count) topCat = c;
+    const coach = coachComment(score, prevScores, dayAgg, topCat);
+    const multi = daySessions.length > 1 ? ` · 当日共 ${daySessions.length} 次` : "";
+    return `<div class="day-item"><div class="day-head"><b>${date}${date===todayStr ? " · 今天" : ""}</b><span>听写 ${score != null ? score + " 分" : "-"} · 总时长 ${fmtTime(totalSec)}${multi}</span></div>` +
+      (top3.length ? `<div class="day-mist">错题 TOP：${top3.map(p=>`应为 <b>${esc(p.expected)}</b>，你写 <b>${esc(p.actual)}</b>${p.n>1 ? " ×"+p.n : ""}`).join(" · ")}</div>` : `<div class="day-mist">当天没有逐句听写错题记录</div>`) +
+      `<div class="day-coach">💬 ${coach}</div></div>`;
+  }).join("");
+}
+async function loadStatsExtra(){
+  const set = (id, html)=>{ const el = document.getElementById(id); if(el) el.innerHTML = html; };
+  let sessions = [];
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/drill_sessions?select=drill_date,total_seconds,modules,finished_at&finished_at=not.is.null&order=finished_at.desc&limit=40`, {headers: SBH});
+    sessions = await r.json();
+    set("ieltsBarBody", ieltsBarInner(sessions));
+  }catch(e){ set("ieltsBarBody", "⚠️ 加载失败"); }
+  try{
+    const _n = new Date(), _p = n=>String(n).padStart(2,"0");
+    const today = `${_n.getFullYear()}-${_p(_n.getMonth()+1)}-${_p(_n.getDate())}`;
+    const since = new Date(Date.now() - 29*864e5);
+    const sinceStr = `${since.getFullYear()}-${_p(since.getMonth()+1)}-${_p(since.getDate())}`;
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/sentence_dictations?select=drill_date,mistakes&drill_date=gte.${sinceStr}&order=drill_date.desc&limit=1000`, {headers: SBH});
+    const sd = await r.json();
+    set("dailyDetailBody", dailyDetailHTML(sessions, sd, today));
+    set("weakBody", weakHTML(sd));
+  }catch(e){ set("dailyDetailBody", "⚠️ 加载失败"); set("weakBody", "⚠️ 加载失败"); }
+}
+// ==== /IELTS 7.0 进度条 + 每日详情 + 薄弱点分析 ====
 
 load();
 </script>
