@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261021-0020";
+const PAGE_V = "20261021-0035";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -742,7 +742,7 @@ function replayRec(i){
   const st = shRec[i];
   const msg = document.getElementById("uploadMsg"+i);
   if(!st) return;
-  if(shRec.some(s => s && s.recording)){ if(msg) msg.textContent = "⏺ 正在录音，停录后再回放"; return; }
+  if(Object.values(shRec).some(s => s && s.recording)){ if(msg) msg.textContent = "⏺ 正在录音，停录后再回放"; return; }
   const srcAudio = st.audio_url || st.audioUrl;
   if(!srcAudio){ if(msg) msg.textContent = "⚠️ 还没有可回放的录音，请先录音"; return; }
   const a = document.getElementById("recPlayer");
