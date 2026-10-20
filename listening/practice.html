@@ -540,7 +540,7 @@ function enterShadowing(){
         <button class="btn small ghost" id="recBtn${i}" onclick="toggleRec(${i})" ${noMic?"disabled":""}>🎤 录音</button>
       </div>
       ${noMic?'<div class="status">⚠️ 当前浏览器不支持录音（无麦克风权限或不支持 MediaRecorder）</div>':""}
-      ${iosNoSR?'<div class="status">📱 iPhone 上语音转写不可用或不可靠：不影响录音，录音会自动存云端、可回放自查；自动打分请用电脑 Chrome</div>':""}
+      ${iosNoSR?'<div class="status">📱 iPhone 录完点「发送给 Muse 点评」：服务端转写文字 + 自动打分（约 1–3 分钟），不用电脑</div>':""}
       <div class="rec-result" id="recRes${i}" style="display:none"></div>
       <div class="rec-actions" id="recAct${i}" style="display:none">
         <button class="btn small" onclick="submitShadowScore(${i})">提交打分</button>
@@ -633,11 +633,9 @@ function stopRec(i){
   const srOK = canSR && !st.srError;  // 转写真正可用：接口存在且本次没报错
   res.innerHTML = st.transcribed
     ? `识别结果：${esc(st.transcribed)}`
-    : (srOK
-        ? '<span style="color:#c00">⚠️ 没识别到语音，再试一次（大声一点、离麦克风近一点）</span><br><span class="status">录音已保存，可点"回放我的录音"自查</span>'
-        : '<span style="color:#2b6cb0">⚠️ 浏览器语音转写不可用，录音已保存，可回放自查</span>');
+    : '<span style="color:#2b6cb0">录音已保存。点「发送给 Muse 点评」，服务端会转写出文字并自动打分（约 1–3 分钟）</span>';
   document.getElementById("recAct"+i).style.display = "block";
-  if(!srOK){ document.getElementById("sendBtn"+i).disabled = false; }  // 转写不可用也允许发送点评
+  document.getElementById("sendBtn"+i).disabled = false;  // 有录音就能发送：服务端 Whisper 转写，不依赖浏览器本地识别
 }
 async function uploadRec(i){
   const st = shRec[i];
@@ -696,6 +694,8 @@ async function sendToMuse(i){
   const note = document.createElement("div");
   note.className = "status"; note.textContent = "发送中…"; box.appendChild(note);
   try{
+    if(!st.audio_url && st.audioBlob){ note.textContent = "☁️ 录音上传中…"; await uploadRec(i); note.textContent = "发送中…"; }
+    if(!st.audio_url) throw new Error("no audio");
     const r = await sbPost("shadowing_submissions", {
       drill_date: drill.date, sentence_idx: i,
       expected: s.text, transcribed: st.transcribed || "", score: st.result ? st.result.score : null,
@@ -711,7 +711,7 @@ async function sendToMuse(i){
       else note.textContent = "⚠️ 发送成功但没拿到记录ID，录音已保存，可回放";
     }
   }catch(e){
-    note.textContent = "⚠️ 发送失败（表可能还没建好），稍后再试";
+    note.textContent = "⚠️ 发送失败，稍后再试（录音还在，可回放）";
     btn.disabled = false;
   }
 }
