@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261021-0035";
+const PAGE_V = "20261021-0045";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -594,7 +594,7 @@ async function restoreShadowResults(){
   if(!drill || !sbOk) return;
   let rows = [];
   try{
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/shadowing_submissions?drill_date=eq.${encodeURIComponent(drill.date)}&select=id,sentence_idx,transcribed,score,created_at&order=created_at.desc&limit=30`, {headers: SBH});
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/shadowing_submissions?drill_date=eq.${encodeURIComponent(drill.date)}&select=id,sentence_idx,transcribed,score,created_at,audio_url&order=created_at.desc&limit=30`, {headers: SBH});
     rows = await r.json();
   }catch(e){ return; }
   if(!Array.isArray(rows)) return;
@@ -610,6 +610,7 @@ async function restoreShadowResults(){
     if(t && t !== "__working__" && t !== "__failed_empty__"){
       if(st.transcribed) continue;           // 本次会话已有实时结果，不覆盖
       st.transcribed = t; st.restoredRowId = row.id;
+      if(row.audio_url) st.audio_url = row.audio_url;   // 恢复的句子也能回放云端录音
       act.style.display = "block";
       const res = document.getElementById("recRes"+i);
       res.style.display = "block";
