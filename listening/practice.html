@@ -212,7 +212,7 @@ function getDateParam(){
   const m = location.search.match(/[?&]date=(\d{4}-\d{2}-\d{2})/);
   return m ? m[1] : null;
 }
-function norm(s){ return s.toLowerCase().replace(/[^a-z0-9'\s]/g,"").split(/\s+/).filter(Boolean); }
+function norm(s){ return s.toLowerCase().replace(/[^a-z0-9']+/g," ").split(/\s+/).filter(Boolean); }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 function fmtTime(sec){
   sec = Math.round(sec);
@@ -235,18 +235,45 @@ function showTab(t){
 }
 
 // ---------- 词级判分（复用原逻辑） ----------
+function alignWords(exp, got){
+  // LCS 对齐：漏词/多词/标点差异都不会再连环错位
+  const m = exp.length, n = got.length;
+  const dp = Array.from({length: m+1}, () => new Array(n+1).fill(0));
+  for(let i=m-1;i>=0;i--) for(let j=n-1;j>=0;j--)
+    dp[i][j] = exp[i]===got[j] ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const ops = []; let i=0, j=0;
+  while(i<m || j<n){
+    if(i<m && j<n && exp[i]===got[j]){ ops.push({t:"ok", e:exp[i]}); i++; j++; }
+    else if(j<n && (i>=m || dp[i][j+1] >= dp[i+1][j])){ ops.push({t:"extra", g:got[j]}); j++; }
+    else { ops.push({t:"miss", e:exp[i]}); i++; }
+  }
+  // 同一段错误区内，漏词与多词按位置一一配对成"替换"，剩余的单独保留
+  const out = []; let run = [];
+  function flushRun(){
+    if(!run.length) return;
+    const es = run.filter(o=>o.t==="miss").map(o=>o.e);
+    const gs = run.filter(o=>o.t==="extra").map(o=>o.g);
+    const pairs = Math.min(es.length, gs.length);
+    for(let k=0;k<pairs;k++) out.push({t:"sub", e:es[k], g:gs[k]});
+    for(let k=pairs;k<es.length;k++) out.push({t:"miss", e:es[k]});
+    for(let k=pairs;k<gs.length;k++) out.push({t:"extra", g:gs[k]});
+    run = [];
+  }
+  for(const op of ops){
+    if(op.t==="ok"){ flushRun(); out.push(op); } else run.push(op);
+  }
+  flushRun();
+  return out;
+}
 function scoreText(expected, actual){
   const exp = norm(expected), got = norm(actual);
-  const maxLen = Math.max(exp.length, got.length);
+  const ops = alignWords(exp, got);
   let correct = 0; const mistakes = []; let html = "";
-  for(let i=0;i<maxLen;i++){
-    const e = exp[i], g = got[i];
-    if(e === g){ correct++; html += `<span class="ok">${esc(e||"")} </span>`; }
-    else{
-      if(e) html += `<span class="miss">${esc(e)}</span> `;
-      if(g && g !== e) html += `<span class="extra">${esc(g)}</span> `;
-      mistakes.push({expected: e || "(缺失)", actual: g || "(未写)"});
-    }
+  for(const op of ops){
+    if(op.t==="ok"){ correct++; html += `<span class="ok">${esc(op.e)} </span>`; }
+    else if(op.t==="sub"){ html += `<span class="miss">${esc(op.e)}</span> <span class="extra">${esc(op.g)}</span> `; mistakes.push({expected: op.e, actual: op.g}); }
+    else if(op.t==="miss"){ html += `<span class="miss">${esc(op.e)}</span> `; mistakes.push({expected: op.e, actual: "(未写)"}); }
+    else { html += `<span class="extra">${esc(op.g)}</span> `; mistakes.push({expected: "(缺失)", actual: op.g}); }
   }
   const score = exp.length ? Math.round(correct/exp.length*100) : 0;
   return {score, mistakes, html};
