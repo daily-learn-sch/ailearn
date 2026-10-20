@@ -77,6 +77,28 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
 .v-tag.word{background:#f1f3f5;color:#888;border:1px solid #e2e8f0}
 /* 查词弹窗词组徽标 */
 #lookup .lbadge{display:inline-block;background:#4a90d9;color:#fff;font-size:.66em;border-radius:9px;padding:1px 8px;margin-left:7px;vertical-align:2px}
+/* 标注：正文重点词黄高亮（与 tapped 橙下划线区分） */
+.sec p .w.marked{background:#fff3bf;border-bottom:2px solid #f5c518}
+.sec p .w.phrase.marked{background:#fff3bf;border-bottom-color:#f5c518}
+/* 重点句 */
+.sec p .sent.marked{background:#fff3bf;border-radius:3px}
+.sent-mark{background:none;border:none;cursor:pointer;font-size:.7em;opacity:.3;padding:0 2px;line-height:1}
+.sent-mark:hover{opacity:.8}
+.sent-mark.on{opacity:1}
+/* 弹窗 ⭐ 按钮 */
+#lkMark{margin-top:10px;background:#2c2c2e;color:#ffd60a;border:1px solid #555;border-radius:8px;padding:6px 14px;font-size:.88em;cursor:pointer}
+#lkMark.on{background:#ffd60a;color:#1d1d1f;border-color:#ffd60a;font-weight:bold}
+/* 我的记录卡 */
+.mark-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:.92em;line-height:1.6}
+.mark-row:last-child{border-bottom:none}
+.mark-row .mw{font-weight:bold}
+.mark-row .mm{color:#666;font-size:.9em}
+.mark-row .mc{color:#999;font-size:.82em;white-space:nowrap}
+.mark-row .unmark{flex:none;background:none;border:1px solid #ddd;color:#888;border-radius:6px;padding:2px 9px;font-size:.8em;cursor:pointer}
+.mark-sub{font-weight:bold;margin:12px 0 2px;color:#333}
+.mark-sub:first-child{margin-top:0}
+details.all-marks summary{cursor:pointer;font-weight:bold;color:#4a90d9;margin-top:14px;outline:none}
+.all-marks .am-art{color:#888;font-size:.82em;margin-top:10px}
 /* 计时恢复提示条 + 归零按钮 */
 #resumeBar{margin-top:10px;background:#fff8e1;border:1px solid #ffe08a;border-radius:8px;padding:8px 12px;font-size:.88em;color:#7a5b00}
 #resumeBar button{margin-left:8px;cursor:pointer}
@@ -137,6 +159,16 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
 <!-- 结果 -->
 <div class="card hidden" id="resultWrap"></div>
 
+<!-- 我的记录 -->
+<div class="card hidden" id="marksCard">
+  <h3>📌 我的记录</h3>
+  <div id="marksBody"><div class="status">加载中…</div></div>
+  <details class="all-marks" id="allMarksBox">
+    <summary>⭐ 全部重点（跨文章复习）</summary>
+    <div id="allMarksBody"><div class="status">展开后加载…</div></div>
+  </details>
+</div>
+
 <!-- 历史 -->
 <div class="card">
   <h3>📚 阅读记录</h3>
@@ -147,6 +179,7 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
   <button class="lx" id="lookupClose">×</button>
   <div><span class="lw" id="lkWord"></span><span class="lp" id="lkPos"></span></div>
   <div class="lm" id="lkMean">查词中…</div>
+  <button id="lkMark" type="button">⭐ 标为重点</button>
 </div>
 
 <footer style="text-align:center;color:#999;font-size:.8rem;padding:1rem 0">sunchaohai · AI Learn</footer>
@@ -215,6 +248,7 @@ async function loadArticle(){
   }
   article = rows[0];
   renderArticle();
+  loadMarks();
   document.getElementById("quizGate").classList.remove("hidden");
   restoreTimer();
   startClock();
@@ -255,7 +289,8 @@ function renderArticle(){
     <div class="step-badge">今日阅读 · ${esc(a.level || "")}</div>
     <div class="art-title">${esc(a.title)}</div>
     <div class="art-meta">${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">来源：${esc(a.source || "原文")}</a>` : "来源：" + esc(a.source || "站内")} · 约${a.word_count || "?"}词 · 预计${a.est_minutes || "?"}分钟 · ${esc(a.read_date || "")}</div>
-    <div class="reason">📋 推荐理由：${esc(a.reason_cn || "")}</div>`;
+    <div class="reason">📋 推荐理由：${esc(a.reason_cn || "")}</div>
+    <div class="status" style="margin-top:8px">💡 点词查释义 · 弹窗里点 ⭐ 标重点 · 句尾点 📌 标重点句</div>`;
   // 生词预习
   const v = a.vocab || [];
   vocabMap = {};
@@ -290,7 +325,7 @@ function renderArticle(){
   document.getElementById("artBody").innerHTML = secs.map((s, i) => `
     <div class="sec" data-sec="${i}">
       <h4>${esc(s.heading || "Section " + (i+1))}</h4>
-      ${s.paragraphs.map(p => `<p>${wordSpans(p)}</p>`).join("")}
+      ${s.paragraphs.map(p => `<p>${paraHtml(p)}</p>`).join("")}
     </div>`).join("");
 }
 function wordSpans(text){
@@ -329,6 +364,176 @@ function wordSpans(text){
       return esc(tok);
     }).join("");
   }).join("");
+}
+
+// ---------- 标注记录（查词自动记录 + ⭐/📌 重点） ----------
+// 数据在 Supabase reading_marks（唯一键 article_id+kind+text）；表未建好/网络失败一律静默，不挡查词。
+let marksMap = {};   // key: kind + "|" + text -> 记录行
+let lkCtx = null;    // 弹窗当前词/词组 {kind, text}
+function escAttr(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function normText(s){ return String(s == null ? "" : s).replace(/📌/g, "").replace(/\s+/g, " ").trim(); }
+function marksHeaders(extra){
+  return Object.assign({}, SBH, {"Prefer": "resolution=merge-duplicates,return=minimal"}, extra || {});
+}
+async function upsertMark(kind, text, meaning, marked, tapCount){
+  if (!article) return;
+  const body = { article_id: article.id, read_date: article.read_date || todayStr(), kind, text,
+                 meaning: (meaning == null ? null : meaning), marked: !!marked, tap_count: tapCount || 0 };
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/reading_marks?on_conflict=article_id,kind,text`,
+      { method: "POST", headers: marksHeaders(), body: JSON.stringify(body) });
+  } catch (e) { /* 静默 */ }
+}
+async function loadMarks(){
+  if (!article) return;
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/reading_marks?article_id=eq.${encodeURIComponent(article.id)}&select=*`, {headers: SBH});
+    if (r.ok) {
+      marksMap = {};
+      (await r.json()).forEach(row => { marksMap[row.kind + "|" + row.text] = row; });
+    }
+  } catch (e) { /* 表可能还没建好：无记录模式继续 */ }
+  applyMarksToBody();
+  renderMarksCard();
+}
+function applyMarksToBody(){
+  document.querySelectorAll("#artBody .w").forEach(el => {
+    const t = cleanWord(el.dataset.w || "");
+    const kind = t.includes(" ") ? "phrase" : "word";
+    const row = marksMap[kind + "|" + t];
+    el.classList.toggle("marked", !!(row && row.marked));
+  });
+  document.querySelectorAll("#artBody .sent").forEach(el => {
+    const row = marksMap["sentence|" + normText(el.textContent)];
+    const on = !!(row && row.marked);
+    el.classList.toggle("marked", on);
+    const b = el.querySelector(".sent-mark");
+    if (b) b.classList.toggle("on", on);
+  });
+}
+// 查词成功后记一笔：tap_count 以内存 Map 为准 +1；释义只在新记录/为空时补（upsert 会覆盖，故带上已有释义）
+function recordTap(kind, text, meaning){
+  const key = kind + "|" + text;
+  const old = marksMap[key];
+  const row = { article_id: article ? article.id : "", read_date: article ? (article.read_date || todayStr()) : todayStr(),
+    kind, text, meaning: (meaning != null ? meaning : (old ? old.meaning : null)),
+    marked: old ? !!old.marked : false, tap_count: (old ? (old.tap_count || 0) : 0) + 1 };
+  marksMap[key] = row;
+  upsertMark(kind, text, row.meaning, row.marked, row.tap_count);
+  refreshLkMarkBtn();
+  renderMarksCard();
+}
+async function toggleMark(kind, text){
+  const key = kind + "|" + text;
+  const old = marksMap[key];
+  const row = { article_id: article ? article.id : "", read_date: article ? (article.read_date || todayStr()) : todayStr(),
+    kind, text, meaning: old ? old.meaning : null,
+    marked: !(old && old.marked), tap_count: old ? (old.tap_count || 0) : 0 };
+  marksMap[key] = row;
+  await upsertMark(kind, text, row.meaning, row.marked, row.tap_count);
+  applyMarksToBody();
+  refreshLkMarkBtn();
+  renderMarksCard();
+}
+function refreshLkMarkBtn(){
+  const btn = document.getElementById("lkMark");
+  if (!btn) return;
+  if (!lkCtx) { btn.textContent = "⭐ 标为重点"; btn.classList.remove("on"); return; }
+  const row = marksMap[lkCtx.kind + "|" + lkCtx.text];
+  const on = !!(row && row.marked);
+  btn.textContent = on ? "⭐ 已标重点（点击取消）" : "⭐ 标为重点";
+  btn.classList.toggle("on", on);
+}
+function renderMarksCard(){
+  const card = document.getElementById("marksCard");
+  const body = document.getElementById("marksBody");
+  if (!card || !body || !article) return;
+  const rows = Object.values(marksMap);
+  card.classList.remove("hidden");
+  if (!rows.length) {
+    body.innerHTML = `<div class="status">还没有记录。读文章时点任意词/词组查释义会自动记下来；弹窗里点 ⭐、句尾点 📌 可以标重点。</div>`;
+    return;
+  }
+  const escT = s => esc(s);
+  const trunc = (s, n) => { s = String(s || ""); return s.length > n ? s.slice(0, n) + "…" : s; };
+  const mkRow = (r, showCancel) => `
+    <div class="mark-row">
+      <div><span class="mw">${escT(r.text)}</span>${r.meaning ? `<div class="mm">${escT(trunc(r.meaning, 90))}</div>` : ""}</div>
+      <div style="display:flex;align-items:center;gap:8px"><span class="mc">查 ${r.tap_count || 0} 次</span>${showCancel ? `<button class="unmark" type="button" data-k="${esc(r.kind)}" data-t="${escAttr(r.text)}">取消</button>` : ""}</div>
+    </div>`;
+  const sentRow = (r, showCancel) => `
+    <div class="mark-row">
+      <div>${escT(trunc(r.text, 160))}</div>
+      ${showCancel ? `<button class="unmark" type="button" data-k="sentence" data-t="${escAttr(r.text)}">取消</button>` : ""}
+    </div>`;
+  const starred = rows.filter(r => r.marked);
+  const sWords = starred.filter(r => r.kind !== "sentence");
+  const sSents = starred.filter(r => r.kind === "sentence");
+  const looked = rows.filter(r => !r.marked && r.kind !== "sentence")
+    .sort((a, b) => (b.tap_count || 0) - (a.tap_count || 0));
+  let h = "";
+  if (starred.length) {
+    h += `<div class="mark-sub">⭐ 重点（${starred.length}）</div>`;
+    h += sWords.map(r => mkRow(r, true)).join("");
+    h += sSents.map(r => sentRow(r, true)).join("");
+  }
+  if (looked.length) {
+    h += `<div class="mark-sub">👆 查过（${looked.length}）</div>`;
+    h += looked.map(r => mkRow(r, false)).join("");
+  }
+  if (!h) h = `<div class="status">还没有记录。</div>`;
+  body.innerHTML = h;
+  body.querySelectorAll(".unmark").forEach(b => b.onclick = () => toggleMark(b.dataset.k, b.dataset.t));
+}
+let allMarksLoaded = false;
+async function loadAllMarks(){
+  if (allMarksLoaded) return; allMarksLoaded = true;
+  const box = document.getElementById("allMarksBody");
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/reading_marks?marked=eq.true&select=*&order=created_at.desc&limit=500`, {headers: SBH});
+    if (!r.ok) throw 0;
+    const rows = await r.json();
+    if (!rows.length) { box.innerHTML = `<div class="status">还没有标过重点。</div>`; return; }
+    const byArt = {};
+    rows.forEach(x => { (byArt[x.article_id] = byArt[x.article_id] || []).push(x); });
+    box.innerHTML = Object.keys(byArt).map(aid => `
+      <div class="am-art">${esc(aid)} · ${byArt[aid].length} 条</div>
+      ${byArt[aid].map(x => `<div class="mark-row"><div>${x.kind === "sentence" ? "📌 " : "⭐ "}${esc(x.text.length > 80 ? x.text.slice(0, 80) + "…" : x.text)}${x.meaning ? `<div class="mm">${esc(x.meaning)}</div>` : ""}</div></div>`).join("")}`).join("");
+  } catch (e) {
+    allMarksLoaded = false;
+    box.innerHTML = `<div class="status">加载失败，稍后再试。</div>`;
+  }
+}
+document.getElementById("allMarksBox").addEventListener("toggle", e => { if (e.target.open) loadAllMarks(); });
+document.getElementById("lkMark").onclick = () => { if (lkCtx) toggleMark(lkCtx.kind, lkCtx.text); };
+
+// ---------- 句子切分（保守：保护常见缩写与小数） ----------
+const SENT_ABBR = ["Mr.", "Mrs.", "Ms.", "Dr.", "St.", "e.g.", "i.e.", "U.S.", "U.K.", "a.m.", "p.m.", "vs.", "etc."];
+function splitSentences(text){
+  let t = String(text);
+  const PH = "\u0001";
+  SENT_ABBR.forEach(a => { t = t.split(a).join(a.replace(/\./g, PH)); });
+  t = t.replace(/(\d)\.(\d)/g, "$1" + PH + "$2");
+  const out = [];
+  let start = 0;
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (c === "." || c === "!" || c === "?") {
+      let j = i + 1;
+      if (t[j] === '"' || t[j] === "”" || t[j] === "'") j++;
+      if (j < t.length && /\s/.test(t[j])) {
+        let k = j;
+        while (k < t.length && /\s/.test(t[k])) k++;
+        if (k < t.length && /[A-Z0-9"“]/.test(t[k])) { out.push(t.slice(start, j)); start = j; }
+      }
+    }
+  }
+  if (start < t.length) out.push(t.slice(start));
+  return out.map(s => s.split(PH).join(".")).filter(s => s.trim());
+}
+function paraHtml(p){
+  return splitSentences(p).map(s =>
+    `<span class="sent">${wordSpans(s)}<button class="sent-mark" type="button" title="标为重点句">📌</button></span>`).join("");
 }
 
 // ---------- 查词 ----------
@@ -375,18 +580,22 @@ async function lookup(word){
   box.classList.remove("hidden");
   const kw = document.getElementById("lkWord"), kp = document.getElementById("lkPos"), km = document.getElementById("lkMean");
   kw.textContent = w; kp.textContent = ""; km.textContent = "查词中…";
+  lkCtx = { kind: w.includes(" ") ? "phrase" : "word", text: w };
+  refreshLkMarkBtn();
   const links = `<div style="margin-top:8px;font-size:.85em"><a href="eudic://dict/${encodeURIComponent(w)}" style="color:#9ecbff;text-decoration:underline">在欧路词典打开 →</a>　<a href="https://dictionary.cambridge.org/dictionary/english-chinese-simplified/${encodeURIComponent(w)}" target="_blank" rel="noopener" style="color:#9ecbff;text-decoration:underline">剑桥词典 →</a></div>`;
   if (w.includes(" ")) {
     kw.innerHTML = esc(w) + `<span class="lbadge">词组</span>`;
     const lp = vocabMap[w];
     kp.textContent = "";
     km.innerHTML = lp ? esc(lp.meaning) + links : "这个词组暂未收录，试试下面的词典：" + links;
+    recordTap("phrase", w, lp ? lp.meaning : null);
     return;
   }
   const local = vocabMap[w];
   if (local) {
     kp.textContent = local.pos || "";
     km.innerHTML = esc(local.meaning) + links;
+    recordTap("word", w, local.meaning);
     return;
   }
   const hit = await dictLookup(w);
@@ -394,13 +603,27 @@ async function lookup(word){
     if (hit.word !== w) kw.textContent = w + " → " + hit.word;
     kp.textContent = hit.phonetic ? "/" + hit.phonetic + "/" : "";
     km.innerHTML = esc(hit.tr) + links;
+    recordTap("word", w, hit.tr);
     return;
   }
   km.innerHTML = "内置词典未收录，试试下面的词典：" + links;
+  recordTap("word", w, null);
 }
 document.addEventListener("click", e => {
-  const w = e.target.closest && e.target.closest("#artBody .w");
-  if (w) lookup(w.dataset.w);
+  const t = e.target;
+  const sm = t.closest && t.closest(".sent-mark");
+  if (sm) {
+    const sent = sm.closest(".sent");
+    if (sent) toggleMark("sentence", normText(sent.textContent));
+    return;
+  }
+  const w = t.closest && t.closest("#artBody .w");
+  if (w) { lookup(w.dataset.w); return; }
+  // 点弹窗外（且不是词/📌/弹窗内按钮）→ 关弹窗
+  const box = document.getElementById("lookup");
+  if (!box.classList.contains("hidden") && !(t.closest && t.closest("#lookup"))) {
+    box.classList.add("hidden");
+  }
 });
 document.getElementById("lookupClose").onclick = () => document.getElementById("lookup").classList.add("hidden");
 
