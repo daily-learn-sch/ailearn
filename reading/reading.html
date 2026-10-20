@@ -19,6 +19,15 @@ h3{font-size:1.05em;margin-bottom:10px}
 .status{color:#888;font-size:.88em;margin-top:10px;line-height:1.6}
 .step-badge{display:inline-block;background:#eef4fb;color:#4a90d9;font-size:.8em;font-weight:bold;padding:3px 10px;border-radius:20px;margin-bottom:10px}
 .hidden{display:none!important}
+/* 顶部计时环 */
+.timer-row{display:flex;align-items:center;gap:16px}
+.ring-wrap{position:relative;width:72px;height:72px;flex:none}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#e8edf2;stroke-width:7}
+.ring-fg{fill:none;stroke:#34c759;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .5s}
+.ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:bold;color:#333;text-align:center;line-height:1.25}
+.timer-info{font-size:.92em;color:#555;line-height:1.7}
+.timer-info b{color:#1d1d1f}
 /* 文章头 */
 .art-title{font-size:1.25em;font-weight:bold;line-height:1.45;margin-bottom:6px}
 .art-meta{color:#888;font-size:.85em;margin-bottom:10px}
@@ -36,15 +45,6 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
 .sec p .w{border-bottom:1px dotted #b9c8d8;cursor:pointer}
 .sec p .w:active{background:#fff3bf}
 .sec p .w.tapped{border-bottom:1px solid #ff9f0a;background:#fff8e6}
-/* 词组：与单词明显区分（实线下划线+浅蓝底） */
-.sec p .w.phrase{border-bottom:2px solid #4a90d9;background:#eef4fb;border-radius:3px;padding:0 2px}
-.sec p .w.phrase.tapped{border-bottom-color:#ff9f0a;background:#fff3bf}
-/* 生词预习标签 */
-.v-tag{display:inline-block;font-size:.72em;font-weight:bold;border-radius:10px;padding:1px 8px;margin-left:6px}
-.v-tag.phrase{background:#e3f0ff;color:#1f6fd0;border:1px solid #bcd8f7}
-.v-tag.word{background:#f1f3f5;color:#888;border:1px solid #e2e8f0}
-/* 查词弹窗词组徽标 */
-#lookup .lbadge{display:inline-block;background:#4a90d9;color:#fff;font-size:.66em;border-radius:9px;padding:1px 8px;margin-left:7px;vertical-align:2px}
 /* 查词弹层 */
 #lookup{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:min(92vw,560px);background:#1d1d1f;color:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:50}
 #lookup .lw{font-size:1.1em;font-weight:bold}
@@ -68,6 +68,19 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
 .hist-row .ht{font-weight:bold}
 .hist-row .hd{color:#888;font-size:.82em}
 .hist-badge{font-size:.82em;white-space:nowrap}
+/* 词组：与单词明显区分（实线下划线+浅蓝底） */
+.sec p .w.phrase{border-bottom:2px solid #4a90d9;background:#eef4fb;border-radius:3px;padding:0 2px}
+.sec p .w.phrase.tapped{border-bottom-color:#ff9f0a;background:#fff3bf}
+/* 生词预习标签 */
+.v-tag{display:inline-block;font-size:.72em;font-weight:bold;border-radius:10px;padding:1px 8px;margin-left:6px}
+.v-tag.phrase{background:#e3f0ff;color:#1f6fd0;border:1px solid #bcd8f7}
+.v-tag.word{background:#f1f3f5;color:#888;border:1px solid #e2e8f0}
+/* 查词弹窗词组徽标 */
+#lookup .lbadge{display:inline-block;background:#4a90d9;color:#fff;font-size:.66em;border-radius:9px;padding:1px 8px;margin-left:7px;vertical-align:2px}
+/* 计时恢复提示条 + 归零按钮 */
+#resumeBar{margin-top:10px;background:#fff8e1;border:1px solid #ffe08a;border-radius:8px;padding:8px 12px;font-size:.88em;color:#7a5b00}
+#resumeBar button{margin-left:8px;cursor:pointer}
+#timerReset{font-size:.85em;color:#888;background:none;border:1px solid #ddd;border-radius:6px;padding:2px 8px;cursor:pointer;margin-left:8px}
 </style>
 </head>
 <body>
@@ -75,7 +88,19 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
   <a href="../" class="btn secondary" style="text-decoration:none;margin-top:0;padding:8px 18px;font-size:14px">← 主页</a>
 </div>
 <h1>📖 阅读训练</h1>
-<div class="subtitle">每天一篇 · 读完测试打卡</div>
+<div class="subtitle">每天一篇，沉浸 30 分钟 · 读完测试打卡</div>
+
+<!-- 计时 -->
+<div class="card" id="timerCard">
+  <div class="timer-row">
+    <div class="ring-wrap">
+      <svg width="72" height="72"><circle class="ring-bg" cx="36" cy="36" r="30"/><circle class="ring-fg" id="ringFg" cx="36" cy="36" r="30" stroke-dasharray="188.5" stroke-dashoffset="188.5"/></svg>
+      <div class="ring-txt" id="ringTxt">0′</div>
+    </div>
+    <div class="timer-info" id="timerInfo">今日目标：沉浸阅读 <b>30 分钟</b><button id="timerReset" type="button">↺ 归零</button><br>计时在页面切后台时自动暂停；重新进入默认延续上次进度。</div>
+  </div>
+  <div id="resumeBar" class="hidden">已恢复上次进度 <b id="resumeMin">0</b> 分钟，正在继续计时。<button id="resumeOk" type="button">继续</button><button id="resumeRestart" type="button">重新开始</button></div>
+</div>
 
 <!-- 文章 -->
 <div id="articleWrap">
@@ -94,8 +119,8 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
   <div class="step-badge">读完打卡</div>
   <h3>🧪 理解测试（4 题）</h3>
   <p class="status" style="margin-top:0">答题时原文会锁定——靠理解，不靠回看抄。≥60 分 = 今日阅读打卡 ✅</p>
-  <button class="btn" id="startQuizBtn">开始测试</button>
-  <div class="status" id="gateHint">读完文章就可以开始测试。</div>
+  <button class="btn" id="startQuizBtn" disabled>开始测试</button>
+  <div class="status" id="gateHint"></div>
 </div>
 
 <!-- 测试 -->
@@ -129,14 +154,48 @@ details.vocab-box summary{cursor:pointer;font-weight:bold;font-size:1em;color:#3
 const SUPABASE_URL = "https://qydtzdewqkzonzwmxapa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_979g0z6Xf84og_vjDliW-Q_Jyia_y4N";
 const SBH = {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json"};
+const TARGET_SEC = 30 * 60; // 每日沉浸目标 30 分钟
 
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 function todayStr(){ const d = new Date(), p = n => String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; }
+function fmtMin(s){ const m = Math.floor(s/60); return m + "′"; }
 
 let article = null, vocabMap = {}, tapped = new Set();
+let elapsed = 0, curSec = null, sectionSecs = {};
 let phraseList = [];  // vocab 中含空格的词组（小写，长→短），正文优先整组匹配
-let sectionSecs = {};  // 已按用户要求去掉计时，不再统计停留时长，写库时为空
 let answers = [], qIdx = 0, sessionSaved = false, extMode = false;
+
+// ---------- 计时 ----------
+function startClock(){
+  setInterval(() => {
+    if (document.hidden || !article) return;
+    elapsed++;
+    if (curSec != null) sectionSecs[curSec] = (sectionSecs[curSec] || 0) + 1;
+    if (elapsed % 5 === 0) { renderRing(); saveTimer(); }
+    if (elapsed % 10 === 0) refreshGate();
+  }, 1000);
+}
+function renderRing(){
+  const p = Math.min(elapsed / TARGET_SEC, 1);
+  document.getElementById("ringFg").style.strokeDashoffset = (188.5 * (1 - p)).toFixed(1);
+  document.getElementById("ringTxt").textContent = fmtMin(elapsed);
+}
+function refreshGate(){
+  const btn = document.getElementById("startQuizBtn"), hint = document.getElementById("gateHint");
+  if (extMode) {
+    if (elapsed >= 1800) { if (btn.disabled) { btn.disabled = false; hint.textContent = "⏰ 已读满 30 分钟，可以打卡了。"; } }
+    else { btn.disabled = true; hint.textContent = `外链模式：已读 ${Math.floor(elapsed/60)} / 30 分钟，读满后在本页打卡。`; }
+    return;
+  }
+  if (!article || !article.quiz || article.quiz.length === 0) return;
+  const need = Math.floor((article.est_minutes || 10) * 60 * 0.4);
+  if (elapsed >= need) {
+    if (btn.disabled) { btn.disabled = false; hint.textContent = "⏰ 阅读时长已达标，可以开始测试了。"; }
+  } else {
+    btn.disabled = true;
+    hint.textContent = "⏳ 还需阅读约 " + Math.ceil((need - elapsed) / 60) + " 分钟才能解锁测试（防止秒点）。";
+  }
+}
 
 // ---------- 取文章 ----------
 async function loadArticle(){
@@ -157,7 +216,37 @@ async function loadArticle(){
   article = rows[0];
   renderArticle();
   document.getElementById("quizGate").classList.remove("hidden");
+  restoreTimer();
+  startClock();
+  observeSections();
+  refreshGate();
 }
+
+// ---------- 计时持久化（重进默认延续，可归零） ----------
+function timerKey(){ return article ? "reading_timer:" + article.id + ":" + (article.read_date || todayStr()) : null; }
+function saveTimer(){ const k = timerKey(); if (k) { try { localStorage.setItem(k, String(elapsed)); } catch(e){} } }
+function clearTimer(){ const k = timerKey(); if (k) { try { localStorage.removeItem(k); } catch(e){} } }
+function restoreTimer(){
+  const k = timerKey(); if (!k) return;
+  let saved = 0;
+  try { saved = parseInt(localStorage.getItem(k) || "0", 10) || 0; } catch(e){}
+  if (saved >= 30) {
+    elapsed = saved;
+    renderRing();
+    document.getElementById("resumeMin").textContent = Math.floor(saved / 60);
+    document.getElementById("resumeBar").classList.remove("hidden");
+  }
+}
+function resetTimer(){
+  elapsed = 0; sectionSecs = {};
+  saveTimer(); renderRing(); refreshGate();
+  document.getElementById("resumeBar").classList.add("hidden");
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden) saveTimer(); });
+window.addEventListener("pagehide", saveTimer);
+document.getElementById("resumeOk").onclick = () => document.getElementById("resumeBar").classList.add("hidden");
+document.getElementById("resumeRestart").onclick = () => resetTimer();
+document.getElementById("timerReset").onclick = () => { if (confirm("把这篇的阅读计时清零重计？")) resetTimer(); };
 
 // ---------- 渲染 ----------
 function renderArticle(){
@@ -188,11 +277,12 @@ function renderArticle(){
     document.getElementById("artBody").classList.remove("hidden");
     document.getElementById("artBody").innerHTML = `
       <div class="step-badge">外链阅读</div>
-      <p class="status">这篇文章站内版没生成，直接去原文读；读完回到本页点按钮打卡。</p>
+      <p class="status">这篇文章站内版没生成，直接去原文读；本页计时环会继续跑，读满 30 分钟后回到本页点按钮打卡。</p>
       ${a.url ? `<a class="btn" href="${esc(a.url)}" target="_blank" rel="noopener">去原文阅读 →</a>` : ""}`;
-    document.getElementById("gateHint").textContent = "外链模式：读完原文后在本页打卡（不用回聊天）。";
+    document.getElementById("startQuizBtn").disabled = true;
+    document.getElementById("gateHint").textContent = "外链模式：读满 30 分钟后在本页打卡（不用回聊天）。";
     extMode = true;
-    document.getElementById("startQuizBtn").textContent = "✅ 读完打卡";
+    document.getElementById("startQuizBtn").textContent = "✅ 读满 30 分钟打卡";
     document.getElementById("startQuizBtn").onclick = extCheckin;
     return;
   }
@@ -314,6 +404,18 @@ document.addEventListener("click", e => {
 });
 document.getElementById("lookupClose").onclick = () => document.getElementById("lookup").classList.add("hidden");
 
+// ---------- 分节停留 ----------
+function observeSections(){
+  const io = new IntersectionObserver(es => {
+    es.forEach(en => {
+      const i = +en.target.dataset.sec;
+      if (en.isIntersecting && en.intersectionRatio >= 0.5) curSec = i;
+      else if (curSec === i && !en.isIntersecting) curSec = null;
+    });
+  }, {threshold: [0.5]});
+  document.querySelectorAll("#artBody .sec").forEach(s => io.observe(s));
+}
+
 // ---------- 测试 ----------
 document.getElementById("startQuizBtn").onclick = startQuiz;
 function startQuiz(){
@@ -368,7 +470,7 @@ function finishQuiz(){
   rw.innerHTML = `
     <div class="step-badge">测试结果</div>
     <div class="score-big" style="color:${passed ? "#34c759" : "#ff9f0a"}">${score} 分</div>
-    <p class="status" style="text-align:center">${passed ? "✅ 今日阅读打卡成功！" : "😅 差一点，再读一遍试试——下面是错题解析"} · 查了 ${words.length} 个词</p>
+    <p class="status" style="text-align:center">${passed ? "✅ 今日阅读打卡成功！" : "😅 差一点，再读一遍试试——下面是错题解析"} · 阅读用时 ${Math.round(elapsed/60)} 分钟 · 查了 ${words.length} 个词</p>
     ${passed && words.length ? `<div style="margin-top:10px"><b>今日生词回顾：</b><br>${words.map(w=>`<span class="chip">${esc(w)}</span>`).join("")}</div>` : ""}
     ${review}
     ${passed ? "" : `<button class="btn" onclick="location.reload()">再读一遍</button><button class="btn secondary" id="retryQuiz">直接重测</button>`}`;
@@ -384,7 +486,7 @@ function extCheckin(){
   rw.classList.remove("hidden");
   rw.innerHTML = `<div class="step-badge">外链阅读</div>
     <div class="score-big" style="color:#34c759">✅</div>
-    <p class="status" style="text-align:center">今日阅读打卡成功！查了 ${tapped.size} 个词</p>`;
+    <p class="status" style="text-align:center">今日阅读打卡成功！沉浸阅读 ${Math.round(elapsed/60)} 分钟 · 查了 ${tapped.size} 个词</p>`;
   rw.scrollIntoView({behavior:"smooth"});
 }
 async function saveSession(score, passed){
@@ -395,11 +497,12 @@ async function saveSession(score, passed){
     await fetch(`${SUPABASE_URL}/rest/v1/reading_sessions`, {
       method: "POST", headers: {...SBH, "Prefer": "return=minimal"},
       body: JSON.stringify({
-        article_id: article.id, read_date: todayStr(), total_seconds: 0,
+        article_id: article.id, read_date: todayStr(), total_seconds: elapsed,
         section_seconds: secs, tapped_words: [...tapped], quiz_score: score, passed
       })
     });
   } catch (e) { /* 离线也显示结果，不阻塞 */ }
+  if (passed) clearTimer();
 }
 
 // ---------- 历史 ----------
