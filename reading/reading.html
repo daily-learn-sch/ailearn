@@ -375,10 +375,14 @@ function normText(s){ return String(s == null ? "" : s).replace(/📌/g, "").rep
 function marksHeaders(extra){
   return Object.assign({}, SBH, {"Prefer": "resolution=merge-duplicates,return=minimal"}, extra || {});
 }
-async function upsertMark(kind, text, meaning, marked, tapCount){
+const markWriteQ = {};   // 同一条记录的写操作串行化，防止并发 upsert 互相覆盖（2026-10-20 实测教训）
+function queueUpsert(key, fields){
+  markWriteQ[key] = (markWriteQ[key] || Promise.resolve()).then(() => upsertMarkFields(fields)).catch(() => {});
+  return markWriteQ[key];
+}
+async function upsertMarkFields(fields){
   if (!article) return;
-  const body = { article_id: article.id, read_date: article.read_date || todayStr(), kind, text,
-                 meaning: (meaning == null ? null : meaning), marked: !!marked, tap_count: tapCount || 0 };
+  const body = Object.assign({ article_id: article.id, read_date: article.read_date || todayStr() }, fields);
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/reading_marks?on_conflict=article_id,kind,text`,
       { method: "POST", headers: marksHeaders(), body: JSON.stringify(body) });
@@ -419,7 +423,7 @@ function recordTap(kind, text, meaning){
     kind, text, meaning: (meaning != null ? meaning : (old ? old.meaning : null)),
     marked: old ? !!old.marked : false, tap_count: (old ? (old.tap_count || 0) : 0) + 1 };
   marksMap[key] = row;
-  upsertMark(kind, text, row.meaning, row.marked, row.tap_count);
+  queueUpsert(key, { kind, text, meaning: row.meaning, tap_count: row.tap_count });
   refreshLkMarkBtn();
   renderMarksCard();
 }
@@ -430,7 +434,9 @@ async function toggleMark(kind, text){
     kind, text, meaning: old ? old.meaning : null,
     marked: !(old && old.marked), tap_count: old ? (old.tap_count || 0) : 0 };
   marksMap[key] = row;
-  await upsertMark(kind, text, row.meaning, row.marked, row.tap_count);
+  const tFields = { kind, text, meaning: row.meaning, marked: row.marked };
+  if (!old) tFields.tap_count = row.tap_count;
+  await queueUpsert(key, tFields);
   applyMarksToBody();
   refreshLkMarkBtn();
   renderMarksCard();
