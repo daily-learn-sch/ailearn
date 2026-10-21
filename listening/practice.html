@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261021-0045";
+const PAGE_V = "20261021-1945";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -605,7 +605,7 @@ async function restoreShadowResults(){
     const act = document.getElementById("recAct"+i);
     if(!act) continue;                       // 跟读页还没渲染
     const st = shRec[i] || (shRec[i] = {recording:false, transcribed:""});
-    if(st.recording || st.restoredRowId === row.id) continue;
+    if(st.recording || st.restoredRowId === row.id || st.audioBlob) continue;   // 刚录的新录音优先于旧云端行
     const t = (row.transcribed || "").trim();
     if(t && t !== "__working__" && t !== "__failed_empty__"){
       if(st.transcribed) continue;           // 本次会话已有实时结果，不覆盖
@@ -645,6 +645,10 @@ async function toggleRec(i){
   st.chunks = [];
   st.audioBlob = null; st.audioUrl = null; st.audio_url = null;
   st.result = null;   // 重新录制：旧打分作废，新录音为准
+  // 录音开始前硬停一切播放：回放播放器 + 原句音频。否则旧声音漏进新录音、
+  // 播到一半的 blob 被吊销后产生杂音（2026-10-21：耳机嗒嗒声 + 点录音播上一句）
+  try{ const rp = document.getElementById("recPlayer"); if(rp){ rp.pause(); rp.removeAttribute("src"); rp.load(); } }catch(e){}
+  try{ if(shadowAudio) shadowAudio.pause(); }catch(e){}
   st.gen = (st.gen || 0) + 1;   // 代次+1：上一轮的转写轮询就此作废，不许覆盖新录音的状态
   document.getElementById("recAct"+i).style.display = "none";
   document.getElementById("shadowScore"+i).innerHTML = "";
@@ -656,6 +660,12 @@ async function toggleRec(i){
   st.recorder.onstop = ()=>{
     try{
       st.audioBlob = new Blob(st.chunks, {type: st.recorder.mimeType || "audio/webm"});
+      if(!st.audioBlob.size){   // 0 字节录音：不上传、不建提交，避免空行 + __failed_empty__
+        const rb2 = document.getElementById("recRes"+i);
+        if(rb2){ rb2.style.display = "block"; rb2.innerHTML = '<span style="color:#c00">⚠️ 这次没录到声音（可能点得太快），请再点一次录音，读完再点停止</span>'; }
+        document.getElementById("recAct"+i).style.display = "none";
+        return;
+      }
       if(st.audioUrl) URL.revokeObjectURL(st.audioUrl);
       st.audioUrl = URL.createObjectURL(st.audioBlob);
       const rb = document.getElementById("replayBtn"+i);
@@ -749,9 +759,10 @@ function replayRec(i){
   const a = document.getElementById("recPlayer");
   try{
     a.pause();
+    a.removeAttribute("src"); a.load();
     a.src = srcAudio;
     a.load();
-    a.onended = ()=>{ if(msg) msg.textContent = "✅ 回放结束，可再点重播"; };
+    a.onended = ()=>{ if(msg) msg.textContent = "✅ 回放结束，可再点重播"; try{ a.removeAttribute("src"); a.load(); }catch(e){} };
     const p = a.play();
     if(msg) msg.textContent = "▶ 正在回放…";
     if(p && p.catch) p.catch(()=>{ setTimeout(()=>{ const p2 = a.play(); if(p2 && p2.catch) p2.catch(()=>{ if(msg) msg.textContent = "⚠️ 回放没成功，再点一次试试"; }); }, 350); });
