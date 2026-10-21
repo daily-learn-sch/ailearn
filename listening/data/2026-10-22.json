@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-22",
+  "topic": "A day at the strawberry farm",
+  "topic_cn": "草莓园的一天",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22.mp3",
+  "passage": "Last Saturday, my family and I visited a strawberry farm outside the city. We left home at eight in the morning and arrived after an hour on the bus. Although the weather looked cloudy, we decided to go anyway because my daughter had waited for this trip for two weeks. At the farm, a young worker welcomed us and showed us how to pick the fruit. She explained that we should choose the red ones and leave the green ones on the plants. We walked around the fields with small baskets and picked strawberries one by one. My son laughed when he found a very big one, and he showed it to everyone. At noon, we rested under a large tree and tasted the fresh fruit. The strawberries tasted sweet, and my wife said they were much better than the ones in the supermarket. Before we left, we bought two boxes of strawberries and thanked the worker for her help. On the way home, my daughter fell asleep in my arms. It was a simple trip, but it gave us a happy memory that we will remember for a long time.",
+  "sentences": [
+    {
+      "text": "Although the weather looked cloudy, we decided to go anyway because my daughter had waited for this trip for two weeks.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22-s0.mp3",
+      "hint_cn": "天气阴但女儿等了两周，坚持出门"
+    },
+    {
+      "text": "We walked around the fields with small baskets and picked strawberries one by one.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22-s1.mp3",
+      "hint_cn": "拎小篮子在田间逐个摘草莓"
+    },
+    {
+      "text": "The strawberries tasted sweet, and my wife said they were much better than the ones in the supermarket.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22-s2.mp3",
+      "hint_cn": "草莓很甜，比超市的好得多"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I like fresh strawberries because they taste very sweet.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22-sh0.mp3"
+    },
+    {
+      "text": "We went to the farm early in the morning.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22-sh1.mp3"
+    },
+    {
+      "text": "My daughter picked a big red strawberry for me.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "vocab": [
+    {
+      "word": "walked around",
+      "phonetic": "/wɔːkt əˈraʊnd/",
+      "note": "-ed 读 /t/，直接连到 around；注意 walked 的 t 几乎不爆破"
+    },
+    {
+      "word": "picked strawberries",
+      "phonetic": "/pɪkt ˈstrɔːbəriz/",
+      "note": "-ed 读 /t/；picked 的 t 滑进 strawberries 的 s"
+    },
+    {
+      "word": "thanked",
+      "phonetic": "/θæŋkt/",
+      "note": "-ed 读 /t/，别读成 thank-ed；th 是舌尖音"
+    },
+    {
+      "word": "looked cloudy",
+      "phonetic": "/lʊkt ˈklaʊdi/",
+      "note": "-ed 读 /t/；looked cloudy 连读时 t 很轻，容易漏听"
+    }
+  ]
+}
