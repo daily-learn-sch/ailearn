@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261021-2030";
+const PAGE_V = "20261021-2045";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -611,7 +611,14 @@ async function restoreShadowResults(){
   const seen = {};
   for(const row of rows){
     const i = row.sentence_idx;
-    if(seen[i]) continue; seen[i] = true;   // 每句只取最新一条
+    if(seen[i]) continue;
+    const _t = (row.transcribed || "").trim();
+    if(!_t || _t === "__working__"){   // 转写中/待转写的行不挡旧结果：跳过，往下找上一条可展示的
+      const _box = document.getElementById("shadowScore"+i);
+      if(_box && !_box.innerHTML) _box.innerHTML = '<div class="status">☁️ 转写进行中，完成后自动显示</div>';
+      continue;
+    }
+    seen[i] = true;   // 每句只取最新一条可展示的
     const act = document.getElementById("recAct"+i);
     if(!act) continue;                       // 跟读页还没渲染
     const st = shRec[i] || (shRec[i] = {recording:false, transcribed:""});
