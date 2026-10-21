@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261021-1945";
+const PAGE_V = "20261021-2010";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -423,6 +423,14 @@ function senAudio(i){
   const s = drill.sentences[i];
   return (s && s.audio) ? s.audio : drill.audio;
 }
+// 跟读分轨（2026-10-21：听写 B1、跟读 A2）：跟读页用 shadow_sentences，没有则回落听写句
+function shList(){
+  return (drill.shadow_sentences && drill.shadow_sentences.length) ? drill.shadow_sentences : drill.sentences;
+}
+function shAudio(i){
+  const s = shList()[i];
+  return (s && s.audio) ? s.audio : drill.audio;
+}
 function loadSentence(){
   const s = drill.sentences[senIdx];
   document.getElementById("senIdx").textContent = senIdx+1;
@@ -565,7 +573,7 @@ function enterShadowing(){
   const noMic = !canRec;               // 按钮只看 MediaRecorder，不再绑定语音识别
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
   const iosNoSR = canRec && (!canSR || isIOS);  // iPhone：转写不可用或不可靠，只保证录音
-  list.innerHTML = drill.sentences.map((s,i)=>`
+  list.innerHTML = shList().map((s,i)=>`
     <div class="shadow-rec" id="shRec${i}">
       <div class="shadow-item">
         <span class="idx">${i+1}</span>
@@ -770,7 +778,7 @@ function replayRec(i){
 }
 function submitShadowScore(i){
   const st = shRec[i];
-  const s = drill.sentences[i];
+  const s = shList()[i];
   const said = (st.transcribed||"").trim();
   if(!said){ alert("先录音，识别出你说的话再打分"); return; }
   const r = scoreText(s.text, said);
@@ -784,7 +792,7 @@ async function sendToMuse(i){
   const st = shRec[i];
   if(!st || st.recording) return;
   const gen = st.gen || 0;
-  const s = drill.sentences[i];
+  const s = shList()[i];
   const btn = document.getElementById("sendBtn"+i);
   btn.disabled = true;
   const box = document.getElementById("shadowScore"+i);
@@ -852,7 +860,7 @@ async function pollTranscription(rowId, i, box, gen){
 let shadowAudio = null;
 function playShadow(i){
   if(shadowAudio) shadowAudio.pause();
-  shadowAudio = new Audio(senAudio(i));
+  shadowAudio = new Audio(shAudio(i));
   shadowAudio.playbackRate = 0.75;
   shadowAudio.play();
 }
