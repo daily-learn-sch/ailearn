@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261023-0030";
+const PAGE_V = "20261023-0040";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -1310,33 +1310,34 @@ async function sbGet(view){
   if(!r.ok) throw new Error(view+" "+r.status);
   return r.json();
 }
+async function buildLevelMap(dates){
+  const out = {};
+  try{
+    const ir = await fetch('data/index.json');
+    if(!ir.ok) return out;
+    const ix = await ir.json();
+    const byDate = {};
+    (ix.drills || []).forEach(en => { byDate[en.date] = en; });
+    await Promise.all([...new Set(dates)].map(async (dt) => {
+      const en = byDate[dt];
+      if(!en){ out[dt] = "—"; return; }
+      if(en.data){
+        try{
+          const jr = await fetch(en.data);
+          if(jr.ok){ const jj = await jr.json(); if(jj.shadow_level){ out[dt] = `听写 ${jj.level || en.level} · 跟读 ${jj.shadow_level}`; return; } }
+        }catch(e2){}
+      }
+      out[dt] = en.level || "—";
+    }));
+  }catch(e2){ /* 降级：调用方显示 — */ }
+  return out;
+}
 async function loadStats(){
   const set = (id, html)=>{ document.getElementById(id).innerHTML = html; };
   try{
     const r = await fetch(`${SUPABASE_URL}/rest/v1/drill_sessions?select=drill_date,total_seconds,modules&finished_at=not.is.null&order=drill_date.desc,created_at.desc&limit=14`, {headers: SBH});
     const d = await r.json();
-    // 当日难度：index.json 给 level；跟读分轨日的 shadow_level 取自当天 drill JSON（失败则只显示 level）
-    let lvlByDate = {};
-    try{
-      const ir = await fetch('data/index.json');
-      if(ir.ok){
-        const ix = await ir.json();
-        const byDate = {};
-        (ix.drills || []).forEach(en => { byDate[en.date] = en; });
-        const uniq = [...new Set(d.map(x => x.drill_date))];
-        await Promise.all(uniq.map(async (dt) => {
-          const en = byDate[dt];
-          if(!en){ lvlByDate[dt] = "—"; return; }
-          if(en.data){
-            try{
-              const jr = await fetch(en.data);
-              if(jr.ok){ const jj = await jr.json(); if(jj.shadow_level){ lvlByDate[dt] = `听写 ${jj.level || en.level} · 跟读 ${jj.shadow_level}`; return; } }
-            }catch(e2){}
-          }
-          lvlByDate[dt] = en.level || "—";
-        }));
-      }
-    }catch(e2){ /* 难度列降级显示 — */ }
+    const lvlByDate = await buildLevelMap(d.map(x => x.drill_date));
     const _n = new Date(), _p = n=>String(n).padStart(2,"0");
     const today = `${_n.getFullYear()}-${_p(_n.getMonth()+1)}-${_p(_n.getDate())}`;
     set("dailyBody", d.length ? `<table class="stat-table"><tr><th>日期</th><th>难度</th><th>听写</th><th>总时长</th><th>精听·听写·跟读</th></tr>${
@@ -1474,7 +1475,7 @@ function coachComment(score, prevScores, dayAgg, topCat){
   }
   return s;
 }
-function dailyDetailHTML(sessions, sdRows, todayStr){
+function dailyDetailHTML(sessions, sdRows, todayStr, lvlByDate){
   const byDate = new Map();
   for(const s of (sessions||[])){
     if(!byDate.has(s.drill_date)) byDate.set(s.drill_date, []);
@@ -1513,7 +1514,8 @@ function dailyDetailHTML(sessions, sdRows, todayStr){
     for(const c of WK_CATS) if(!topCat || dayAgg.cats[c.key].count > dayAgg.cats[topCat.key].count) topCat = c;
     const coach = coachComment(score, prevScores, dayAgg, topCat);
     const multi = daySessions.length > 1 ? ` · 当日共 ${daySessions.length} 次` : "";
-    return `<div class="day-item"><div class="day-head"><b>${date}${date===todayStr ? " · 今天" : ""}</b><span>听写 ${score != null ? score + " 分" : "-"} · 总时长 ${fmtTime(totalSec)}${multi}</span></div>` +
+    const lvl = lvlByDate ? (lvlByDate[date] || "") : "";
+    return `<div class="day-item"><div class="day-head"><b>${date}${date===todayStr ? " · 今天" : ""}</b><span>${lvl && lvl !== "—" ? lvl + " · " : ""}听写 ${score != null ? score + " 分" : "-"} · 总时长 ${fmtTime(totalSec)}${multi}</span></div>` +
       (top3.length ? `<div class="day-mist">错题 TOP：${top3.map(p=>`应为 <b>${esc(p.expected)}</b>，你写 <b>${esc(p.actual)}</b>${p.n>1 ? " ×"+p.n : ""}`).join(" · ")}</div>` : `<div class="day-mist">当天没有逐句听写错题记录</div>`) +
       `<div class="day-coach">💬 ${coach}</div></div>`;
   }).join("");
@@ -1533,7 +1535,8 @@ async function loadStatsExtra(){
     const sinceStr = `${since.getFullYear()}-${_p(since.getMonth()+1)}-${_p(since.getDate())}`;
     const r = await fetch(`${SUPABASE_URL}/rest/v1/sentence_dictations?select=drill_date,mistakes&drill_date=gte.${sinceStr}&order=drill_date.desc&limit=1000`, {headers: SBH});
     const sd = await r.json();
-    set("dailyDetailBody", dailyDetailHTML(sessions, sd, today));
+    const lvlMap = await buildLevelMap(sessions.map(s => s.drill_date));
+    set("dailyDetailBody", dailyDetailHTML(sessions, sd, today, lvlMap));
     set("weakBody", weakHTML(sd));
   }catch(e){ set("dailyDetailBody", "⚠️ 加载失败"); set("weakBody", "⚠️ 加载失败"); }
 }
