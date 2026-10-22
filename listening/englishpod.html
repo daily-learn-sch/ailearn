@@ -205,7 +205,7 @@ input[type=range]{width:100%;margin:10px 0;accent-color:#4a90d9}
 
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261020-2340";
+const PAGE_V = "20261022-0945";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -840,52 +840,402 @@ function buildStage4(){
   });
   area.innerHTML = html;
 }
-async function toggleShadowRec(key, idx, round){
-  const st = shState[key] || (shState[key] = {recording: false});
-  if(st.recording){ stopShadowRec(key, idx, round); return; }
-  const btn = document.getElementById("shRecBtn" + key);
-  const res = document.getElementById("shRes" + key);
+// ---------- 录音护栏（与 practice.html 同一套，2026-10-21 iPhone 半秒静音） ----------
+// recorder.stop() 同一拍里停音轨时，Safari 往往只剩约 0.51 秒；太短或没人声不上传、不建记录。
+const REC_MIN_SEC = 0.8;
+const REC_SILENCE_RMS = 0.004;
+const REC_SILENCE_PEAK = 0.02;
+const REC_MIN_BYTES = 800;
+const REC_STOP_GUARD_MS = 500;
+const REC_ARM_MS = 1500;
+const REC_SETTLE_MS = 250;
+const REC_FLUSH_MS = 100;
+
+function releaseOwnedStream(st, stream){
+  const target = stream || (st && st.stream);
+  if(st && target && st.stream === target) st.stream = null;
+  try{ target && target.getTracks().forEach(function(t){ try{ t.stop(); }catch(e){} }); }catch(e){}
+}
+function pausePageAudio(){
+  try{ document.querySelectorAll("audio").forEach(function(a){ try{ a.pause(); }catch(e){} }); }catch(e){}
+}
+function waitForAudibleTrack(track){
+  return new Promise(function(resolve){
+    if(!track || track.readyState === "ended"){ resolve(false); return; }
+    let done = false;
+    let timer = null;
+    function finish(ok){
+      if(done) return;
+      done = true;
+      try{ track.removeEventListener("unmute", onUnmute); }catch(e){}
+      try{ track.removeEventListener("ended", onEnded); }catch(e){}
+      clearTimeout(timer);
+      resolve(ok);
+    }
+    function onUnmute(){ if(track.readyState === "live" && !track.muted) finish(true); }
+    function onEnded(){ finish(false); }
+    track.addEventListener("unmute", onUnmute);
+    track.addEventListener("ended", onEnded);
+    timer = setTimeout(function(){ finish(track.readyState === "live"); }, REC_ARM_MS);
+    if(track.readyState === "live" && !track.muted) finish(true);
+  });
+}
+function judgeRecSample(sample){
+  const wall = Number(sample.wallSec) || 0;
+  const bytes = sample.byteSize || 0;
+  if(!bytes) return {ok:false, reason:"empty", sec: wall, rms: null};
+  const durOk = !!(sample.decoded && isFinite(sample.duration) && sample.duration > 0);
+  if(durOk){
+    const sec = sample.duration;
+    if(sec < REC_MIN_SEC) return {ok:false, reason:"short", sec: sec, rms: sample.rms == null ? null : sample.rms};
+    if(wall >= 2 && sec < wall * 0.5 && sec < 1) return {ok:false, reason:"short", sec: sec, rms: sample.rms == null ? null : sample.rms};
+    if(sample.energyKnown !== false){
+      const rms = sample.rms || 0;
+      const peak = sample.peak || 0;
+      if(rms < REC_SILENCE_RMS && peak < REC_SILENCE_PEAK)
+        return {ok:false, reason:"silent", sec: sec, rms: rms};
+    }
+    return {ok:true, reason:"", sec: sec, rms: sample.rms == null ? null : sample.rms};
+  }
+  if(wall < REC_MIN_SEC) return {ok:false, reason:"short", sec: wall, rms: null};
+  if(bytes < REC_MIN_BYTES) return {ok:false, reason:"empty", sec: wall, rms: null};
+  return {ok:true, reason:"", sec: wall, rms: null};
+}
+function retryMsg(info){
+  const sec = (info && isFinite(info.sec)) ? info.sec.toFixed(1) : "";
+  if(info && info.reason === "silent")
+    return '<span style="color:#c00">⚠️ 这次几乎没有人声' + (sec ? "（" + sec + " 秒）" : "") + "，请重录</span>";
+  if(info && info.reason === "short")
+    return '<span style="color:#c00">⚠️ 录音太短' + (sec ? "（只有 " + sec + " 秒）" : "") + "，没有可用的人声，请重录</span>";
+  if(info && info.reason === "unready")
+    return '<span style="color:#c00">⚠️ 麦克风还没准备好，请重录</span>';
+  return '<span style="color:#c00">⚠️ 没采到声音，请重录</span>';
+}
+function mp4DurationSeconds(buf){
   try{
-    st.stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true, autoGainControl: true}});
-  }catch(e){
-    res.style.display = "block";
-    res.innerHTML = '<span style="color:#c00">⚠️ 无法访问麦克风，请在浏览器里允许麦克风权限后重试</span>';
+    const view = new DataView(buf);
+    const bytes = new Uint8Array(buf);
+    function scan(start, end){
+      let off = start;
+      while(off + 8 <= end){
+        let size = view.getUint32(off);
+        const type = String.fromCharCode(bytes[off+4], bytes[off+5], bytes[off+6], bytes[off+7]);
+        let header = 8;
+        if(size === 1){
+          if(off + 16 > end) return null;
+          size = view.getUint32(off+8) * 4294967296 + view.getUint32(off+12);
+          header = 16;
+        } else if(size === 0) size = end - off;
+        if(size < header || off + size > end) return null;
+        if(type === "moov" || type === "trak" || type === "mdia"){
+          const found = scan(off + header, off + size);
+          if(found) return found;
+        } else if(type === "mvhd" || type === "mdhd"){
+          const base = off + header;
+          const ver = bytes[base];
+          let timescale = 0, duration = 0;
+          if(ver === 1){
+            if(base + 32 > end) return null;
+            timescale = view.getUint32(base + 20);
+            duration = view.getUint32(base + 24) * 4294967296 + view.getUint32(base + 28);
+          } else {
+            if(base + 20 > end) return null;
+            timescale = view.getUint32(base + 12);
+            duration = view.getUint32(base + 16);
+          }
+          if(timescale > 0 && duration > 0) return duration / timescale;
+        }
+        off += size;
+      }
+      return null;
+    }
+    return scan(0, bytes.length);
+  }catch(e){ return null; }
+}
+async function decodeRecBuffer(copy){
+  let ctx;
+  try{ ctx = new OfflineAudioContext(1, 1, 16000); }
+  catch(e){
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) throw e;
+    ctx = new Ctx();
+  }
+  try{ return await ctx.decodeAudioData(copy); }
+  finally{ if(ctx && ctx.close){ try{ await ctx.close(); }catch(e){} } }
+}
+function elementDuration(blob){
+  return new Promise(function(resolve){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("audio");
+    a.preload = "metadata";
+    a.muted = true;
+    a.volume = 0;
+    let done = false;
+    const timer = setTimeout(function(){ finish(NaN); }, 1500);
+    function finish(sec){
+      if(done) return;
+      done = true;
+      clearTimeout(timer);
+      try{ URL.revokeObjectURL(url); }catch(e){}
+      try{ a.removeAttribute("src"); a.load(); }catch(e){}
+      resolve(sec);
+    }
+    a.onerror = function(){ finish(NaN); };
+    a.onloadedmetadata = function(){
+      if(isFinite(a.duration) && a.duration > 0){ finish(a.duration); return; }
+      function onTime(){
+        a.removeEventListener("timeupdate", onTime);
+        finish(isFinite(a.duration) ? a.duration : NaN);
+      }
+      a.addEventListener("timeupdate", onTime);
+      try{ a.currentTime = 1e101; }catch(e){ finish(NaN); }
+    };
+    a.src = url;
+  });
+}
+async function inspectRecBlob(blob, wallSec){
+  const wall = wallSec || 0;
+  const byteSize = blob && blob.size ? blob.size : 0;
+  if(!byteSize) return judgeRecSample({decoded:false, wallSec:wall, byteSize:0});
+  let raw = null;
+  try{ raw = await blob.arrayBuffer(); }catch(e){ raw = null; }
+  if(raw){
+    try{
+      const audioBuf = await decodeRecBuffer(raw.slice(0));
+      const ch = audioBuf.getChannelData(0);
+      const step = Math.max(1, Math.floor(ch.length / 8000));
+      let sum = 0, n = 0, peak = 0;
+      for(let p = 0; p < ch.length; p += step){
+        const v = ch[p];
+        const mag = v < 0 ? -v : v;
+        if(mag > peak) peak = mag;
+        sum += v * v;
+        n++;
+      }
+      return judgeRecSample({
+        decoded:true, duration: audioBuf.duration, rms: n ? Math.sqrt(sum / n) : 0,
+        peak: peak, wallSec: wall, byteSize: byteSize, energyKnown: true
+      });
+    }catch(e){}
+    const mp4 = mp4DurationSeconds(raw);
+    if(isFinite(mp4) && mp4 > 0)
+      return judgeRecSample({decoded:true, duration:mp4, wallSec:wall, byteSize:byteSize, energyKnown:false});
+  }
+  let sec = NaN;
+  try{ sec = await elementDuration(blob); }catch(e){}
+  if(isFinite(sec) && sec > 0)
+    return judgeRecSample({decoded:true, duration:sec, wallSec:wall, byteSize:byteSize, energyKnown:false});
+  return judgeRecSample({decoded:false, wallSec:wall, byteSize:byteSize});
+}
+function markShadowFailed(key, html, gen, owner){
+  const st = owner || shState[key];
+  if(st && gen != null && (st.gen !== gen || shState[key] !== st)) return;
+  if(st){
+    st.blob = null;
+    st.clipOk = false;
+    st.recording = false;
+    st.starting = false;
+    st.finalized = true;
+  }
+  const res = document.getElementById("shRes" + key);
+  if(res){ res.style.display = "block"; res.innerHTML = html; }
+  const btn = document.getElementById("shRecBtn" + key);
+  if(btn){ btn.disabled = false; btn.textContent = "🎤 录音"; btn.classList.remove("rec-on"); }
+}
+async function finalizeShadow(key, idx, round, gen, chunks, mime, owner){
+  const st = owner;
+  if(!st || st.gen !== gen || st.finalized || shState[key] !== st) return;
+  st.finalized = true;
+  st.recording = false;
+  st.starting = false;
+  const wall = st.wallSec || (st.recStart ? (Date.now() - st.recStart) / 1000 : 0);
+  let blob;
+  try{ blob = new Blob(chunks || [], {type: mime || "audio/webm"}); }
+  catch(e){ blob = new Blob([]); }
+  let info;
+  try{ info = await inspectRecBlob(blob, wall); }
+  catch(e){ info = {ok:false, reason:"empty", sec: wall}; }
+  if(shState[key] !== st || st.gen !== gen) return;
+  if(!info.ok || !blob.size){
+    markShadowFailed(key, retryMsg(info), gen, st);
     return;
   }
-  st.chunks = []; st.blob = null;
-  st.recorder = new MediaRecorder(st.stream);
-  st.recorder.ondataavailable = function(e){ if(e.data && e.data.size) st.chunks.push(e.data); };
-  st.recorder.onstop = function(){
-    try{
-      st.blob = new Blob(st.chunks, {type: st.recorder.mimeType || "audio/webm"});
-      uploadShadow(key, idx, round);
-    }catch(e){}
-  };
-  st.recorder.start();
-  st.recording = true;
-  btn.textContent = "⏹ 停止";
-  btn.classList.add("rec-on");
-  res.style.display = "block";
-  res.innerHTML = '<span style="color:#4a90d9">🎙️ 录音中，请跟读这一句…</span>';
+  st.blob = blob;
+  st.clipOk = true;
+  const btn = document.getElementById("shRecBtn" + key);
+  if(btn){ btn.disabled = false; btn.textContent = "🎤 重新录音"; btn.classList.remove("rec-on"); }
+  uploadShadow(key, idx, round);
 }
-function stopShadowRec(key, idx, round){
+window.addEventListener("pagehide", function(){
+  Object.keys(shState).forEach(function(k){
+    const st = shState[k];
+    if(!st) return;
+    st.finalized = true;
+    st.recording = false;
+    st.starting = false;
+    releaseOwnedStream(st);
+    try{ if(st.recorder && st.recorder.state === "recording") st.recorder.stop(); }catch(e){}
+  });
+});
+async function toggleShadowRec(key, idx, round){
+  const st = shState[key] || (shState[key] = {recording: false});
+  if(st.recording){
+    if(st.recStart && Date.now() - st.recStart < REC_STOP_GUARD_MS) return;
+    stopShadowRec(key);
+    return;
+  }
+  if(st.starting) return;
+  const keys = Object.keys(shState);
+  for(let n = 0; n < keys.length; n++){
+    const k = keys[n];
+    if(k === key) continue;
+    const o = shState[k];
+    if(o && o.starting) return;
+    if(o && o.recording){
+      if(o.recStart && Date.now() - o.recStart < REC_STOP_GUARD_MS) return;
+      stopShadowRec(k);
+      const res0 = document.getElementById("shRes" + key);
+      if(res0){
+        res0.style.display = "block";
+        res0.innerHTML = '<span style="color:#c00">已停下另一段录音，请再点一次开始</span>';
+      }
+      return;
+    }
+  }
+  const btn = document.getElementById("shRecBtn" + key);
+  const res = document.getElementById("shRes" + key);
+  st.starting = true;
+  st.finalized = false;
+  st.clipOk = false;
+  st.gen = (st.gen || 0) + 1;
+  const gen = st.gen;
+  st.blob = null;
+  st.wallSec = 0;
+  releaseOwnedStream(st);
+  if(btn){ btn.disabled = true; btn.textContent = "准备中…"; btn.classList.remove("rec-on"); }
+  if(res){ res.style.display = "block"; res.innerHTML = '<span style="color:#4a90d9">正在打开麦克风…</span>'; }
+  pausePageAudio();
+  let stream = null;
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true, autoGainControl: true}});
+  }catch(e){
+    st.starting = false;
+    if(btn){ btn.disabled = false; btn.textContent = "🎤 录音"; }
+    if(res){
+      res.style.display = "block";
+      res.innerHTML = '<span style="color:#c00">⚠️ 无法访问麦克风，请在浏览器里允许麦克风权限后重试</span>';
+    }
+    return;
+  }
+  if(st.gen !== gen || shState[key] !== st){ releaseOwnedStream(null, stream); return; }
+  st.stream = stream;
+  const track = stream.getAudioTracks()[0];
+  const audible = await waitForAudibleTrack(track);
+  if(st.gen !== gen || shState[key] !== st){ releaseOwnedStream(st, stream); return; }
+  if(!audible){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markShadowFailed(key, retryMsg({reason:"unready"}), gen, st);
+    return;
+  }
+  if(track && !track.muted) await new Promise(function(r){ setTimeout(r, REC_SETTLE_MS); });
+  if(st.gen !== gen || shState[key] !== st){ releaseOwnedStream(st, stream); return; }
+  if(!track || track.readyState !== "live"){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markShadowFailed(key, retryMsg({reason:"unready"}), gen, st);
+    return;
+  }
+  const chunks = [];
+  st.chunks = chunks;
+  let rec;
+  try{ rec = new MediaRecorder(stream); }
+  catch(e){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markShadowFailed(key, '<span style="color:#c00">⚠️ 录音启动失败（浏览器不支持或麦克风被占用），请刷新页面再试</span>', gen, st);
+    return;
+  }
+  st.recorder = rec;
+  rec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+  let sealed = false;
+  function sealOnce(){
+    if(sealed) return;
+    sealed = true;
+    if(st._watchdog){ clearTimeout(st._watchdog); st._watchdog = null; }
+    if(st.gen !== gen || st.finalized || shState[key] !== st){
+      releaseOwnedStream(st, stream);
+      return;
+    }
+    releaseOwnedStream(st, stream);
+    if(!st.wallSec) st.wallSec = st.recStart ? (Date.now() - st.recStart) / 1000 : 0;
+    finalizeShadow(key, idx, round, gen, chunks, rec.mimeType || "audio/webm", st);
+  }
+  st.sealOnce = sealOnce;
+  rec.onerror = function(){
+    st.recording = false;
+    if(st.gen !== gen || st.finalized || shState[key] !== st){
+      releaseOwnedStream(st, stream);
+      return;
+    }
+    releaseOwnedStream(st, stream);
+    markShadowFailed(key, retryMsg({reason:"empty"}), gen, st);
+  };
+  rec.onstop = function(){
+    st.recording = false;
+    setTimeout(sealOnce, REC_FLUSH_MS);
+  };
+  track.addEventListener("ended", function(){
+    if(st.gen !== gen || st.finalized || sealed || shState[key] !== st) return;
+    if(!st.wallSec) st.wallSec = st.recStart ? (Date.now() - st.recStart) / 1000 : 0;
+    try{ if(rec.state === "recording") rec.stop(); }
+    catch(e){ sealOnce(); }
+  });
+  try{ rec.start(); }
+  catch(e){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markShadowFailed(key, '<span style="color:#c00">⚠️ 录音启动失败，请刷新页面再试</span>', gen, st);
+    return;
+  }
+  st.recStart = Date.now();
+  st.recording = true;
+  st.starting = false;
+  if(btn){
+    btn.disabled = false;
+    btn.textContent = "⏹ 停止";
+    btn.classList.add("rec-on");
+  }
+  if(res){
+    res.style.display = "block";
+    res.innerHTML = '<span style="color:#4a90d9">🎙️ 录音中，请跟读这一句…</span>';
+  }
+}
+function stopShadowRec(key){
   const st = shState[key];
   if(!st || !st.recording) return;
+  if(st.recStart && Date.now() - st.recStart < REC_STOP_GUARD_MS) return;
   st.recording = false;
-  try{ st.recorder && st.recorder.state !== "inactive" && st.recorder.stop(); }catch(e){}
-  try{ st.stream && st.stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+  st.wallSec = st.recStart ? (Date.now() - st.recStart) / 1000 : 0;
   const btn = document.getElementById("shRecBtn" + key);
-  btn.textContent = "🎤 重新录音";
-  btn.classList.remove("rec-on");
+  if(btn){ btn.disabled = true; btn.textContent = "处理中…"; btn.classList.remove("rec-on"); }
   const res = document.getElementById("shRes" + key);
-  res.style.display = "block";
-  res.textContent = "录音结束，正在上传…";
+  if(res){ res.style.display = "block"; res.innerHTML = '<span style="color:#4a90d9">正在检查录音…</span>'; }
+  const rec = st.recorder;
+  st._watchdog = setTimeout(function(){ if(st.sealOnce) st.sealOnce(); }, 8000);
+  if(rec && rec.state === "recording"){
+    try{ rec.stop(); return; }catch(e){}
+  }
+  if(st.sealOnce) st.sealOnce();
+  else markShadowFailed(key, retryMsg({reason:"empty", sec: st.wallSec}), st.gen, st);
 }
 async function uploadShadow(key, idx, round){
   const st = shState[key];
   const res = document.getElementById("shRes" + key);
-  if(!st || !st.blob) return;
-  const mt = (st.recorder && st.recorder.mimeType) || "audio/webm";
+  if(!st || !st.blob || !st.clipOk) return;
+  const gen = st.gen || 0;
+  const blob = st.blob;
+  const mt = blob.type || (st.recorder && st.recorder.mimeType) || "audio/webm";
   const ext = mt.indexOf("mp4") >= 0 ? "m4a" : "webm";
   const fn = "ep-" + chapter.id + "-s" + idx + "-r" + round + "-" + Date.now() + "." + ext;
   let publicUrl = null;
@@ -893,27 +1243,31 @@ async function uploadShadow(key, idx, round){
     const r = await fetch(SUPABASE_URL + "/storage/v1/object/shadowing-recordings/" + fn, {
       method: "POST",
       headers: {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": mt},
-      body: st.blob
+      body: blob
     });
     if(!r.ok) throw new Error("http " + r.status);
     publicUrl = SUPABASE_URL + "/storage/v1/object/public/shadowing-recordings/" + fn;
   }catch(e){
+    if(!shState[key] || shState[key] !== st || st.gen !== gen) return;
     showWarn("跟读录音上传失败：" + e.message);
-    res.innerHTML = "⚠️ 上传失败，可以重新录一次";
+    if(res) res.innerHTML = "⚠️ 上传失败，可以重新录一次";
     return;
   }
+  if(!shState[key] || shState[key] !== st || st.gen !== gen || !st.clipOk) return;
   const post = await sbWrite(function(){
     return sbPost("englishpod_shadow", {
       chapter: chapter.id, sentence_idx: idx, round: round,
       expected: sentences[idx].text, audio_url: publicUrl
     }, "return=representation");
   }, "跟读记录");
-  if(!post){ res.innerHTML = "⚠️ 录音已上传，但记录保存失败，可以重新录一次"; return; }
+  if(!shState[key] || shState[key] !== st || st.gen !== gen) return;
+  if(!post){ if(res) res.innerHTML = "⚠️ 录音已上传，但记录保存失败，可以重新录一次"; return; }
   let row = null;
   try{ row = (await post.json())[0] || null; }catch(e){}
-  if(!row || !row.id){ res.innerHTML = "⚠️ 记录保存异常，请重新录一次"; return; }
+  if(!shState[key] || shState[key] !== st || st.gen !== gen) return;
+  if(!row || !row.id){ if(res) res.innerHTML = "⚠️ 记录保存异常，请重新录一次"; return; }
   shadowRows[key] = {id: row.id, transcribed: null, score: null};
-  res.innerHTML = "☁️ 已保存，Whisper 转写中（约 1–3 分钟）…";
+  if(res) res.innerHTML = "☁️ 已保存，Whisper 转写中（约 1–3 分钟）…";
   checkStage4Complete();
   pollShadow(key, row.id);
 }
@@ -928,6 +1282,10 @@ async function pollShadow(key, rowId){
       row = rows[0] || null;
     }catch(e){}
     if(row && row.transcribed && row.transcribed !== "__working__"){
+      if(row.transcribed === "__failed_empty__"){
+        if(res) res.innerHTML = "⚠️ 服务端没听到人声，请重录";
+        return;
+      }
       shadowRows[key] = {id: rowId, transcribed: row.transcribed, score: row.score};
       if(res) res.innerHTML = "Whisper 转写：" + esc(row.transcribed) + "<br>得分：" + (row.score != null ? row.score : "（打分中）");
       return;
