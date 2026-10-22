@@ -77,6 +77,7 @@ async function init() {
   const cloud = await fetchCloudSessions();
   renderIeltsBar();
   renderToday(prog, cloud);
+  renderRationale();
   renderRecommend(prog, cloud);
   renderHistory(prog, cloud);
 }
@@ -90,6 +91,50 @@ function renderToday(prog, cloud) {
     <div class="topic">${esc(today.topic_cn)}</div>
     <div class="meta">${esc(today.topic)} · ${st.label}</div>
     <button class="btn-primary" onclick="location.href='practice.html?date=${today.date}'">${st.done ? "重新练习" : "开始今日精练"}</button>`;
+}
+
+// 今日推荐思路：默认折叠，点查看展开。
+// 内容 = 当天 drill JSON 的 coach_rationale（晨间 cron 写）+ 当天阅读文章的推荐理由（Supabase）。
+async function renderRationale() {
+  const box = document.getElementById('rationale-wrap');
+  if (!box || !drills.length) return;
+  const today = drills[0];
+  let coach = "";
+  try {
+    if (today.data) {
+      const r = await fetch(today.data);
+      if (r.ok) { const j = await r.json(); coach = j.coach_rationale || ""; }
+    }
+  } catch (e) { /* 无思路字段时只显示阅读理由 */ }
+  let reading = null;
+  try {
+    const r = await fetch(
+      `${SUPABASE_URL}/rest/v1/reading_articles?read_date=eq.${today.date}&select=title,reason_cn&order=created_at.desc&limit=1`,
+      { headers: SBH }
+    );
+    if (r.ok) { const rows = await r.json(); reading = rows[0] || null; }
+  } catch (e) { /* 无阅读理由时只显示精听思路 */ }
+  const coachHtml = coach
+    ? `<div style="margin-bottom:12px"><div style="font-weight:bold;margin-bottom:4px">🎧 精听思路</div><div style="line-height:1.7">${esc(coach).replace(/\n/g, "<br>")}</div></div>`
+    : `<div style="margin-bottom:12px;color:#666;font-size:.9rem">🎧 精听思路：暂无记录（从明日 drill 起附带）。</div>`;
+  const readHtml = (reading && reading.reason_cn)
+    ? `<div><div style="font-weight:bold;margin-bottom:4px">📖 阅读推荐</div><div style="line-height:1.7">${esc(reading.title)}：${esc(reading.reason_cn)}</div></div>`
+    : ``;
+  box.innerHTML = `
+    <div class="card" style="border-left:4px solid #34c759">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div style="font-weight:bold">📋 今日推荐思路</div>
+        <button id="rationaleToggle" style="flex:none;background:#fff;border:1px solid #ddd;border-radius:8px;padding:4px 12px;cursor:pointer;font-size:.9rem">查看 ▸</button>
+      </div>
+      <div style="color:#666;font-size:.85rem;margin-top:4px">为什么今天是这篇精听、这篇阅读？点查看看教练思路。</div>
+      <div id="rationaleBody" style="display:none;margin-top:12px;border-top:1px solid #eee;padding-top:12px">${coachHtml}${readHtml}</div>
+    </div>`;
+  document.getElementById('rationaleToggle').onclick = () => {
+    const b = document.getElementById('rationaleBody');
+    const open = b.style.display !== 'none';
+    b.style.display = open ? 'none' : 'block';
+    document.getElementById('rationaleToggle').textContent = open ? '查看 ▸' : '收起 ▾';
+  };
 }
 
 // 为你推荐：最近未完成的一天 / 历史听写最低的一天（建议重练）
