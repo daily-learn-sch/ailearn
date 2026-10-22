@@ -270,7 +270,7 @@ async function loadArticle(pickId){
   if (!clockStarted) { startClock(); clockStarted = true; }
   observeSections();
   refreshGate();
-  loadHistory();
+  await loadHistory();
   window.scrollTo({top: 0, behavior: "smooth"});
 }
 
