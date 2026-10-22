@@ -172,6 +172,7 @@ details.all-marks summary{cursor:pointer;font-weight:bold;color:#4a90d9;margin-t
 <!-- 历史 -->
 <div class="card">
   <h3>📚 阅读记录</h3>
+  <div class="status" style="margin-top:0">点一行打开那篇往期文章，可正常点词、标重点、测试打卡。</div>
   <div id="histList"><div class="status">加载中…</div></div>
 </div>
 
@@ -195,6 +196,7 @@ function fmtMin(s){ const m = Math.floor(s/60); return m + "′"; }
 
 let article = null, vocabMap = {}, tapped = new Set();
 let elapsed = 0, curSec = null, sectionSecs = {};
+let clockStarted = false;
 let phraseList = [];  // vocab 中含空格的词组（小写，长→短），正文优先整组匹配
 let answers = [], qIdx = 0, sessionSaved = false, extMode = false;
 
@@ -231,15 +233,20 @@ function refreshGate(){
 }
 
 // ---------- 取文章 ----------
-async function loadArticle(){
+async function loadArticle(pickId){
   const t = todayStr();
   let rows = [];
   try {
-    let r = await fetch(`${SUPABASE_URL}/rest/v1/reading_articles?read_date=eq.${t}&order=created_at.desc&limit=1`, {headers: SBH});
-    if (r.ok) rows = await r.json();
-    if (!rows.length) {
-      r = await fetch(`${SUPABASE_URL}/rest/v1/reading_articles?order=read_date.desc&limit=1`, {headers: SBH});
+    if (pickId) {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/reading_articles?id=eq.${encodeURIComponent(pickId)}`, {headers: SBH});
       if (r.ok) rows = await r.json();
+    } else {
+      let r = await fetch(`${SUPABASE_URL}/rest/v1/reading_articles?read_date=eq.${t}&order=created_at.desc&limit=1`, {headers: SBH});
+      if (r.ok) rows = await r.json();
+      if (!rows.length) {
+        r = await fetch(`${SUPABASE_URL}/rest/v1/reading_articles?order=read_date.desc&limit=1`, {headers: SBH});
+        if (r.ok) rows = await r.json();
+      }
     }
   } catch (e) { /* 降级：准备中 */ }
   if (!rows.length) {
@@ -247,13 +254,24 @@ async function loadArticle(){
     return;
   }
   article = rows[0];
+  // 切文章：回到阅读视图，复位全部单篇状态（计时共用一个 interval，只启动一次）
+  document.getElementById("articleWrap").classList.remove("hidden");
+  document.getElementById("quizWrap").classList.add("hidden");
+  document.getElementById("resultWrap").classList.add("hidden");
+  elapsed = 0; sectionSecs = {}; curSec = null; sessionSaved = false;
+  extMode = false;
+  const sqb = document.getElementById("startQuizBtn");
+  sqb.textContent = "开始测试"; sqb.onclick = startQuiz; sqb.disabled = true;
   renderArticle();
   loadMarks();
   document.getElementById("quizGate").classList.remove("hidden");
   restoreTimer();
-  startClock();
+  renderRing();
+  if (!clockStarted) { startClock(); clockStarted = true; }
   observeSections();
   refreshGate();
+  loadHistory();
+  window.scrollTo({top: 0, behavior: "smooth"});
 }
 
 // ---------- 计时持久化（重进默认延续，可归零） ----------
@@ -286,10 +304,11 @@ document.getElementById("timerReset").onclick = () => { if (confirm("把这篇�
 function renderArticle(){
   const a = article;
   document.getElementById("artHead").innerHTML = `
-    <div class="step-badge">今日阅读 · ${esc(a.level || "")}</div>
+    <div class="step-badge">${(a.read_date || "") === todayStr() ? "今日阅读" : "往期阅读 · " + esc(a.read_date || "")} · ${esc(a.level || "")}</div>
     <div class="art-title">${esc(a.title)}</div>
     <div class="art-meta">${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">来源：${esc(a.source || "原文")}</a>` : "来源：" + esc(a.source || "站内")} · 约${a.word_count || "?"}词 · 预计${a.est_minutes || "?"}分钟 · ${esc(a.read_date || "")}</div>
     <div class="reason">📋 推荐理由：${esc(a.reason_cn || "")}</div>
+    ${(a.read_date || "") === todayStr() ? "" : `<button class="btn ghost" style="margin-top:8px" onclick="loadArticle()">← 回今日文章</button>`}
     <div class="status" style="margin-top:8px">💡 点词查释义 · 弹窗里点 ⭐ 标重点 · 句尾点 📌 标重点句</div>`;
   // 生词预习
   const v = a.vocab || [];
@@ -753,7 +772,8 @@ async function loadHistory(){
       const badge = s
         ? (s.passed ? `<span class="hist-badge" style="color:#34c759">✅ ${s.quiz_score}分</span>` : `<span class="hist-badge" style="color:#ff9f0a">${s.quiz_score}分·未通过</span>`)
         : `<span class="hist-badge" style="color:#888">未测</span>`;
-      return `<div class="hist-row"><div><div class="ht">${esc(a.title)}</div><div class="hd">${esc(a.read_date || "")} · ${esc(a.level || "")}</div></div>${badge}</div>`;
+      const cur = article && a.id === article.id;
+      return `<div class="hist-row" style="cursor:pointer" onclick="loadArticle('${a.id}')"><div><div class="ht">${esc(a.title)}</div><div class="hd">${esc(a.read_date || "")} · ${esc(a.level || "")}${cur ? " · 📖 在读" : ""}</div></div>${badge}<div style="color:#2b6cb0;font-size:.85rem;white-space:nowrap">读这篇 →</div></div>`;
     }).join("");
   } catch (e) {
     box.innerHTML = `<div class="status">记录加载失败。</div>`;
