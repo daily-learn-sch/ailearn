@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261021-2300";
+const PAGE_V = "20261022-0945";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -567,11 +567,22 @@ const canRec = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia 
 const canSR = !!(window.webkitSpeechRecognition || window.SpeechRecognition);
 let shRec = {};  // idx -> {recorder,recognition,stream,recording,transcribed,result}
 function enterShadowing(){
+  // 再进跟读页时放掉上一次的麦克风，避免 iOS 音频会话一直被占着
+  Object.keys(shRec).forEach(k => {
+    const prev = shRec[k];
+    if(!prev) return;
+    prev.finalized = true;
+    prev.recording = false;
+    prev.starting = false;
+    try{ prev.recognition && prev.recognition.abort && prev.recognition.abort(); }catch(e){}
+    releaseOwnedStream(prev);
+    try{ if(prev.recorder && prev.recorder.state === "recording") prev.recorder.stop(); }catch(e){}
+  });
   moduleStart = Date.now();
   shRec = {};
   const list = document.getElementById("shadowList");
   const noMic = !canRec;               // 按钮只看 MediaRecorder，不再绑定语音识别
-  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+  const isIOS = isIOSDevice();
   const iosNoSR = canRec && (!canSR || isIOS);  // iPhone：转写不可用或不可靠，只保证录音
   list.innerHTML = shList().map((s,i)=>`
     <div class="shadow-rec" id="shRec${i}">
@@ -639,83 +650,431 @@ async function restoreShadowResults(){
       st.restoredRowId = row.id;
       act.style.display = "block";
       const box = document.getElementById("shadowScore"+i);
-      if(box && !box.innerHTML) box.innerHTML = '<div class="status">⚠️ 上次发送的录音服务端没听到声音（可能太小声），可以重录再发</div>';
+      if(box && !box.innerHTML) box.innerHTML = '<div class="status">⚠️ 上次录音没有人声，请重录后再发送</div>';
     }
   }
 }
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) restoreShadowResults(); });
-async function toggleRec(i){
-  const st = shRec[i] || (shRec[i] = {recording:false, transcribed:""});
-  if(st.recording){ stopRec(i); return; }
-  const btn = document.getElementById("recBtn"+i);
-  const res = document.getElementById("recRes"+i);
+
+// ---------- 录音护栏（2026-10-21 iPhone：约 0.51 秒、无人声，仍被当成成功上传） ----------
+// 根因在本页，不在 Whisper：1) recorder.stop() 同一拍里停掉音轨，Safari 往往只剩半秒；
+// 2) iOS 的 webkitSpeechRecognition 会抢走麦克风；3) start(250) 在会话被打断时只留下约两片；
+// 4) 非 0 字节的短/静音文件以前照样上传。太短或没人声一律不上传，提示请重录。
+const REC_MIN_SEC = 0.8;
+const REC_SILENCE_RMS = 0.004;
+const REC_SILENCE_PEAK = 0.02;
+const REC_MIN_BYTES = 800;
+const REC_STOP_GUARD_MS = 500;
+const REC_ARM_MS = 1500;
+const REC_SETTLE_MS = 250;
+const REC_FLUSH_MS = 100;
+
+function isIOSDevice(){
+  const ua = navigator.userAgent || "";
+  if(/iPhone|iPad|iPod/i.test(ua)) return true;
+  // iPadOS 13+ 桌面 UA 仍是同一套 WebKit 音频会话
+  return navigator.platform === "MacIntel" && (navigator.maxTouchPoints || 0) > 1;
+}
+function releaseOwnedStream(st, stream){
+  const target = stream || (st && st.stream);
+  if(st && target && st.stream === target) st.stream = null;
+  try{ target && target.getTracks().forEach(t => { try{ t.stop(); }catch(e){} }); }catch(e){}
+}
+function pausePageAudio(){
+  // 先停播放再开麦：播放中的音频元素会把 iOS 音频会话打乱（耳机嗒嗒声、点录音串上一句）
+  try{ document.querySelectorAll("audio").forEach(a => { try{ a.pause(); }catch(e){} }); }catch(e){}
   try{
-    st.stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true, autoGainControl:true}});
-  }catch(e){
-    res.style.display = "block";
-    res.innerHTML = '<span style="color:#c00">⚠️ 无法访问麦克风，请在浏览器地址栏允许麦克风权限后重试</span>';
+    const rp = document.getElementById("recPlayer");
+    if(rp){ rp.pause(); rp.removeAttribute("src"); rp.load(); }
+  }catch(e){}
+  try{ if(shadowAudio) shadowAudio.pause(); }catch(e){}
+}
+function waitForAudibleTrack(track){
+  return new Promise(resolve => {
+    if(!track || track.readyState === "ended"){ resolve(false); return; }
+    let done = false;
+    const finish = (ok) => {
+      if(done) return;
+      done = true;
+      try{ track.removeEventListener("unmute", onUnmute); }catch(e){}
+      try{ track.removeEventListener("ended", onEnded); }catch(e){}
+      clearTimeout(timer);
+      resolve(ok);
+    };
+    const onUnmute = () => { if(track.readyState === "live" && !track.muted) finish(true); };
+    const onEnded = () => finish(false);
+    track.addEventListener("unmute", onUnmute);
+    track.addEventListener("ended", onEnded);
+    const timer = setTimeout(() => finish(track.readyState === "live"), REC_ARM_MS);
+    if(track.readyState === "live" && !track.muted) finish(true);
+  });
+}
+function judgeRecSample(sample){
+  const wall = Number(sample.wallSec) || 0;
+  const bytes = sample.byteSize || 0;
+  if(!bytes) return {ok:false, reason:"empty", sec: wall, rms: null};
+  const durOk = !!(sample.decoded && isFinite(sample.duration) && sample.duration > 0);
+  if(durOk){
+    const sec = sample.duration;
+    if(sec < REC_MIN_SEC) return {ok:false, reason:"short", sec, rms: sample.rms == null ? null : sample.rms};
+    // 按了好几秒，文件却不到 1 秒：会话中途断了，不要当成功
+    if(wall >= 2 && sec < wall * 0.5 && sec < 1) return {ok:false, reason:"short", sec, rms: sample.rms == null ? null : sample.rms};
+    if(sample.energyKnown !== false){
+      const rms = sample.rms || 0;
+      const peak = sample.peak || 0;
+      if(rms < REC_SILENCE_RMS && peak < REC_SILENCE_PEAK)
+        return {ok:false, reason:"silent", sec, rms};
+    }
+    return {ok:true, reason:"", sec, rms: sample.rms == null ? null : sample.rms};
+  }
+  if(wall < REC_MIN_SEC) return {ok:false, reason:"short", sec: wall, rms: null};
+  if(bytes < REC_MIN_BYTES) return {ok:false, reason:"empty", sec: wall, rms: null};
+  return {ok:true, reason:"", sec: wall, rms: null};
+}
+function retryMsg(info){
+  const sec = (info && isFinite(info.sec)) ? info.sec.toFixed(1) : "";
+  if(info && info.reason === "silent")
+    return '<span style="color:#c00">⚠️ 这次几乎没有人声' + (sec ? "（" + sec + " 秒）" : "") + "，请重录</span>";
+  if(info && info.reason === "short")
+    return '<span style="color:#c00">⚠️ 录音太短' + (sec ? "（只有 " + sec + " 秒）" : "") + "，没有可用的人声，请重录</span>";
+  if(info && info.reason === "unready")
+    return '<span style="color:#c00">⚠️ 麦克风还没准备好，请重录</span>';
+  return '<span style="color:#c00">⚠️ 没采到声音，请重录</span>';
+}
+function mp4DurationSeconds(buf){
+  // iOS 录音是 audio/mp4。decodeAudioData 失败时仍要读出容器时长，
+  // 否则「按了好几秒、文件只有 0.51 秒」会因为墙钟很长而被放过。
+  try{
+    const view = new DataView(buf);
+    const bytes = new Uint8Array(buf);
+    const scan = (start, end) => {
+      let off = start;
+      while(off + 8 <= end){
+        let size = view.getUint32(off);
+        const type = String.fromCharCode(bytes[off+4], bytes[off+5], bytes[off+6], bytes[off+7]);
+        let header = 8;
+        if(size === 1){
+          if(off + 16 > end) return null;
+          size = view.getUint32(off+8) * 4294967296 + view.getUint32(off+12);
+          header = 16;
+        } else if(size === 0) size = end - off;
+        if(size < header || off + size > end) return null;
+        if(type === "moov" || type === "trak" || type === "mdia"){
+          const found = scan(off + header, off + size);
+          if(found) return found;
+        } else if(type === "mvhd" || type === "mdhd"){
+          const base = off + header;
+          const ver = bytes[base];
+          let timescale = 0, duration = 0;
+          if(ver === 1){
+            if(base + 32 > end) return null;
+            timescale = view.getUint32(base + 20);
+            duration = view.getUint32(base + 24) * 4294967296 + view.getUint32(base + 28);
+          } else {
+            if(base + 20 > end) return null;
+            timescale = view.getUint32(base + 12);
+            duration = view.getUint32(base + 16);
+          }
+          if(timescale > 0 && duration > 0) return duration / timescale;
+        }
+        off += size;
+      }
+      return null;
+    };
+    return scan(0, bytes.length);
+  }catch(e){ return null; }
+}
+async function decodeRecBuffer(copy){
+  let ctx;
+  try{ ctx = new OfflineAudioContext(1, 1, 16000); }
+  catch(e){
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) throw e;
+    ctx = new Ctx();
+  }
+  try{ return await ctx.decodeAudioData(copy); }
+  finally{ if(ctx && ctx.close){ try{ await ctx.close(); }catch(e){} } }
+}
+function elementDuration(blob){
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("audio");
+    a.preload = "metadata";
+    a.muted = true;
+    a.volume = 0;
+    let done = false;
+    const finish = (sec) => {
+      if(done) return;
+      done = true;
+      clearTimeout(timer);
+      try{ URL.revokeObjectURL(url); }catch(e){}
+      try{ a.removeAttribute("src"); a.load(); }catch(e){}
+      resolve(sec);
+    };
+    const timer = setTimeout(() => finish(NaN), 1500);
+    a.onerror = () => finish(NaN);
+    a.onloadedmetadata = () => {
+      if(isFinite(a.duration) && a.duration > 0){ finish(a.duration); return; }
+      const onTime = () => {
+        a.removeEventListener("timeupdate", onTime);
+        finish(isFinite(a.duration) ? a.duration : NaN);
+      };
+      a.addEventListener("timeupdate", onTime);
+      try{ a.currentTime = 1e101; }catch(e){ finish(NaN); }
+    };
+    a.src = url;
+  });
+}
+async function inspectRecBlob(blob, wallSec){
+  const wall = wallSec || 0;
+  const byteSize = blob && blob.size ? blob.size : 0;
+  if(!byteSize) return judgeRecSample({decoded:false, wallSec:wall, byteSize:0});
+  let raw = null;
+  try{ raw = await blob.arrayBuffer(); }catch(e){ raw = null; }
+  if(raw){
+    try{
+      const audioBuf = await decodeRecBuffer(raw.slice(0));
+      const ch = audioBuf.getChannelData(0);
+      const step = Math.max(1, Math.floor(ch.length / 8000));
+      let sum = 0, n = 0, peak = 0;
+      for(let p = 0; p < ch.length; p += step){
+        const v = ch[p];
+        const mag = v < 0 ? -v : v;
+        if(mag > peak) peak = mag;
+        sum += v * v;
+        n++;
+      }
+      return judgeRecSample({
+        decoded:true, duration: audioBuf.duration, rms: n ? Math.sqrt(sum / n) : 0,
+        peak, wallSec: wall, byteSize, energyKnown: true
+      });
+    }catch(e){}
+    const mp4 = mp4DurationSeconds(raw);
+    if(isFinite(mp4) && mp4 > 0)
+      return judgeRecSample({decoded:true, duration:mp4, wallSec:wall, byteSize, energyKnown:false});
+  }
+  let sec = NaN;
+  try{ sec = await elementDuration(blob); }catch(e){}
+  if(isFinite(sec) && sec > 0)
+    return judgeRecSample({decoded:true, duration:sec, wallSec:wall, byteSize, energyKnown:false});
+  return judgeRecSample({decoded:false, wallSec:wall, byteSize});
+}
+function markRecFailed(i, html, gen, owner){
+  const st = owner || shRec[i];
+  if(st && gen != null && (st.gen !== gen || shRec[i] !== st)) return;
+  if(st){
+    st.audioBlob = null;
+    st.clipOk = false;
+    st.recording = false;
+    st.starting = false;
+    st.finalized = true;
+    if(st.audioUrl){ try{ URL.revokeObjectURL(st.audioUrl); }catch(e){} st.audioUrl = null; }
+  }
+  const res = document.getElementById("recRes"+i);
+  if(res){ res.style.display = "block"; res.innerHTML = html; }
+  const act = document.getElementById("recAct"+i);
+  if(act) act.style.display = "none";
+  const btn = document.getElementById("recBtn"+i);
+  if(btn){ btn.disabled = false; btn.textContent = "🎤 录音"; btn.classList.remove("rec-on"); }
+  const sb = document.getElementById("sendBtn"+i);
+  if(sb) sb.disabled = true;
+}
+async function finalizeRec(i, gen, chunks, mime, owner){
+  const st = owner;
+  if(!st || st.gen !== gen || st.finalized || shRec[i] !== st) return;
+  st.finalized = true;
+  st.recording = false;
+  st.starting = false;
+  const wall = st.wallSec || (st.recStart ? (Date.now() - st.recStart) / 1000 : 0);
+  let blob;
+  try{ blob = new Blob(chunks || [], {type: mime || "audio/webm"}); }
+  catch(e){ blob = new Blob([]); }
+  let info;
+  try{ info = await inspectRecBlob(blob, wall); }
+  catch(e){ info = {ok:false, reason:"empty", sec: wall}; }
+  if(shRec[i] !== st || st.gen !== gen) return;
+  if(!info.ok || !blob.size){
+    markRecFailed(i, retryMsg(info), gen, st);
     return;
   }
+  st.audioBlob = blob;
+  st.clipOk = true;
+  if(st.audioUrl){ try{ URL.revokeObjectURL(st.audioUrl); }catch(e){} }
+  st.audioUrl = URL.createObjectURL(blob);
+  const rb = document.getElementById("replayBtn"+i);
+  if(rb) rb.style.display = "";
+  const btn = document.getElementById("recBtn"+i);
+  if(btn){ btn.disabled = false; btn.textContent = "🎤 录音"; btn.classList.remove("rec-on"); }
+  st.transcribed = (st.transcribed || "").trim();
+  const res = document.getElementById("recRes"+i);
+  if(res){
+    res.style.display = "block";
+    res.innerHTML = st.transcribed
+      ? `识别结果：${esc(st.transcribed)}`
+      : '<span style="color:#2b6cb0">录音已保存。点「发送给 Muse 点评」，服务端会转写出文字并自动打分（约 1–3 分钟）</span>';
+  }
+  const act = document.getElementById("recAct"+i);
+  if(act) act.style.display = "block";
+  const sb = document.getElementById("sendBtn"+i);
+  if(sb) sb.disabled = false;
+  uploadRec(i);
+}
+window.addEventListener("pagehide", () => {
+  Object.keys(shRec).forEach(k => {
+    const st = shRec[k];
+    if(!st) return;
+    st.finalized = true;
+    st.recording = false;
+    st.starting = false;
+    try{ st.recognition && st.recognition.abort && st.recognition.abort(); }catch(e){}
+    releaseOwnedStream(st);
+    try{ if(st.recorder && st.recorder.state === "recording") st.recorder.stop(); }catch(e){}
+  });
+});
+async function toggleRec(i){
+  const st = shRec[i] || (shRec[i] = {recording:false, transcribed:""});
+  if(st.recording){
+    // 点一下录音时，iOS 常会再送一次 click，把刚开始的录音立刻停掉
+    if(st.recStart && Date.now() - st.recStart < REC_STOP_GUARD_MS) return;
+    stopRec(i);
+    return;
+  }
+  if(st.starting) return;
+  for(const k of Object.keys(shRec)){
+    if(String(k) === String(i)) continue;
+    const o = shRec[k];
+    if(o && o.starting) return;
+    if(o && o.recording){
+      if(o.recStart && Date.now() - o.recStart < REC_STOP_GUARD_MS) return;
+      stopRec(k);
+      const res0 = document.getElementById("recRes"+i);
+      if(res0){
+        res0.style.display = "block";
+        res0.innerHTML = '<span style="color:#c00">已停下另一句的录音，请再点一次开始</span>';
+      }
+      return;
+    }
+  }
+  const btn = document.getElementById("recBtn"+i);
+  const res = document.getElementById("recRes"+i);
+  st.starting = true;
+  st.finalized = false;
+  st.clipOk = false;
+  st.gen = (st.gen || 0) + 1;   // 代次+1：上一轮的转写轮询、迟到的 onstop 都不许覆盖这次
+  const gen = st.gen;
   st.transcribed = "";
-  st.chunks = [];
-  st.audioBlob = null; st.audioUrl = null; st.audio_url = null;
-  st.result = null;   // 重新录制：旧打分作废，新录音为准
-  // 录音开始前硬停一切播放：回放播放器 + 原句音频。否则旧声音漏进新录音、
-  // 播到一半的 blob 被吊销后产生杂音（2026-10-21：耳机嗒嗒声 + 点录音播上一句）
-  try{ const rp = document.getElementById("recPlayer"); if(rp){ rp.pause(); rp.removeAttribute("src"); rp.load(); } }catch(e){}
-  try{ if(shadowAudio) shadowAudio.pause(); }catch(e){}
-  st.gen = (st.gen || 0) + 1;   // 代次+1：上一轮的转写轮询就此作废，不许覆盖新录音的状态
-  document.getElementById("recAct"+i).style.display = "none";
-  document.getElementById("shadowScore"+i).innerHTML = "";
+  st.audioBlob = null; st.audio_url = null; st.result = null; st.wallSec = 0;
+  st.srError = null; st.srDead = false;
+  if(st.audioUrl){ try{ URL.revokeObjectURL(st.audioUrl); }catch(e){} st.audioUrl = null; }
+  releaseOwnedStream(st);
+  if(btn){ btn.disabled = true; btn.textContent = "准备中…"; btn.classList.remove("rec-on"); }
+  const act0 = document.getElementById("recAct"+i);
+  if(act0) act0.style.display = "none";
+  const score0 = document.getElementById("shadowScore"+i);
+  if(score0) score0.innerHTML = "";
   const um0 = document.getElementById("uploadMsg"+i); if(um0) um0.textContent = "";
   const sb0 = document.getElementById("sendBtn"+i);
   if(sb0){ sb0.disabled = true; sb0.textContent = "发送给 Muse 点评"; }
+  if(res){ res.style.display = "block"; res.innerHTML = '<span class="rec-live">正在打开麦克风…</span>'; }
+  pausePageAudio();
+  let stream = null;
   try{
-    st.recorder = new MediaRecorder(st.stream);
+    stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true, autoGainControl:true}});
   }catch(e){
-    try{ st.stream && st.stream.getTracks().forEach(t=>t.stop()); }catch(_){}
-    res.style.display = "block";
-    res.innerHTML = '<span style="color:#c00">⚠️ 录音启动失败（浏览器不支持或麦克风被占用），请刷新页面再试</span>';
+    st.starting = false;
+    if(btn){ btn.disabled = false; btn.textContent = "🎤 录音"; }
+    if(res){
+      res.style.display = "block";
+      res.innerHTML = '<span style="color:#c00">⚠️ 无法访问麦克风，请在浏览器地址栏允许麦克风权限后重试</span>';
+    }
     return;
   }
-  st.recorder.ondataavailable = (e)=>{ if(e.data && e.data.size) st.chunks.push(e.data); };
-  st.recorder.onerror = ()=>{ try{ st.stream && st.stream.getTracks().forEach(t=>t.stop()); }catch(_){} };
-  st.recorder.onstop = ()=>{
-    try{
-      st.audioBlob = new Blob(st.chunks, {type: st.recorder.mimeType || "audio/webm"});
-      if(!st.audioBlob.size){   // 0 字节录音：不上传、不建提交，避免空行 + __failed_empty__
-        const rb2 = document.getElementById("recRes"+i);
-        const dur = st.recStart ? ((Date.now()-st.recStart)/1000).toFixed(1) : "?";
-        if(rb2){ rb2.style.display = "block"; rb2.innerHTML = '<span style="color:#c00">⚠️ 录了 ' + dur + ' 秒但没采到声音，请重录一次</span>'; }
-        document.getElementById("recAct"+i).style.display = "none";
-        return;
-      }
-      if(st.audioUrl) URL.revokeObjectURL(st.audioUrl);
-      st.audioUrl = URL.createObjectURL(st.audioBlob);
-      const rb = document.getElementById("replayBtn"+i);
-      if(rb) rb.style.display = "";
-      uploadRec(i);  // 自动存云端
-    }catch(e){}
+  if(st.gen !== gen || shRec[i] !== st){ releaseOwnedStream(null, stream); return; }
+  st.stream = stream;
+  const track = stream.getAudioTracks()[0];
+  const audible = await waitForAudibleTrack(track);
+  if(st.gen !== gen || shRec[i] !== st){ releaseOwnedStream(st, stream); return; }
+  if(!audible){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markRecFailed(i, retryMsg({reason:"unready"}), gen, st);
+    return;
+  }
+  // 音轨已 unmute 再等一小会儿，躲开 iOS 音频会话刚起来时的空缓冲
+  if(track && !track.muted) await new Promise(r => setTimeout(r, REC_SETTLE_MS));
+  if(st.gen !== gen || shRec[i] !== st){ releaseOwnedStream(st, stream); return; }
+  if(!track || track.readyState !== "live"){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markRecFailed(i, retryMsg({reason:"unready"}), gen, st);
+    return;
+  }
+  const chunks = [];
+  st.chunks = chunks;
+  let rec;
+  try{ rec = new MediaRecorder(stream); }
+  catch(e){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markRecFailed(i, '<span style="color:#c00">⚠️ 录音启动失败（浏览器不支持或麦克风被占用），请刷新页面再试</span>', gen, st);
+    return;
+  }
+  st.recorder = rec;
+  rec.ondataavailable = (e) => { if(e.data && e.data.size) chunks.push(e.data); };
+  let sealed = false;
+  const sealOnce = () => {
+    if(sealed) return;
+    sealed = true;
+    if(st._watchdog){ clearTimeout(st._watchdog); st._watchdog = null; }
+    if(st.gen !== gen || st.finalized || shRec[i] !== st){
+      releaseOwnedStream(st, stream);
+      return;
+    }
+    releaseOwnedStream(st, stream);
+    if(!st.wallSec) st.wallSec = st.recStart ? (Date.now() - st.recStart) / 1000 : 0;
+    finalizeRec(i, gen, chunks, rec.mimeType || "audio/webm", st);
   };
-  st.recStart = Date.now();
-  try{ st.recorder.start(250); }catch(e){   // 分片 250ms：iOS 音频会话被打断时，已录部分不全丢
-    try{ st.stream && st.stream.getTracks().forEach(t=>t.stop()); }catch(_){}
-    res.style.display = "block";
-    res.innerHTML = '<span style="color:#c00">⚠️ 录音启动失败，请刷新页面再试</span>';
+  st.sealOnce = sealOnce;
+  rec.onerror = () => {
+    st.recording = false;
+    if(st.gen !== gen || st.finalized || shRec[i] !== st){
+      releaseOwnedStream(st, stream);
+      return;
+    }
+    releaseOwnedStream(st, stream);
+    markRecFailed(i, retryMsg({reason:"empty"}), gen, st);
+  };
+  // Safari 有时先发 stop 再发最后一片 dataavailable。先让出事件循环再停音轨、再封口。
+  rec.onstop = () => {
+    st.recording = false;
+    setTimeout(sealOnce, REC_FLUSH_MS);
+  };
+  track.addEventListener("ended", () => {
+    if(st.gen !== gen || st.finalized || sealed || shRec[i] !== st) return;
+    if(!st.wallSec) st.wallSec = st.recStart ? (Date.now() - st.recStart) / 1000 : 0;
+    try{ if(rec.state === "recording") rec.stop(); }
+    catch(e){ sealOnce(); }
+  });
+  try{
+    // 不传 timeslice。iOS 上 start(250) 在音频会话被打断时往往只留下约 0.5 秒静音。
+    rec.start();
+  }catch(e){
+    releaseOwnedStream(st, stream);
+    st.starting = false;
+    markRecFailed(i, '<span style="color:#c00">⚠️ 录音启动失败，请刷新页面再试</span>', gen, st);
     return;
   }
-  // 语音识别只做"尽力而为"的转写：接口存在但实际不可用（如部分 iPhone 浏览器）时，
-  // 靠 onerror 标记 srError，录音流程不受影响
-  st.srError = null;
-  st.srDead = false;
-  if(canSR){
+  st.recStart = Date.now();
+  // iPhone 上 webkitSpeechRecognition 和 MediaRecorder 抢同一个音频会话：录音变成半秒静音，
+  // 耳机里还有嗒嗒声。实时转写只留给不抢麦的桌面浏览器，iPhone 走服务端 Whisper。
+  if(canSR && !isIOSDevice()){
     try{
       const SRC = window.webkitSpeechRecognition || window.SpeechRecognition;
       st.recognition = new SRC();
       st.recognition.lang = "en-US";
       st.recognition.continuous = true;
       st.recognition.interimResults = true;
-      st.recognition.onresult = (e)=>{
+      st.recognition.onresult = (e) => {
         if(st.srDead) return;
         let fin = "";
         for(let k=e.resultIndex;k<e.results.length;k++){
@@ -723,59 +1082,76 @@ async function toggleRec(i){
         }
         if(fin) st.transcribed += fin;
         const interim = Array.from(e.results).slice(-1)[0][0].transcript;
-        res.style.display = "block";
-        res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
+        if(res){
+          res.style.display = "block";
+          res.innerHTML = `<span class="rec-live">🎙️ 识别中：</span>${esc(st.transcribed + interim)}`;
+        }
       };
-      st.recognition.onerror = (e)=>{ st.srError = (e && e.error) || "error"; };
-      st.recognition.onend = ()=>{ if(st.recording && !st.srError && !st.srDead){ try{st.recognition.start();}catch(e){} } };
+      st.recognition.onerror = (e) => { st.srError = (e && e.error) || "error"; };
+      st.recognition.onend = () => { if(st.recording && !st.srError && !st.srDead){ try{ st.recognition.start(); }catch(e){} } };
       st.recognition.start();
     }catch(e){ st.srError = "ctor"; st.recognition = null; }
   }
   st.recording = true;
-  btn.textContent = "⏹ 停止";
-  btn.classList.add("rec-on");
-  res.style.display = "block";
-  res.innerHTML = canSR ? '<span class="rec-live">🎙️ 录音中，请跟读…</span>'
-                        : '<span class="rec-live">🎙️ 录音中，请跟读（iPhone 不支持实时转写）…</span>';
+  st.starting = false;
+  if(btn){
+    btn.disabled = false;
+    btn.textContent = "⏹ 停止";
+    btn.classList.add("rec-on");
+  }
+  if(res){
+    res.style.display = "block";
+    res.innerHTML = (canSR && !isIOSDevice())
+      ? '<span class="rec-live">🎙️ 录音中，请跟读…</span>'
+      : '<span class="rec-live">🎙️ 录音中，请跟读（iPhone 不支持实时转写）…</span>';
+  }
 }
 function stopRec(i){
   const st = shRec[i];
   if(!st || !st.recording) return;
+  if(st.recStart && Date.now() - st.recStart < REC_STOP_GUARD_MS) return;
   st.recording = false;
   st.srDead = true;   // 彻底停识别：防止它继续占音频通道、压住回放声音
   try{ st.recognition && st.recognition.abort && st.recognition.abort(); }catch(e){}
   try{ st.recognition && st.recognition.stop(); }catch(e){}
-  try{ st.recorder && st.recorder.state !== "inactive" && st.recorder.stop(); }catch(e){}
-  try{ st.stream && st.stream.getTracks().forEach(t=>t.stop()); }catch(e){}
+  st.recognition = null;
+  st.wallSec = st.recStart ? (Date.now() - st.recStart) / 1000 : 0;
   const btn = document.getElementById("recBtn"+i);
-  btn.textContent = "🎤 录音";
-  btn.classList.remove("rec-on");
+  if(btn){ btn.disabled = true; btn.textContent = "处理中…"; btn.classList.remove("rec-on"); }
   const res = document.getElementById("recRes"+i);
-  st.transcribed = (st.transcribed||"").trim();
-  const srOK = canSR && !st.srError;  // 转写真正可用：接口存在且本次没报错
-  res.innerHTML = st.transcribed
-    ? `识别结果：${esc(st.transcribed)}`
-    : '<span style="color:#2b6cb0">录音已保存。点「发送给 Muse 点评」，服务端会转写出文字并自动打分（约 1–3 分钟）</span>';
-  document.getElementById("recAct"+i).style.display = "block";
-  document.getElementById("sendBtn"+i).disabled = false;  // 有录音就能发送：服务端 Whisper 转写，不依赖浏览器本地识别
+  if(res){ res.style.display = "block"; res.innerHTML = '<span class="rec-live">正在检查录音…</span>'; }
+  const act = document.getElementById("recAct"+i);
+  if(act) act.style.display = "none";
+  // 只 stop() 录音器。音轨要等 onstop 之后再放，否则 Safari 会把整段截成约 0.5 秒。
+  const rec = st.recorder;
+  st._watchdog = setTimeout(() => { if(st.sealOnce) st.sealOnce(); }, 8000);
+  if(rec && rec.state === "recording"){
+    try{ rec.stop(); return; }catch(e){}
+  }
+  if(st.sealOnce) st.sealOnce();
+  else markRecFailed(i, retryMsg({reason:"empty", sec: st.wallSec}), st.gen, st);
 }
 async function uploadRec(i){
   const st = shRec[i];
-  if(!st || !st.audioBlob) return;
+  if(!st || !st.audioBlob || !st.clipOk) return;
+  const gen = st.gen || 0;
+  const blob = st.audioBlob;
   const msg = document.getElementById("uploadMsg"+i);
-  const mt = (st.audioBlob && st.audioBlob.type) || (st.recorder && st.recorder.mimeType) || "audio/webm";
+  const mt = blob.type || (st.recorder && st.recorder.mimeType) || "audio/webm";
   const ext = mt.includes("mp4") ? "m4a" : (mt.includes("caf") ? "caf" : "webm");
   const fn = `${drill.date}-s${i}-${Date.now()}.${ext}`;
   try{
     const r = await fetch(`${SUPABASE_URL}/storage/v1/object/shadowing-recordings/${fn}`, {
       method: "POST",
       headers: {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": mt},
-      body: st.audioBlob
+      body: blob
     });
     if(!r.ok) throw new Error("http " + r.status);
+    if(!shRec[i] || shRec[i] !== st || st.gen !== gen || !st.clipOk) return;
     st.audio_url = `${SUPABASE_URL}/storage/v1/object/public/shadowing-recordings/${fn}`;
     if(msg) msg.textContent = "☁️ 录音已存云端，可随时回放";
   }catch(e){
+    if(!shRec[i] || shRec[i] !== st || st.gen !== gen) return;
     if(msg) msg.textContent = "⚠️ 云端保存失败，录音保留在本地可回放";
   }
 }
@@ -812,7 +1188,12 @@ function submitShadowScore(i){
 }
 async function sendToMuse(i){
   const st = shRec[i];
-  if(!st || st.recording) return;
+  if(!st || st.recording || st.starting) return;
+  if(!st.clipOk){
+    const res = document.getElementById("recRes"+i);
+    if(res){ res.style.display = "block"; res.innerHTML = retryMsg({reason:"empty"}); }
+    return;
+  }
   const gen = st.gen || 0;
   const s = shList()[i];
   const btn = document.getElementById("sendBtn"+i);
@@ -857,6 +1238,13 @@ async function pollTranscription(rowId, i, box, gen){
     }catch(e){}
     if(t && t !== "__working__"){
       if((shRec[i].gen || 0) !== gen) return;
+      if(t === "__failed_empty__"){
+        const note = document.createElement("div");
+        note.className = "status";
+        note.textContent = "⚠️ 服务端没听到人声，请重录";
+        box.appendChild(note);
+        return;
+      }
       const st = shRec[i];
       st.transcribed = t;
       submitShadowScore(i);
