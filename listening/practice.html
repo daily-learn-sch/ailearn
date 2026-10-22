@@ -194,7 +194,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261022-0945";
+const PAGE_V = "20261023-0030";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -1315,11 +1315,33 @@ async function loadStats(){
   try{
     const r = await fetch(`${SUPABASE_URL}/rest/v1/drill_sessions?select=drill_date,total_seconds,modules&finished_at=not.is.null&order=drill_date.desc,created_at.desc&limit=14`, {headers: SBH});
     const d = await r.json();
+    // 当日难度：index.json 给 level；跟读分轨日的 shadow_level 取自当天 drill JSON（失败则只显示 level）
+    let lvlByDate = {};
+    try{
+      const ir = await fetch('data/index.json');
+      if(ir.ok){
+        const ix = await ir.json();
+        const byDate = {};
+        (ix.drills || []).forEach(en => { byDate[en.date] = en; });
+        const uniq = [...new Set(d.map(x => x.drill_date))];
+        await Promise.all(uniq.map(async (dt) => {
+          const en = byDate[dt];
+          if(!en){ lvlByDate[dt] = "—"; return; }
+          if(en.data){
+            try{
+              const jr = await fetch(en.data);
+              if(jr.ok){ const jj = await jr.json(); if(jj.shadow_level){ lvlByDate[dt] = `听写 ${jj.level || en.level} · 跟读 ${jj.shadow_level}`; return; } }
+            }catch(e2){}
+          }
+          lvlByDate[dt] = en.level || "—";
+        }));
+      }
+    }catch(e2){ /* 难度列降级显示 — */ }
     const _n = new Date(), _p = n=>String(n).padStart(2,"0");
     const today = `${_n.getFullYear()}-${_p(_n.getMonth()+1)}-${_p(_n.getDate())}`;
-    set("dailyBody", d.length ? `<table class="stat-table"><tr><th>日期</th><th>听写</th><th>总时长</th><th>精听·听写·跟读</th></tr>${
+    set("dailyBody", d.length ? `<table class="stat-table"><tr><th>日期</th><th>难度</th><th>听写</th><th>总时长</th><th>精听·听写·跟读</th></tr>${
       d.map(x=>{ const m = x.modules||{}; const isT = x.drill_date===today;
-        return `<tr${isT?' style="font-weight:bold"':""}><td>${x.drill_date}${isT?" · 今天":""}</td><td>${m.dictation&&m.dictation.score!=null?m.dictation.score+" 分":"-"}</td><td>${fmtTime(x.total_seconds)}</td><td>${fmtTime((m.listening||{}).seconds||0)} · ${fmtTime((m.dictation||{}).seconds||0)} · ${fmtTime((m.shadowing||{}).seconds||0)}</td></tr>`; }).join("")
+        return `<tr${isT?' style="font-weight:bold"':""}><td>${x.drill_date}${isT?" · 今天":""}</td><td>${lvlByDate[x.drill_date] || "—"}</td><td>${m.dictation&&m.dictation.score!=null?m.dictation.score+" 分":"-"}</td><td>${fmtTime(x.total_seconds)}</td><td>${fmtTime((m.listening||{}).seconds||0)} · ${fmtTime((m.dictation||{}).seconds||0)} · ${fmtTime((m.shadowing||{}).seconds||0)}</td></tr>`; }).join("")
     }</table>` : "暂无记录，完成一次训练后这里会显示");
   }catch(e){ set("dailyBody", "⚠️ 加载失败"); }
   try{
