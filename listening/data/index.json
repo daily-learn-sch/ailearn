@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-10-23",
+      "topic": "Making dumplings with my mother",
+      "topic_cn": "和妈妈一起包饺子",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23.mp3",
+      "data": "data/2026-10-23.json"
+    },
+    {
       "date": "2026-10-22",
       "topic": "A day at the strawberry farm",
       "topic_cn": "草莓园的一天",
@@ -126,5 +135,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-10-22"
+  "updated": "2026-10-23"
 }
