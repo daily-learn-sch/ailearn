@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-23",
+  "topic": "Making dumplings with my mother",
+  "topic_cn": "和妈妈一起包饺子",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23.mp3",
+  "passage": "Last Sunday, my mother decided to teach me how to make dumplings at home. Although I had watched her make them many times before, I had never tried to do it by myself. In the morning, we walked to the market together and picked up fresh pork, cabbage, and flour. My mother explained that good dumplings need soft dough and fresh filling, so we chose the ingredients with great care. After we returned home, she showed me how to mix the flour with water and roll out thin pieces of dough. I tried to copy her movements, but my first dumplings looked strange and fell apart in my hands. My mother laughed and helped me fold the edges again, one by one. We talked about my childhood while we worked, and she remembered the first time she cooked for our family. At noon, we cooked the dumplings in a large pot and tasted them together. They tasted fresh and delicious, and my father praised our work. I felt proud because I had learned a new skill that I will keep for a long time.",
+  "sentences": [
+    {
+      "text": "In the morning, we walked to the market together and picked up fresh pork, cabbage, and flour.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23-s0.mp3",
+      "hint_cn": "早上去市场买了猪肉白菜面粉"
+    },
+    {
+      "text": "My mother laughed and helped me fold the edges again, one by one.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23-s1.mp3",
+      "hint_cn": "妈妈笑着帮我一个个重新包边"
+    },
+    {
+      "text": "They tasted fresh and delicious, and my father praised our work.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23-s2.mp3",
+      "hint_cn": "饺子新鲜好吃，爸爸夸了我们"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I like dumplings because they taste fresh and warm.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23-sh0.mp3"
+    },
+    {
+      "text": "My mother makes dumplings for our family every winter.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23-sh1.mp3"
+    },
+    {
+      "text": "We bought flour and vegetables at the market this morning.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "vocab": [
+    {
+      "word": "walked to",
+      "phonetic": "/wɔːkt tuː/",
+      "note": "-ed 读 /t/，连到 to 时 t 很轻，容易漏听"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "-ed 读 /t/；picked up 是本周连读靶子，t 滑进 up"
+    },
+    {
+      "word": "roll out",
+      "phonetic": "/rəʊl aʊt/",
+      "note": "短语动词连读：roll 的 l 直接连 out"
+    },
+    {
+      "word": "fell apart",
+      "phonetic": "/fel əˈpɑːt/",
+      "note": "fell 是 fall 的过去式，别听成 feel；apart 连读"
+    },
+    {
+      "word": "praised",
+      "phonetic": "/preɪzd/",
+      "note": "-ed 在浊音后读 /d/，别读成 praise-ed"
+    }
+  ],
+  "coach_rationale": "继续本周重点——过去式 -ed 听辨（10 月 10 日听写 64%，gave/showed/felt 系统性丢分的老问题，今天是 B1 听写的第二天）。这篇包饺子文章过去式动词密度高，3 个听写关键句里埋了 walked、picked up、laughed、praised 这些 -ed 靶子；同时叠加 EnglishPod 精听笔记 5–7 周的短语动词连读（picked up、roll out、fell apart、fill up the 一类结构）。跟读保持 A2 简单句，不跟读 B1 文本。"
+}
