@@ -178,6 +178,8 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <!-- ============ 统计 ============ -->
 <div id="view-stats" style="display:none">
   <div class="card"><h3>🏁 通往 IELTS 7.0</h3><div id="ieltsBarBody" class="status">加载中…</div></div>
+  <div class="card"><h3>📈 听写分数趋势</h3><div id="trendBody" class="status">加载中…</div></div>
+  <div class="card"><h3>🔥 连续打卡</h3><div id="streakBody" class="status">加载中…</div></div>
   <div class="card"><h3>📅 每日详情</h3><div id="dailyDetailBody" class="status">加载中…</div></div>
   <div class="card"><h3>🎯 薄弱点分析</h3><div id="weakBody" class="status">加载中…</div></div>
   <div class="card"><h3>📅 最近记录</h3><div id="dailyBody" class="status">加载中…</div></div>
@@ -194,7 +196,7 @@ textarea:focus{outline:none;border-color:#4a90d9}
 <audio id="recPlayer" playsinline style="display:none"></audio>
 <script>
 // 版本自检：发现线上已更新就自动刷新，避免手机缓存旧页面（2026-10-20 教训）
-const PAGE_V = "20261023-0040";
+const PAGE_V = "20261023-0050";
 fetch(location.pathname, {cache: "no-store"}).then(r => r.text()).then(t => {
   const m = t.match(/const PAGE_V = "([^"]+)"/);
   if (m && m[1] !== PAGE_V) location.reload();
@@ -1332,6 +1334,77 @@ async function buildLevelMap(dates){
   }catch(e2){ /* 降级：调用方显示 — */ }
   return out;
 }
+function fmtSigned(sec){
+  if(!sec) return "持平";
+  return (sec > 0 ? "+" : "-") + fmtTime(Math.abs(sec));
+}
+function dayAdd(ds, delta){
+  const [y, m, d] = ds.split("-").map(Number);
+  const t = new Date(y, m - 1, d);
+  t.setDate(t.getDate() + delta);
+  const p = n => String(n).padStart(2, "0");
+  return `${t.getFullYear()}-${p(t.getMonth() + 1)}-${p(t.getDate())}`;
+}
+function mondayOf(ds){
+  const [y, m, d] = ds.split("-").map(Number);
+  const t = new Date(y, m - 1, d);
+  const dow = (t.getDay() + 6) % 7;
+  return dayAdd(ds, -dow);
+}
+function trendHTML(sessions){
+  const pts = (sessions || []).filter(s => s.modules && s.modules.dictation && s.modules.dictation.score != null)
+    .map(s => ({ date: s.drill_date, score: Number(s.modules.dictation.score) })).reverse().slice(-14);
+  if(pts.length < 2) return "暂无趋势，练两次后这里会画出走势";
+  const scores = pts.map(p => p.score);
+  const mn = Math.min(...scores), mx = Math.max(...scores);
+  let lo, hi;
+  if(mx === mn){ lo = Math.max(0, mn - 5); hi = mn + 5; }
+  else { lo = mn >= 60 ? Math.floor((mn - 5) / 10) * 10 : 0; hi = 100; }
+  const W = 600, H = 190, pL = 34, pR = 12, pT = 14, pB = 24;
+  const X = i => pts.length === 1 ? W / 2 : pL + i * (W - pL - pR) / (pts.length - 1);
+  const Y = s => pT + (hi - s) / (hi - lo) * (H - pT - pB);
+  let grid = "";
+  [60, 70, 80, 90, 100].forEach(g => {
+    if(g >= lo && g <= hi) grid += `<line x1="${pL}" x2="${W - pR}" y1="${Y(g)}" y2="${Y(g)}" stroke="#e5e5e5"/><text x="${pL - 4}" y="${Y(g) + 4}" font-size="11" fill="#888" text-anchor="end">${g}</text>`;
+  });
+  const line = pts.map((p, i) => `${X(i).toFixed(1)},${Y(p.score).toFixed(1)}`).join(" ");
+  const dots = pts.map((p, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(p.score).toFixed(1)}" r="4" fill="#2f7de1"/>`).join("");
+  const last = pts[pts.length - 1];
+  const lblIdx = [0, Math.floor(pts.length / 2), pts.length - 1].filter((v, i, a) => a.indexOf(v) === i);
+  const xlab = lblIdx.map(i => `<text x="${X(i).toFixed(1)}" y="${H - 6}" font-size="11" fill="#888" text-anchor="middle">${pts[i].date.slice(5)}</text>`).join("");
+  const svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block"><g>${grid}</g><polyline points="${line}" fill="none" stroke="#2f7de1" stroke-width="2"/>${dots}<text x="${X(pts.length - 1).toFixed(1)}" y="${Math.max(12, Y(last.score) - 10).toFixed(1)}" font-size="12" fill="#2f7de1" text-anchor="end">${last.score} 分</text>${xlab}</svg>`;
+  let read = "";
+  if(pts.length >= 8){
+    const recent = pts.slice(-7), prior = pts.slice(-14, -7);
+    if(prior.length >= 3){
+      const avg = a => a.reduce((s, p) => s + p.score, 0) / a.length;
+      const ar = avg(recent), ap = avg(prior), df = ar - ap;
+      read = `近 7 次均分 ${ar.toFixed(1)}，比前 7 次 ${ap.toFixed(1)}${Math.abs(df) < 0.05 ? "基本持平" : (df > 0 ? "高 " + df.toFixed(1) + " 分 ▲" : "低 " + Math.abs(df).toFixed(1) + " 分 ▼")}`;
+    }
+  }
+  if(!read) read = `共 ${pts.length} 次听写记录，再练几次就能看到和之前比升了还是降了`;
+  return `<div class="status">${read}</div>` + svg;
+}
+function streakHTML(dates, todayStr){
+  const set = new Set(dates || []);
+  const hasToday = set.has(todayStr);
+  let cur = hasToday ? todayStr : dayAdd(todayStr, -1), streak = 0;
+  while(set.has(cur)){ streak++; cur = dayAdd(cur, -1); }
+  const sorted = [...set].sort();
+  let longest = 0, run = 0, prev = null;
+  for(const d of sorted){
+    run = (prev && dayAdd(prev, 1) === d) ? run + 1 : 1;
+    if(run > longest) longest = run;
+    prev = d;
+  }
+  const mon = mondayOf(todayStr);
+  const wk = sorted.filter(d => d >= mon && d <= todayStr).length;
+  const last = sorted.length ? sorted[sorted.length - 1] : "—";
+  const head = streak > 0
+    ? `连续 <b>${streak}</b> 天${hasToday ? "（含今天）" : "（截至昨天，今天还没练）"}`
+    : `连续打卡已断开（上次训练 ${last}）`;
+  return `<div style="font-size:16px">${head} · 最长连续 ${longest} 天 · 本周已练 ${wk} 天</div><div class="status">按听力训练完成日计算</div>`;
+}
 async function loadStats(){
   const set = (id, html)=>{ document.getElementById(id).innerHTML = html; };
   try{
@@ -1347,9 +1420,21 @@ async function loadStats(){
   }catch(e){ set("dailyBody", "⚠️ 加载失败"); }
   try{
     const w = await sbGet("weekly_stats");
+    w.sort((a, b) => (a.week_start < b.week_start ? 1 : -1));
+    let cmp = "";
+    if(w.length >= 2){
+      const a = w[0], b = w[1];
+      const dS = a.sessions - b.sessions, dT = a.total_seconds - b.total_seconds;
+      const dA = (a.avg_dictation_score ?? 0) - (b.avg_dictation_score ?? 0);
+      const sgn = v => v > 0 ? "+" : v < 0 ? "-" : "";
+      const _nn = new Date(), _pp = n=>String(n).padStart(2,"0");
+      const todayStr3 = `${_nn.getFullYear()}-${_pp(_nn.getMonth()+1)}-${_pp(_nn.getDate())}`;
+      const cur = a.week_start === mondayOf(todayStr3) ? "（本周进行中）" : "";
+      cmp = `<div class="status">${a.week_start} vs ${b.week_start}：次数 ${sgn(dS)}${Math.abs(dS)} · 总时长 ${fmtSigned(dT)} · 均分 ${dA === 0 ? "持平" : sgn(dA) + Math.abs(dA).toFixed(1)}${cur}</div>`;
+    } else if(w.length === 1){ cmp = `<div class="status">暂无上周数据可对比</div>`; }
     set("weeklyBody", w.length ? `<table class="stat-table"><tr><th>周</th><th>次数</th><th>总时长</th><th>听写均分</th></tr>${
       w.map(x=>`<tr><td>${x.week_start}</td><td>${x.sessions}</td><td>${fmtTime(x.total_seconds)}</td><td>${x.avg_dictation_score??"-"}</td></tr>`).join("")
-    }</table>` : "暂无数据，完成一次训练后这里会有统计");
+    }</table>` + cmp : "暂无数据，完成一次训练后这里会有统计");
   }catch(e){ set("weeklyBody", "⚠️ 加载失败"); }
   try{
     const r = await fetch(`${SUPABASE_URL}/rest/v1/monthly_stats?select=*&order=month_start.desc&limit=12`, {headers: SBH});
@@ -1527,6 +1612,14 @@ async function loadStatsExtra(){
     const r = await fetch(`${SUPABASE_URL}/rest/v1/drill_sessions?select=drill_date,total_seconds,modules,finished_at&finished_at=not.is.null&order=finished_at.desc&limit=40`, {headers: SBH});
     sessions = await r.json();
     set("ieltsBarBody", ieltsBarInner(sessions));
+    set("trendBody", trendHTML(sessions));
+    try{
+      const r2 = await fetch(`${SUPABASE_URL}/rest/v1/drill_sessions?select=drill_date&finished_at=not.is.null&order=drill_date.desc&limit=200`, {headers: SBH});
+      const dd = await r2.json();
+      const _nn = new Date(), _pp = n=>String(n).padStart(2,"0");
+      const todayStr2 = `${_nn.getFullYear()}-${_pp(_nn.getMonth()+1)}-${_pp(_nn.getDate())}`;
+      set("streakBody", streakHTML([...new Set(dd.map(x => x.drill_date))], todayStr2));
+    }catch(e){ set("streakBody", "⚠️ 加载失败"); }
   }catch(e){ set("ieltsBarBody", "⚠️ 加载失败"); }
   try{
     const _n = new Date(), _p = n=>String(n).padStart(2,"0");
