@@ -1,0 +1,69 @@
+{
+ "date": "2026-10-27",
+ "topic": "A visit to the dentist",
+ "topic_cn": "看牙医",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27.mp3",
+ "passage": "Last Tuesday morning, I visited a dentist for the first time in two years. Although I had felt a sharp pain in one tooth for a week, I had kept putting off the visit because I feared the drill. At nine, I walked into the small clinic near my home and sat down in the waiting room. A nurse called my name after ten minutes and walked me through to the treatment room. The dentist smiled and asked me to open wide. He checked over my teeth carefully and tapped the painful one with a small tool. He explained that a small hole had formed and that he needed to fill it before it grew worse. During the treatment, he talked to me slowly and told me to raise my hand if I felt pain. I closed my eyes and listened to the soft music. After twenty minutes, he cleaned up the tooth and filled in the hole. He reminded me to brush twice a day and to come back in six months. On the way home, I felt relieved and promised myself I would not wait so long next time.",
+ "sentences": [
+  {
+   "text": "A nurse called my name after ten minutes and walked me through to the treatment room.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27-s0.mp3",
+   "hint_cn": "护士叫号后带我进治疗室"
+  },
+  {
+   "text": "He checked over my teeth carefully and tapped the painful one with a small tool.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27-s1.mp3",
+   "hint_cn": "牙医仔细检查并轻敲痛牙"
+  },
+  {
+   "text": "After twenty minutes, he cleaned up the tooth and filled in the hole.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27-s2.mp3",
+   "hint_cn": "二十分钟后补好牙洞"
+  }
+ ],
+ "shadow_sentences": [
+  {
+   "text": "I visited the dentist last Tuesday morning.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27-sh0.mp3"
+  },
+  {
+   "text": "The dentist asked me to open my mouth wide.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27-sh1.mp3"
+  },
+  {
+   "text": "I felt much better after the visit.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27-sh2.mp3"
+  }
+ ],
+ "shadow_level": "A2",
+ "coach_rationale": "今天继续盯两条老弱项：过去式 -ed 结尾听辨，以及 EnglishPod365 笔记里最突出的连读动词短语——passage 里埋了 walked me through、checked over、cleaned up、filled in、sat down 五组连读靶子，-ed 在清辅音后读 /t/、浊辅音后读 /d/，连读时别把尾音丢了。话题换成没练过的看牙医，贴日常生活里的真实场景：诊室里的指令和解释语速快、短语多，正好练耳朵抓关键动词。",
+ "vocab": [
+  {
+   "word": "walked me through",
+   "phonetic": "/wɔːkt miː θruː/",
+   "note": "连读靶子：walked 的 /t/ 尾音 + me + through 连成一串，别写成 walk"
+  },
+  {
+   "word": "checked over",
+   "phonetic": "/tʃekt ˈəʊvər/",
+   "note": "-ed 在清音 k 后读 /t/；checked over = 仔细检查"
+  },
+  {
+   "word": "cleaned up",
+   "phonetic": "/kliːnd ʌp/",
+   "note": "-ed 在浊辅音 n 后读 /d/；cleaned up = 清理干净"
+  },
+  {
+   "word": "filled in",
+   "phonetic": "/fɪld ɪn/",
+   "note": "filled 的 /d/ 尾音 + in 连读；filled in = 填补、补上"
+  },
+  {
+   "word": "sat down",
+   "phonetic": "/sæt daʊn/",
+   "note": "sat 是 sit 的过去式；sat down = 坐下"
+  }
+ ]
+}
