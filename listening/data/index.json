@@ -1,1 +1,175 @@
-{"drills": [{"date": "2026-10-26", "topic": "A video call with a foreign team", "topic_cn": "和外国团队的视频会", "level": "B1", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-26.mp3", "data": "data/2026-10-26.json"}, {"date": "2026-10-25", "topic": "A trip to a tea village", "topic_cn": "茶乡之旅", "level": "B1", "speed": 85, "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-25.mp3", "data": "data/2026-10-25.json"}, {"date": "2026-10-24", "topic": "Mountain hiking trip", "topic_cn": "登山郊游", "level": "B1", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-24.mp3", "data": "data/2026-10-24.json"}, {"date": "2026-10-23", "topic": "Making dumplings with my mother", "topic_cn": "和妈妈一起包饺子", "level": "B1", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23.mp3", "data": "data/2026-10-23.json"}, {"date": "2026-10-22", "topic": "A day at the strawberry farm", "topic_cn": "草莓园的一天", "level": "B1", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22.mp3", "data": "data/2026-10-22.json"}, {"date": "2026-10-21", "topic": "Buying a used bike at the flea market", "topic_cn": "旧货市场淘二手自行车", "level": "A2", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-21.mp3", "data": "data/2026-10-21.json"}, {"date": "2026-10-20", "topic": "An evening at the book fair", "topic_cn": "书展之夜", "level": "A2", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-20.mp3", "data": "data/2026-10-20.json"}, {"date": "2026-10-19", "topic": "First day working from home", "topic_cn": "在家办公第一天", "level": "A2", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19.mp3", "data": "data/2026-10-19.json"}, {"date": "2026-10-18", "topic": "Moving to a new home", "topic_cn": "搬家记", "level": "A2", "speed": 85, "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18.mp3", "data": "data/2026-10-18.json"}, {"audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17.mp3", "data": "data/2026-10-17.json", "date": "2026-10-17", "level": "A2", "topic": "A bus trip to the seaside", "topic_cn": "坐公交去海边"}, {"audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16.mp3", "data": "data/2026-10-16.json", "date": "2026-10-16", "level": "A2", "topic": "Coffee with an old friend", "topic_cn": "与老朋友喝咖啡"}, {"audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15.mp3", "data": "data/2026-10-15.json", "date": "2026-10-15", "level": "A2", "topic": "Repairing my broken phone", "topic_cn": "手机碎屏维修记"}, {"audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14.mp3", "data": "data/2026-10-14.json", "date": "2026-10-14", "level": "A2", "topic": "Cleaning the river", "topic_cn": "清理小河"}, {"audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-13.mp3", "data": "data/2026-10-13.json", "date": "2026-10-13", "level": "A2", "topic": "Morning exercise at the park", "topic_cn": "公园晨练"}, {"audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-12.mp3", "data": "data/2026-10-12.json", "date": "2026-10-12", "level": "A2", "topic": "A day at the science museum", "topic_cn": "科技馆的一天"}, {"audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-11.mp3", "data": "data/2026-10-11.json", "date": "2026-10-11", "level": "A2", "topic": "Weekend apartment cleaning", "topic_cn": "周末大扫除"}, {"audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-10.mp3", "data": "data/2026-10-10.json", "date": "2026-10-10", "level": "A2", "topic": "Tree-planting event", "topic_cn": "社区植树"}, {"audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-09.mp3", "data": "data/2026-10-09.json", "date": "2026-10-09", "level": "A2", "topic": "Train trip to the mountains", "topic_cn": "火车旅行"}, {"audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-08.mp3", "data": "data/2026-10-08.json", "date": "2026-10-08", "level": "A2", "topic": "Morning market", "topic_cn": "早市"}], "updated": "2026-10-26"}
+{
+ "drills": [
+  {
+   "date": "2026-10-27",
+   "topic": "A visit to the dentist",
+   "topic_cn": "看牙医",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-27.mp3",
+   "data": "data/2026-10-27.json"
+  },
+  {
+   "date": "2026-10-26",
+   "topic": "A video call with a foreign team",
+   "topic_cn": "和外国团队的视频会",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-26.mp3",
+   "data": "data/2026-10-26.json"
+  },
+  {
+   "date": "2026-10-25",
+   "topic": "A trip to a tea village",
+   "topic_cn": "茶乡之旅",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-25.mp3",
+   "data": "data/2026-10-25.json"
+  },
+  {
+   "date": "2026-10-24",
+   "topic": "Mountain hiking trip",
+   "topic_cn": "登山郊游",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-24.mp3",
+   "data": "data/2026-10-24.json"
+  },
+  {
+   "date": "2026-10-23",
+   "topic": "Making dumplings with my mother",
+   "topic_cn": "和妈妈一起包饺子",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-23.mp3",
+   "data": "data/2026-10-23.json"
+  },
+  {
+   "date": "2026-10-22",
+   "topic": "A day at the strawberry farm",
+   "topic_cn": "草莓园的一天",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-22.mp3",
+   "data": "data/2026-10-22.json"
+  },
+  {
+   "date": "2026-10-21",
+   "topic": "Buying a used bike at the flea market",
+   "topic_cn": "旧货市场淘二手自行车",
+   "level": "A2",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-21.mp3",
+   "data": "data/2026-10-21.json"
+  },
+  {
+   "date": "2026-10-20",
+   "topic": "An evening at the book fair",
+   "topic_cn": "书展之夜",
+   "level": "A2",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-20.mp3",
+   "data": "data/2026-10-20.json"
+  },
+  {
+   "date": "2026-10-19",
+   "topic": "First day working from home",
+   "topic_cn": "在家办公第一天",
+   "level": "A2",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-19.mp3",
+   "data": "data/2026-10-19.json"
+  },
+  {
+   "date": "2026-10-18",
+   "topic": "Moving to a new home",
+   "topic_cn": "搬家记",
+   "level": "A2",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-18.mp3",
+   "data": "data/2026-10-18.json"
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-17.mp3",
+   "data": "data/2026-10-17.json",
+   "date": "2026-10-17",
+   "level": "A2",
+   "topic": "A bus trip to the seaside",
+   "topic_cn": "坐公交去海边"
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-16.mp3",
+   "data": "data/2026-10-16.json",
+   "date": "2026-10-16",
+   "level": "A2",
+   "topic": "Coffee with an old friend",
+   "topic_cn": "与老朋友喝咖啡"
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-15.mp3",
+   "data": "data/2026-10-15.json",
+   "date": "2026-10-15",
+   "level": "A2",
+   "topic": "Repairing my broken phone",
+   "topic_cn": "手机碎屏维修记"
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-14.mp3",
+   "data": "data/2026-10-14.json",
+   "date": "2026-10-14",
+   "level": "A2",
+   "topic": "Cleaning the river",
+   "topic_cn": "清理小河"
+  },
+  {
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-13.mp3",
+   "data": "data/2026-10-13.json",
+   "date": "2026-10-13",
+   "level": "A2",
+   "topic": "Morning exercise at the park",
+   "topic_cn": "公园晨练"
+  },
+  {
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-12.mp3",
+   "data": "data/2026-10-12.json",
+   "date": "2026-10-12",
+   "level": "A2",
+   "topic": "A day at the science museum",
+   "topic_cn": "科技馆的一天"
+  },
+  {
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-11.mp3",
+   "data": "data/2026-10-11.json",
+   "date": "2026-10-11",
+   "level": "A2",
+   "topic": "Weekend apartment cleaning",
+   "topic_cn": "周末大扫除"
+  },
+  {
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-10.mp3",
+   "data": "data/2026-10-10.json",
+   "date": "2026-10-10",
+   "level": "A2",
+   "topic": "Tree-planting event",
+   "topic_cn": "社区植树"
+  },
+  {
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-09.mp3",
+   "data": "data/2026-10-09.json",
+   "date": "2026-10-09",
+   "level": "A2",
+   "topic": "Train trip to the mountains",
+   "topic_cn": "火车旅行"
+  },
+  {
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-08.mp3",
+   "data": "data/2026-10-08.json",
+   "date": "2026-10-08",
+   "level": "A2",
+   "topic": "Morning market",
+   "topic_cn": "早市"
+  }
+ ],
+ "updated": "2026-10-27"
+}
