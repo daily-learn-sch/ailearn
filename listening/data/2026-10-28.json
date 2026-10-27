@@ -1,0 +1,84 @@
+{
+ "date": "2026-10-28",
+ "topic": "Helping my neighbor fix his computer",
+ "topic_cn": "帮邻居修电脑",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-28.mp3",
+ "passage": "Last Sunday afternoon, my neighbor Mr. Wang knocked on my door and asked for help with his computer. Although I am not a computer expert, I had fixed my own laptop several times before, so I agreed to take a look. When we walked into his study, the screen looked frozen, and the mouse did not move. He explained that the computer had acted up for a week and that he had picked up a virus when he opened a strange email. First, I turned the computer off and turned it on again, but the problem stayed. Then I looked up the error message on my phone and found a simple fix online. I cleaned up the old files, removed the bad program, and updated the antivirus software. After an hour, the computer worked again, and Mr. Wang thanked me many times. He walked me through his problem and wrote down every step I had taken. Before I left, he gave me a bag of fruit and promised to back up his files every week. On the way home, I felt proud because I had solved a real problem with the English I had learned from my listening practice.",
+ "sentences": [
+  {
+   "text": "He explained that the computer had acted up for a week and that he had picked up a virus when he opened a strange email.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-28-s0.mp3",
+   "hint_cn": "邻居解释电脑一周来出故障、中病毒的原因"
+  },
+  {
+   "text": "Then I looked up the error message on my phone and found a simple fix online.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-28-s1.mp3",
+   "hint_cn": "手机上网查报错信息找到解决办法"
+  },
+  {
+   "text": "Before I left, he gave me a bag of fruit and promised to back up his files every week.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-28-s2.mp3",
+   "hint_cn": "临走前送水果、承诺每周备份文件"
+  }
+ ],
+ "shadow_sentences": [
+  {
+   "text": "My neighbor asked me to help with his computer.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-28-sh0.mp3"
+  },
+  {
+   "text": "The computer screen looked frozen and did not move.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-28-sh1.mp3"
+  },
+  {
+   "text": "I felt happy because I solved the problem.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-28-sh2.mp3"
+  }
+ ],
+ "shadow_level": "A2",
+ "coach_rationale": "今天主攻你 EnglishPod365 笔记里红笔最多的连读动词短语——acted up、picked up a virus、looked up、cleaned up、walked me through，全部放进一篇“帮邻居修电脑”的故事里按正常语速读出；同时继续磨过去式 -ed 结尾听辨（knocked、looked、fixed、thanked）。话题贴你的生活，也呼应 EP0007 电脑中毒那集，听的时候先抓短语、再抠 -ed。",
+ "vocab": [
+  {
+   "word": "acted up",
+   "meaning": "出故障、闹毛病（behave badly, stop working properly）"
+  },
+  {
+   "word": "picked up a virus",
+   "meaning": "中了病毒（got infected with a computer virus）"
+  },
+  {
+   "word": "looked up",
+   "meaning": "查阅、查找（searched for information）"
+  },
+  {
+   "word": "cleaned up",
+   "meaning": "清理干净（removed unwanted files）"
+  },
+  {
+   "word": "walked me through",
+   "meaning": "一步步带我过一遍（explained step by step）"
+  },
+  {
+   "word": "back up",
+   "meaning": "备份（make a copy to keep safe）"
+  },
+  {
+   "word": "frozen",
+   "meaning": "卡死的、动不了的（stopped responding）"
+  },
+  {
+   "word": "antivirus software",
+   "meaning": "杀毒软件（program that removes viruses）"
+  },
+  {
+   "word": "error message",
+   "meaning": "报错信息（a message showing what went wrong）"
+  },
+  {
+   "word": "strange email",
+   "meaning": "可疑邮件（an unfamiliar, suspicious email）"
+  }
+ ]
+}
