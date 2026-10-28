@@ -1,6 +1,15 @@
 {
  "drills": [
   {
+   "date": "2026-10-29",
+   "topic": "My first online English class",
+   "topic_cn": "第一次上在线英语课",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29.mp3",
+   "data": "data/2026-10-29.json"
+  },
+  {
    "date": "2026-10-28",
    "topic": "Helping my neighbor fix his computer",
    "topic_cn": "帮邻居修电脑",
@@ -180,5 +189,5 @@
    "topic_cn": "早市"
   }
  ],
- "updated": "2026-10-28"
+ "updated": "2026-10-29"
 }
