@@ -1,0 +1,84 @@
+{
+ "date": "2026-10-29",
+ "topic": "My first online English class",
+ "topic_cn": "第一次上在线英语课",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29.mp3",
+ "passage": "Last Tuesday evening, I joined my first online English class. Although I had studied English for many years, I had never spoken to a foreign teacher on a video call before, so I felt nervous when I turned on my computer. At eight, I signed up for the class and logged on to the meeting. The teacher, a kind woman from Canada, welcomed me and asked about my job. I told her that I worked as a Java developer and that I wanted to work for a foreign company. She smiled and asked me to describe my daily work in English. I spoke slowly at first, and I looked up two words in my notebook when I forgot them. Then she asked me to read a short passage aloud. I read it twice, and she corrected my pronunciation of three words. After the class, she wrote down my homework in the chat box and promised to check it next week. I turned off the computer and felt proud, because I had finally spoken English for forty minutes without stopping. I promised myself to join the class again next Tuesday.",
+ "sentences": [
+  {
+   "text": "At eight, I signed up for the class and logged on to the meeting.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29-s0.mp3",
+   "hint_cn": "晚上八点报名并登录课堂"
+  },
+  {
+   "text": "I spoke slowly at first, and I looked up two words in my notebook when I forgot them.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29-s1.mp3",
+   "hint_cn": "说得慢，忘了词就查笔记本"
+  },
+  {
+   "text": "I turned off the computer and felt proud, because I had finally spoken English for forty minutes without stopping.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29-s2.mp3",
+   "hint_cn": "关电脑后很自豪：连说四十分钟没停"
+  }
+ ],
+ "shadow_sentences": [
+  {
+   "text": "I joined my first online English class last Tuesday.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29-sh0.mp3"
+  },
+  {
+   "text": "The teacher asked me about my job in English.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29-sh1.mp3"
+  },
+  {
+   "text": "I felt proud after I spoke English for forty minutes.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-10-29-sh2.mp3"
+  }
+ ],
+ "shadow_level": "A2",
+ "coach_rationale": "今天继续磨两样老弱项：过去式 -ed 结尾听辨（signed up、logged on、turned on、looked up、turned off 都按正常语速连读出来），以及动词短语连读——这是你 EnglishPod365 笔记第 5–7 周小结里的主弱项；话题选“第一次上在线英语课”，贴你正在做的事，听的时候先抓短语、再抠 -ed。Mac 通道本轮不通，笔记没有新内容，今天只按日志里的错题模式出题。",
+ "vocab": [
+  {
+   "word": "signed up",
+   "meaning": "报名、注册（registered for something）"
+  },
+  {
+   "word": "logged on",
+   "meaning": "登录（entered a system）"
+  },
+  {
+   "word": "turned on",
+   "meaning": "打开（switched on）"
+  },
+  {
+   "word": "looked up",
+   "meaning": "查阅、查找（searched for information）"
+  },
+  {
+   "word": "wrote down",
+   "meaning": "写下来、记下来（put into writing）"
+  },
+  {
+   "word": "turned off",
+   "meaning": "关掉（switched off）"
+  },
+  {
+   "word": "pronunciation",
+   "meaning": "发音（the way a word sounds）"
+  },
+  {
+   "word": "chat box",
+   "meaning": "聊天框（the message area in a call app）"
+  },
+  {
+   "word": "foreign teacher",
+   "meaning": "外教（a teacher from another country）"
+  },
+  {
+   "word": "describe",
+   "meaning": "描述（explain what something is like）"
+  }
+ ]
+}
