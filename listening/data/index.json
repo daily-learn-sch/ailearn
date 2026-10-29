@@ -1,6 +1,15 @@
 {
  "drills": [
   {
+   "date": "2026-10-30",
+   "topic": "A birthday party for my daughter",
+   "topic_cn": "女儿的生日派对",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-30.mp3",
+   "data": "data/2026-10-30.json"
+  },
+  {
    "date": "2026-10-29",
    "topic": "My first online English class",
    "topic_cn": "第一次上在线英语课",
@@ -189,5 +198,5 @@
    "topic_cn": "早市"
   }
  ],
- "updated": "2026-10-29"
+ "updated": "2026-10-30"
 }
