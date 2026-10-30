@@ -1,0 +1,84 @@
+{
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-31.mp3",
+ "coach_rationale": "今天继续磨两样老弱项：过去式 -ed 结尾听辨和动词短语连读。EnglishPod365 笔记仍是第 5–7 周小结，主弱项还是 fill me in、pick up a、kicked me out 这类连读短语和 we've、It'll 的缩写时态，所以这篇邻里足球赛里埋了 showed up、kicked off、warmed up、cheered on、cleaned up 五组连读靶子，过去式动词也保持高密度。话题换到周末足球赛，和之前的登山、茶乡、生日派对都不重复。",
+ "date": "2026-10-31",
+ "level": "B1",
+ "passage": "Last Sunday afternoon, my neighbors invited me to watch a football game in the park near our home. Although I had never played football before, I agreed to join them because I wanted to spend time outside on a sunny day. At three, about twenty people showed up on the grass field, and we divided into two teams. Before the game kicked off, we warmed up together and practiced passing the ball. My team played hard, but the other team scored first, and we cheered them on with good humor. In the second half, my friend passed the ball to me, and I kicked it toward the goal. To my surprise, the ball went in, and everyone cheered loudly. After the game, we sat on the grass, drank cold water, and talked about the best moments. An old man who had watched the whole game told us that we played with great team spirit. We cleaned up the field together and promised to play again next weekend. Although my legs felt sore the next morning, I felt happy because I had tried something new and made new friends.",
+ "sentences": [
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-31-s0.mp3",
+   "hint_cn": "从没踢过球仍答应参加、想在晴天户外待会儿",
+   "text": "Although I had never played football before, I agreed to join them because I wanted to spend time outside on a sunny day."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-31-s1.mp3",
+   "hint_cn": "开赛前一起热身练传球",
+   "text": "Before the game kicked off, we warmed up together and practiced passing the ball."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-31-s2.mp3",
+   "hint_cn": "赛后坐草地上喝水聊精彩瞬间",
+   "text": "After the game, we sat on the grass, drank cold water, and talked about the best moments."
+  }
+ ],
+ "shadow_level": "A2",
+ "shadow_sentences": [
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-31-sh0.mp3",
+   "text": "We played a football game in the park last Sunday."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-31-sh1.mp3",
+   "text": "My friend passed the ball to me during the game."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-10-31-sh2.mp3",
+   "text": "I felt happy because I made new friends."
+  }
+ ],
+ "speed": 85,
+ "topic": "A neighborhood football game",
+ "topic_cn": "邻里足球赛",
+ "vocab": [
+  {
+   "meaning": "出现、到场（appeared, arrived）",
+   "word": "showed up"
+  },
+  {
+   "meaning": "开球、开始（started a game）",
+   "word": "kicked off"
+  },
+  {
+   "meaning": "热身（did light exercise before a game）",
+   "word": "warmed up"
+  },
+  {
+   "meaning": "为……加油（shouted encouragement）",
+   "word": "cheered on"
+  },
+  {
+   "meaning": "收拾干净（tidied completely）",
+   "word": "cleaned up"
+  },
+  {
+   "meaning": "分成（split into groups）",
+   "word": "divided"
+  },
+  {
+   "meaning": "进球得分（got a goal）",
+   "word": "scored"
+  },
+  {
+   "meaning": "惊讶（unexpected event）",
+   "word": "surprise"
+  },
+  {
+   "meaning": "精神、风貌（attitude and feeling）",
+   "word": "spirit"
+  },
+  {
+   "meaning": "酸痛的（painful from exercise）",
+   "word": "sore"
+  }
+ ]
+}
