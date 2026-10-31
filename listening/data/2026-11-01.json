@@ -1,0 +1,84 @@
+{
+ "date": "2026-11-01",
+ "topic": "Learning to swim at the city pool",
+ "topic_cn": "在市游泳馆学游泳",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-01.mp3",
+ "passage": "Last Sunday morning, my wife signed me up for a swimming class at the city pool. Although I had never learned to swim before, I agreed to try because I wanted to get fit and spend more time outside. At nine, I walked into the pool building and met the coach, a tall man with a kind smile. He asked me to warm up beside the pool and practice breathing slowly. At first, I felt nervous when I stepped into the cold water, and I held on to the edge. The coach showed me how to float on my back and kick my legs gently. I practiced for an hour, and I swallowed some water twice, but I did not give up. After the class, I cooled down in the warm shower and changed into dry clothes. My wife picked me up at the door and asked how I felt. I told her I felt tired but proud, because I had floated alone for ten seconds. We walked home, and I promised to practice again next Sunday. Learning to swim is hard at my age, but it showed me that it is never too late to start something new.",
+ "sentences": [
+  {
+   "text": "Although I had never learned to swim before, I agreed to try because I wanted to get fit and spend more time outside.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-01-s0.mp3",
+   "hint_cn": "从没学过游泳、为健身决定尝试"
+  },
+  {
+   "text": "The coach showed me how to float on my back and kick my legs gently.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-01-s1.mp3",
+   "hint_cn": "教练教仰漂和蹬腿方法"
+  },
+  {
+   "text": "I told her I felt tired but proud, because I had floated alone for ten seconds.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-01-s2.mp3",
+   "hint_cn": "独自漂了十秒、又累又自豪"
+  }
+ ],
+ "shadow_sentences": [
+  {
+   "text": "I learned to swim at the city pool last Sunday.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-01-sh0.mp3"
+  },
+  {
+   "text": "The coach showed me how to float on the water.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-01-sh1.mp3"
+  },
+  {
+   "text": "I felt tired but proud after the swimming class.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-01-sh2.mp3"
+  }
+ ],
+ "shadow_level": "A2",
+ "coach_rationale": "今天继续磨两样老弱项：过去式 -ed 结尾听辨和动词短语连读。Mac 直读 EnglishPod365 笔记：仍是第 5–7 周小结（最新手写图 2026-10-16 EP0012），主弱项还是 fill me in、kicked me out、pick up a 这类连读短语和 we've、It'll 的缩写时态，所以这篇游泳课里埋了 signed up、warmed up、cooled down、picked up、gave up 五组连读靶子，过去式动词也保持高密度。话题换到学游泳，和之前的足球赛、生日派对、在线英语课都不重复。",
+ "vocab": [
+  {
+   "word": "signed up",
+   "meaning": "报名参加（registered for something）"
+  },
+  {
+   "word": "warm up",
+   "meaning": "热身（do light exercise before sport）"
+  },
+  {
+   "word": "cool down",
+   "meaning": "放松整理（do gentle exercise after sport）"
+  },
+  {
+   "word": "picked up",
+   "meaning": "接、顺路接（collected someone）"
+  },
+  {
+   "word": "give up",
+   "meaning": "放弃（stop trying）"
+  },
+  {
+   "word": "hold on to",
+   "meaning": "紧紧抓住（grip tightly）"
+  },
+  {
+   "word": "float",
+   "meaning": "漂浮（stay on the surface of water）"
+  },
+  {
+   "word": "swallow",
+   "meaning": "吞下（let food or water go down the throat）"
+  },
+  {
+   "word": "proud",
+   "meaning": "自豪的（pleased about something you did）"
+  },
+  {
+   "word": "breathing",
+   "meaning": "呼吸（taking air in and out）"
+  }
+ ]
+}
