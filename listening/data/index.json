@@ -1,6 +1,15 @@
 {
  "drills": [
   {
+   "date": "2026-11-02",
+   "topic": "Sorting out old photos on a rainy day",
+   "topic_cn": "雨天整理旧照片",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-02.mp3",
+   "data": "data/2026-11-02.json"
+  },
+  {
    "date": "2026-11-01",
    "topic": "Learning to swim at the city pool",
    "topic_cn": "在市游泳馆学游泳",
@@ -216,5 +225,5 @@
    "topic_cn": "早市"
   }
  ],
- "updated": "2026-11-01"
+ "updated": "2026-11-02"
 }
