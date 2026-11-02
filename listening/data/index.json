@@ -1,6 +1,15 @@
 {
  "drills": [
   {
+   "date": "2026-11-03",
+   "topic": "Baking bread at home for the first time",
+   "topic_cn": "第一次在家烤面包",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03.mp3",
+   "data": "data/2026-11-03.json"
+  },
+  {
    "date": "2026-11-02",
    "topic": "Sorting out old photos on a rainy day",
    "topic_cn": "雨天整理旧照片",
@@ -225,5 +234,5 @@
    "topic_cn": "早市"
   }
  ],
- "updated": "2026-11-02"
+ "updated": "2026-11-03"
 }
