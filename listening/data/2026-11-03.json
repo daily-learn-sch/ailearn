@@ -1,0 +1,84 @@
+{
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03.mp3",
+ "coach_rationale": "今天继续盯你最顽固的两处：过去式 -ed 结尾（suggested、returned、mixed、rolled、promised）和动词短语连读（picked up、mixed up、rolled out、put into、took out）。Mac 直读 EnglishPod365 笔记：自 10 月 16 日 EP0012 后仍无新内容，弱项仍是 10 月 12 日、16 日两集暴露的 fill me in、kicked me out、pick up a 这类连读短语，所以本篇把烤面包全流程的短语动词密度拉高，让你在慢速 TTS 里先把尾音和连读听清楚。另外提醒你：网站上次有分听写停在 10 月 22 日，今天这篇 B1 正好补一个新样本。",
+ "date": "2026-11-03",
+ "level": "B1",
+ "passage": "Last Sunday, my wife suggested that we try baking bread at home, although neither of us had ever done it before. We watched a short video first, and the teacher explained that good bread needs strong flour, warm water, and a lot of patience. In the morning, we walked to the market and picked up flour, yeast, and a little salt. After we returned home, I mixed up the flour and water in a large bowl, and my wife added the yeast carefully. We waited for two hours while the dough rose slowly on the table. Then we rolled out the dough, shaped it into a round loaf, and put it into the oven. The kitchen smelled warm and sweet as the bread turned brown. When we took out the loaf, the crust crackled, and my daughter laughed because it looked like a small golden pillow. We cut it into thick slices and tasted it with butter and jam. Although the middle was a little soft, the bread tasted fresh and much better than the ones in the supermarket. We promised to bake again next weekend, and my daughter asked to shape the next loaf by herself.",
+ "sentences": [
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03-s0.mp3",
+   "hint_cn": "妻子提议：周日第一次在家烤面包",
+   "text": "Last Sunday, my wife suggested that we try baking bread at home, although neither of us had ever done it before."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03-s1.mp3",
+   "hint_cn": "回家后：大碗里和面、妻子加酵母",
+   "text": "After we returned home, I mixed up the flour and water in a large bowl, and my wife added the yeast carefully."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03-s2.mp3",
+   "hint_cn": "出炉时：面包皮脆响、女儿笑说像金色小枕头",
+   "text": "When we took out the loaf, the crust crackled, and my daughter laughed because it looked like a small golden pillow."
+  }
+ ],
+ "shadow_level": "A2",
+ "shadow_sentences": [
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03-sh0.mp3",
+   "text": "We baked fresh bread at home last Sunday morning."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03-sh1.mp3",
+   "text": "The kitchen smelled warm and sweet all morning."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-03-sh2.mp3",
+   "text": "My daughter wants to shape the next loaf herself."
+  }
+ ],
+ "speed": 85,
+ "topic": "Baking bread at home for the first time",
+ "topic_cn": "第一次在家烤面包",
+ "vocab": [
+  {
+   "word": "suggest",
+   "meaning": "提议、建议（to propose an idea）"
+  },
+  {
+   "word": "patience",
+   "meaning": "耐心（the ability to wait calmly）"
+  },
+  {
+   "word": "yeast",
+   "meaning": "酵母（a substance that makes dough rise）"
+  },
+  {
+   "word": "dough",
+   "meaning": "面团（a soft mixture of flour and water）"
+  },
+  {
+   "word": "loaf",
+   "meaning": "一条面包（a shaped mass of bread）"
+  },
+  {
+   "word": "crust",
+   "meaning": "面包皮（the hard outer part of bread）"
+  },
+  {
+   "word": "crackle",
+   "meaning": "发出脆裂声（to make small sharp sounds）"
+  },
+  {
+   "word": "slice",
+   "meaning": "切片（a thin cut piece）"
+  },
+  {
+   "word": "picked up",
+   "meaning": "买回、顺手买（to buy or get something）"
+  },
+  {
+   "word": "rolled out",
+   "meaning": "擀开（to flatten dough with a rolling pin）"
+  }
+ ]
+}
