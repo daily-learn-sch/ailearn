@@ -1,0 +1,84 @@
+{
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04.mp3",
+ "coach_rationale": "今天继续盯你最顽固的两处：过去式 -ed 结尾（prepared、explained、compared、thanked、suggested）和动词短语连读（stood up、pointed out、stopped by、wrote down）。Mac 直读 EnglishPod365 笔记：自 10 月 16 日 EP0012 后仍无新内容，弱项仍是 10 月 12 日、16 日两集暴露的 fill me in、kicked me out、pick up a 这类连读短语，所以本篇把团队分享场景里的短语动词密度拉高，让你在慢速 TTS 里先把尾音和连读听清楚。网站听写表仍为空、EnglishPod 新版也无错题记录，B1 难度样本仍只有 1 次，今天这篇正好再补一个。",
+ "date": "2026-11-04",
+ "level": "B1",
+ "passage": "Last Thursday, I gave my first short talk at our team meeting. Although I had prepared my slides for three days, I still felt nervous when I stood up in front of my colleagues. My manager smiled and nodded, and that helped me relax a little. I started by explaining a problem we had found in our system last month. Then I pointed out three possible solutions and compared their costs carefully. My colleagues listened quietly and asked two sharp questions. I answered the first one easily, but the second one puzzled me for a moment. I admitted that I needed more data, and I promised to check it after the meeting. After I finished, my team clapped and my manager thanked me for the clear summary. In the afternoon, a senior developer stopped by my desk and offered me useful advice. He suggested that I speak more slowly and pause after each key point. I wrote down his advice and practiced it in the evening. The talk lasted only fifteen minutes, but it taught me an important lesson. Preparation builds confidence, and honest answers build trust.",
+ "sentences": [
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04-s0.mp3",
+   "hint_cn": "准备三天，上台仍紧张",
+   "text": "Although I had prepared my slides for three days, I still felt nervous when I stood up in front of my colleagues."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04-s1.mp3",
+   "hint_cn": "第一问答得轻松，第二问卡了一下",
+   "text": "I answered the first one easily, but the second one puzzled me for a moment."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04-s2.mp3",
+   "hint_cn": "下午资深同事来工位给建议",
+   "text": "In the afternoon, a senior developer stopped by my desk and offered me useful advice."
+  }
+ ],
+ "shadow_level": "A2",
+ "shadow_sentences": [
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04-sh0.mp3",
+   "text": "I gave my first short talk at our team meeting."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04-sh1.mp3",
+   "text": "My manager smiled and thanked me for the clear summary."
+  },
+  {
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04-sh2.mp3",
+   "text": "Preparation builds confidence, and honest answers build trust."
+  }
+ ],
+ "speed": 85,
+ "topic": "My first short talk at a team meeting",
+ "topic_cn": "第一次在团队会上做分享",
+ "vocab": [
+  {
+   "word": "slide",
+   "meaning": "幻灯片（a page of a presentation）"
+  },
+  {
+   "word": "colleague",
+   "meaning": "同事（a person you work with）"
+  },
+  {
+   "word": "nervous",
+   "meaning": "紧张的（worried and a little afraid）"
+  },
+  {
+   "word": "solution",
+   "meaning": "解决方案（a way to solve a problem）"
+  },
+  {
+   "word": "sharp",
+   "meaning": "尖锐的、一针见血的（quick and intelligent）"
+  },
+  {
+   "word": "puzzle",
+   "meaning": "使困惑（to make someone unable to understand）"
+  },
+  {
+   "word": "admit",
+   "meaning": "承认（to say something is true）"
+  },
+  {
+   "word": "senior",
+   "meaning": "资深的（with more experience）"
+  },
+  {
+   "word": "stood up",
+   "meaning": "站起来（to rise to your feet）"
+  },
+  {
+   "word": "pointed out",
+   "meaning": "指出（to show or mention something）"
+  }
+ ]
+}
