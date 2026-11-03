@@ -1,6 +1,15 @@
 {
  "drills": [
   {
+   "date": "2026-11-04",
+   "topic": "My first short talk at a team meeting",
+   "topic_cn": "第一次在团队会上做分享",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-04.mp3",
+   "data": "data/2026-11-04.json"
+  },
+  {
    "date": "2026-11-03",
    "topic": "Baking bread at home for the first time",
    "topic_cn": "第一次在家烤面包",
@@ -234,5 +243,5 @@
    "topic_cn": "早市"
   }
  ],
- "updated": "2026-11-03"
+ "updated": "2026-11-04"
 }
