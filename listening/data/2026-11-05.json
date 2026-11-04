@@ -1,0 +1,33 @@
+{
+ "date": "2026-11-05",
+ "topic": "A water town weekend trip",
+ "topic_cn": "水乡周末之旅",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-05.mp3",
+ "coach_rationale": "今天继续盯你最顽固的两处：过去式 -ed 结尾（traveled、decided、checked、walked、looked、tasted、picked）和动词短语连读（checked in、walked around、sat down、picked up、turned back）。Mac 直读 EnglishPod365 笔记：自 10 月 16 日 EP0012 后仍无新内容，弱项仍是 10 月 12 日、16 日两集暴露的 fill me in、kicked me out、pick up a 这类连读短语，所以本篇把水乡游场景里的短语动词密度拉高，让你在慢速 TTS 里先把尾音和连读听清楚。网站听写表仍为空、EnglishPod 新版也无错题记录，B1 难度样本仍只有 1 次，今天这篇正好再补一个。",
+ "passage": "Last Saturday, my wife and I traveled to a small water town about two hours from our city. Although the sky looked gray in the morning, we decided to go anyway because we had booked the tickets the week before. We checked in at a small guesthouse near the river and put our bags down quickly. Then we walked around the old streets and looked at the stone bridges and white houses. A local guide showed us how people lived there a hundred years ago, and she pointed out a small museum that had once been a school. At noon, we sat down at a restaurant beside the water and tasted the local fish soup. The soup tasted fresh, and my wife said it was the best meal of the month. In the afternoon, we picked up some handmade gifts for our parents and took many photos of the boats on the river. When the rain started, we turned back to the guesthouse and drank hot tea by the window. We looked out at the rain and talked about our next trip. On the way home, my wife fell asleep on my shoulder, and I felt calm and happy.",
+ "sentences": [
+  {"text": "We checked in at a small guesthouse near the river and put our bags down quickly.", "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-05-s0.mp3", "hint_cn": "入住河边小客栈、放下行李"},
+  {"text": "Then we walked around the old streets and looked at the stone bridges and white houses.", "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-05-s1.mp3", "hint_cn": "漫步老街、看石桥白墙"},
+  {"text": "In the afternoon, we picked up some handmade gifts for our parents and took many photos of the boats on the river.", "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-05-s2.mp3", "hint_cn": "下午买手工礼物、拍河上船只"}
+ ],
+ "shadow_level": "A2",
+ "shadow_sentences": [
+  {"text": "We traveled to a small water town last Saturday.", "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-05-sh0.mp3"},
+  {"text": "The old streets and stone bridges looked very beautiful.", "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-05-sh1.mp3"},
+  {"text": "We drank hot tea and talked about our next trip.", "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-05-sh2.mp3"}
+ ],
+ "vocab": [
+  {"word": "guesthouse", "pos": "名词", "meaning": "客栈（a small hotel）"},
+  {"word": "check in", "pos": "词组", "meaning": "入住登记（to register at accommodation）"},
+  {"word": "walked around", "pos": "词组", "meaning": "漫步（to walk in an area）"},
+  {"word": "stone bridge", "pos": "名词", "meaning": "石桥（bridge made of stone）"},
+  {"word": "guide", "pos": "名词", "meaning": "导游（person who leads tours）"},
+  {"word": "museum", "pos": "名词", "meaning": "博物馆（place of exhibits）"},
+  {"word": "handmade", "pos": "形容词", "meaning": "手工制作的（made by hand）"},
+  {"word": "pick up", "pos": "词组", "meaning": "买到/顺手买（to buy or collect）"},
+  {"word": "turn back", "pos": "词组", "meaning": "折返（to return）"},
+  {"word": "fell asleep", "pos": "词组", "meaning": "睡着了（to begin sleeping）"}
+ ]
+}
