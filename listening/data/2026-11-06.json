@@ -1,0 +1,94 @@
+{
+ "date": "2026-11-06",
+ "topic": "A family hot pot dinner on a cold evening",
+ "topic_cn": "寒夜里的一顿家庭火锅",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-06.mp3",
+ "coach_rationale": "今天继续盯你最顽固的两处：过去式 -ed 结尾（cooked、turned、prepared、decided、tasted、laughed、cleaned）和动词短语连读（sat around、put into、turned up、picked up、cleaned up）。Mac 直读 EnglishPod365 笔记：自 10 月 16 日 EP0012 后仍无新内容，弱项仍是 fill me in、kicked me out、pick up a 这类连读短语和 we've/It'll 缩写时态，所以本篇把火锅场景里的短语动词密度拉高，让你在慢速 TTS 里先把尾音和连读听清楚。网站听写表仍为空、EnglishPod 新版也无错题记录，B1 难度有分样本仍只有 1 次，今天这篇继续补样本。",
+ "passage": "Last night, my family and I cooked hot pot at home because the weather turned cold. My wife bought beef, fish balls, and fresh vegetables at the market in the afternoon, and I prepared the soup base with chili and ginger. Although my son had never tried spicy food before, he decided to taste a little because everyone looked so happy. We sat around the table and put the food into the pot one by one. My mother-in-law turned up the heat and told us to wait for five minutes. When the soup started to boil, we picked up our chopsticks and tasted the first pieces. My daughter laughed when she dropped a fish ball into the soup and it jumped up again. We talked about our week while we cooked and ate. My father-in-law shared a funny story about his first hot pot, and we all laughed together. After dinner, we cleaned up the table and washed the dishes. I felt warm and full, and I thought it was the best way to end a cold day.",
+ "sentences": [
+  {
+   "text": "My wife bought beef, fish balls, and fresh vegetables at the market in the afternoon, and I prepared the soup base with chili and ginger.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-06-s0.mp3",
+   "hint_cn": "妻子下午去市场买菜、我准备火锅底料"
+  },
+  {
+   "text": "We sat around the table and put the food into the pot one by one.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-06-s1.mp3",
+   "hint_cn": "大家围坐桌边、把食材一样样放进锅里"
+  },
+  {
+   "text": "After dinner, we cleaned up the table and washed the dishes.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-06-s2.mp3",
+   "hint_cn": "饭后收拾桌子、洗碗"
+  }
+ ],
+ "shadow_level": "A2",
+ "shadow_sentences": [
+  {
+   "text": "We cooked hot pot at home last night because it was cold.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-06-sh0.mp3"
+  },
+  {
+   "text": "My son tasted the spicy soup for the first time.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-06-sh1.mp3"
+  },
+  {
+   "text": "We talked and laughed together around the hot pot.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-06-sh2.mp3"
+  }
+ ],
+ "vocab": [
+  {
+   "word": "hot pot",
+   "pos": "名词",
+   "meaning": "火锅（a Chinese meal cooked in hot soup at the table）"
+  },
+  {
+   "word": "soup base",
+   "pos": "名词",
+   "meaning": "汤底（the soup used for cooking hot pot）"
+  },
+  {
+   "word": "chili",
+   "pos": "名词",
+   "meaning": "辣椒（a hot red pepper）"
+  },
+  {
+   "word": "ginger",
+   "pos": "名词",
+   "meaning": "生姜（a root with a hot taste）"
+  },
+  {
+   "word": "chopsticks",
+   "pos": "名词",
+   "meaning": "筷子（thin sticks used to eat with）"
+  },
+  {
+   "word": "spicy",
+   "pos": "形容词",
+   "meaning": "辣的（with a hot taste）"
+  },
+  {
+   "word": "fish ball",
+   "pos": "名词",
+   "meaning": "鱼丸（a small round food made from fish）"
+  },
+  {
+   "word": "turn up",
+   "pos": "词组",
+   "meaning": "调高、开大（to increase）"
+  },
+  {
+   "word": "sit around",
+   "pos": "词组",
+   "meaning": "围坐（to sit in a circle around something）"
+  },
+  {
+   "word": "clean up",
+   "pos": "词组",
+   "meaning": "收拾、清理（to make clean and tidy）"
+  }
+ ]
+}
