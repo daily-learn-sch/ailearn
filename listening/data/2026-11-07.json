@@ -1,0 +1,94 @@
+{
+ "date": "2026-11-07",
+ "topic": "Visiting my grandparents in the countryside",
+ "topic_cn": "去乡下看爷爷奶奶",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07.mp3",
+ "coach_rationale": "今天继续盯你最顽固的两处：过去式 -ed 结尾（waited、cooked、remembered、showed、helped、packed、promised）和动词短语连读（set off、sit down、pick up、check on、drop by、grow up）。Mac 直读 EnglishPod365 笔记：自 10 月 16 日 EP0012 后仍无新内容，弱项仍是 fill me in、kicked me out、pick up a 这类连读短语和 we've/It'll 缩写时态，所以本篇把乡下探亲场景里的短语动词密度拉高，先在慢速 TTS 里把尾音和连读听清楚。网站听写表仍为空、EnglishPod 新版也无错题记录，B1 难度有分样本仍只有 1 次，今天这篇继续补样本。",
+ "passage": "Last Saturday morning, my wife and I set off early to visit my grandparents in the countryside. Although the bus ride took almost two hours, we enjoyed the green fields and small villages along the way. My grandfather waited for us at the gate and waved to us with a big smile. He is eighty years old, but he still looked strong and walked quickly. My grandmother cooked a big lunch and asked us to sit down at the old wooden table. We tasted her dumplings and talked about my childhood in the village. She remembered that I used to climb the big tree behind the house, and she laughed when she told my wife about it. After lunch, my grandfather showed us his vegetable garden and picked up a basket of fresh tomatoes for us. We helped him water the plants and checked on the chickens in the yard. Before we left, my grandmother packed some eggs and asked us to come back soon. On the way home, I looked at the photos on my phone and felt warm inside. I grew up in that village, and I promised to drop by more often.",
+ "sentences": [
+  {
+   "text": "Last Saturday morning, my wife and I set off early to visit my grandparents in the countryside.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07-s0.mp3",
+   "hint_cn": "周六一早出发去乡下看爷爷奶奶"
+  },
+  {
+   "text": "My grandmother cooked a big lunch and asked us to sit down at the old wooden table.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07-s1.mp3",
+   "hint_cn": "奶奶做了大餐，招呼大家在木桌旁坐下"
+  },
+  {
+   "text": "After lunch, my grandfather showed us his vegetable garden and picked up a basket of fresh tomatoes for us.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07-s2.mp3",
+   "hint_cn": "饭后爷爷带我们看菜园，摘了一篮番茄"
+  }
+ ],
+ "shadow_level": "A2",
+ "shadow_sentences": [
+  {
+   "text": "We visited my grandparents in the countryside last Saturday.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07-sh0.mp3"
+  },
+  {
+   "text": "My grandmother cooked a big lunch for the whole family.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07-sh1.mp3"
+  },
+  {
+   "text": "I grew up in that small village many years ago.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07-sh2.mp3"
+  }
+ ],
+ "vocab": [
+  {
+   "word": "countryside",
+   "pos": "名词",
+   "meaning": "乡下、农村（the land outside cities and towns）"
+  },
+  {
+   "word": "set off",
+   "pos": "词组",
+   "meaning": "出发、动身（to start a journey）"
+  },
+  {
+   "word": "pick up",
+   "pos": "词组",
+   "meaning": "捡起、摘下（to lift something from the ground）"
+  },
+  {
+   "word": "sit down",
+   "pos": "词组",
+   "meaning": "坐下（to take a seat）"
+  },
+  {
+   "word": "grow up",
+   "pos": "词组",
+   "meaning": "长大（to become an adult）"
+  },
+  {
+   "word": "drop by",
+   "pos": "词组",
+   "meaning": "顺路拜访（to visit someone briefly）"
+  },
+  {
+   "word": "check on",
+   "pos": "词组",
+   "meaning": "查看、照看（to look at something to make sure it is fine）"
+  },
+  {
+   "word": "vegetable garden",
+   "pos": "名词",
+   "meaning": "菜园（a place where vegetables grow）"
+  },
+  {
+   "word": "childhood",
+   "pos": "名词",
+   "meaning": "童年（the time when you are a child）"
+  },
+  {
+   "word": "along the way",
+   "pos": "词组",
+   "meaning": "一路上（on the road while traveling）"
+  }
+ ]
+}
