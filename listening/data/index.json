@@ -1,6 +1,15 @@
 {
  "drills": [
   {
+   "date": "2026-11-07",
+   "topic": "Visiting my grandparents in the countryside",
+   "topic_cn": "去乡下看爷爷奶奶",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-07.mp3",
+   "data": "data/2026-11-07.json"
+  },
+  {
    "date": "2026-11-06",
    "topic": "A family hot pot dinner on a cold evening",
    "topic_cn": "寒夜里的一顿家庭火锅",
@@ -261,5 +270,5 @@
    "topic_cn": "早市"
   }
  ],
- "updated": "2026-11-06"
+ "updated": "2026-11-07"
 }
