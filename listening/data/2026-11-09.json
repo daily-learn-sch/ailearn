@@ -1,0 +1,94 @@
+{
+  "date": "2026-11-09",
+  "topic": "Teaching my daughter to ride a bike",
+  "topic_cn": "教女儿学骑车",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-09.mp3",
+  "passage": "Last Sunday afternoon, I decided to teach my daughter to ride a bike in the park. She had wanted a bike for a long time, and we bought a small pink one last month. At first, she held on to my arm tightly and asked me not to let go. I walked behind her and held the seat while she pedaled slowly along the path. After ten minutes, she looked back at me and laughed, because she felt brave. Then I let go of the seat for a few seconds, and she rode alone for the first time. She shouted with joy, but soon she lost her balance and fell onto the soft grass. She cried a little, and I picked her up and cleaned her hands. I told her that every rider falls at first, and that she should try again. She nodded and got back on the bike. This time she pedaled faster and looked at the road. After half an hour, she rode around the small lake by herself. I watched her from the bench and felt very proud. On the way home, she asked me when we could practice again.",
+  "sentences": [
+    {
+      "text": "At first, she held on to my arm tightly and asked me not to let go.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-09-s0.mp3",
+      "hint_cn": "女儿一开始紧紧抓住我的手臂，不让我松手"
+    },
+    {
+      "text": "Then I let go of the seat for a few seconds, and she rode alone for the first time.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-09-s1.mp3",
+      "hint_cn": "我松开车座几秒，她第一次独自骑行"
+    },
+    {
+      "text": "After half an hour, she rode around the small lake by herself.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-09-s2.mp3",
+      "hint_cn": "半小时后，她独自绕小湖骑了一圈"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "My daughter learned to ride a bike last Sunday.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-09-sh0.mp3"
+    },
+    {
+      "text": "She fell off the bike but she did not cry for long.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-09-sh1.mp3"
+    },
+    {
+      "text": "I felt very proud when I watched her ride alone.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-09-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今天继续本周重点：过去式动词结尾 -ed/-t/-d 的听辨（10 月 10 日听写 64%，gave/showed/felt 系统性丢分），文里埋了 decided、pedaled、laughed、cleaned、watched 等 20 多个过去式动词；同时加练短语动词连读 hold on to、let go of、fall off、get back on，呼应你 EnglishPod 笔记里 pick up a、fill me in 这类连读弱项。主题换成家庭日常——教女儿学骑车，B1 复合句（after、while、because）密度保持，听写仍按 B1、跟读保持 A2。",
+  "vocab": [
+    {
+      "word": "hold on to",
+      "phonetic": "/həʊld ɒn tuː/",
+      "note": "短语动词：抓紧；连读时 on to 弱读，别漏掉 to"
+    },
+    {
+      "word": "let go of",
+      "phonetic": "/let ɡəʊ ɒv/",
+      "note": "短语动词：松开；go of 连读，of 弱读为 /əv/"
+    },
+    {
+      "word": "fall off",
+      "phonetic": "/fɔːl ɒf/",
+      "note": "短语动词：摔下来；过去式 fell off，注意 fell 的 e 发音"
+    },
+    {
+      "word": "get back on",
+      "phonetic": "/ɡet bæk ɒn/",
+      "note": "短语动词：重新骑上；back on 连读"
+    },
+    {
+      "word": "pedal",
+      "phonetic": "/ˈpedl/",
+      "note": "踩踏板；过去式 pedaled 结尾发 /d/，别读成 /t/"
+    },
+    {
+      "word": "balance",
+      "phonetic": "/ˈbæləns/",
+      "note": "平衡；lose one's balance 失去平衡"
+    },
+    {
+      "word": "brave",
+      "phonetic": "/breɪv/",
+      "note": "勇敢的；felt brave 感到勇敢"
+    },
+    {
+      "word": "proud",
+      "phonetic": "/praʊd/",
+      "note": "自豪的；结尾 d 别吞掉"
+    },
+    {
+      "word": "tightly",
+      "phonetic": "/ˈtaɪtli/",
+      "note": "紧紧地；tight + ly，t 音要咬住"
+    },
+    {
+      "word": "practice",
+      "phonetic": "/ˈpræktɪs/",
+      "note": "练习；作动词时与名词同形同音"
+    }
+  ]
+}
