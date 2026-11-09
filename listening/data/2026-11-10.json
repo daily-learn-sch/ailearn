@@ -1,0 +1,94 @@
+{
+ "date": "2026-11-10",
+ "topic": "A power cut at home",
+ "topic_cn": "家里停电的一晚",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-10.mp3",
+ "passage": "Last Thursday evening, my family and I faced a small problem at home. At around seven o'clock, the lights went out suddenly, and the whole apartment turned dark. My wife looked at me and asked what had happened. I checked the switch on the wall, but it did not work. Then I opened the door and looked outside. The lights in the next building were also off, so I knew it was not only our problem. My son felt a little scared, so I lit two candles and placed them on the table. My wife found a flashlight in a drawer and handed it to me. We sat down together and waited for the power to return. To pass the time, my mother told us a story about her childhood, when her family used oil lamps every night. We listened quietly and laughed at the funny parts. After about an hour, the lights came back on, and the room felt bright again. I checked the fridge and turned the television back on. My son cheered, and we finished our dinner together. That night taught me a simple lesson: a dark evening can still bring a family closer.",
+ "sentences": [
+  {
+   "text": "At around seven o'clock, the lights went out suddenly, and the whole apartment turned dark.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-10-s0.mp3",
+   "hint_cn": "晚上七点左右突然停电，全屋变黑"
+  },
+  {
+   "text": "My son felt a little scared, so I lit two candles and placed them on the table.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-10-s1.mp3",
+   "hint_cn": "儿子有点害怕，我点了两支蜡烛放桌上"
+  },
+  {
+   "text": "After about an hour, the lights came back on, and the room felt bright again.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-10-s2.mp3",
+   "hint_cn": "约一小时后恢复供电，房间重新亮起来"
+  }
+ ],
+ "shadow_sentences": [
+  {
+   "text": "The lights went out, and our home turned dark.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-10-sh0.mp3"
+  },
+  {
+   "text": "We sat together and waited for the power to come back.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-10-sh1.mp3"
+  },
+  {
+   "text": "My mother told us a funny story about her childhood.",
+   "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-10-sh2.mp3"
+  }
+ ],
+ "shadow_level": "A2",
+ "coach_rationale": "今天继续本周重点：过去式动词结尾 -ed/-t/-d 的听辨（10 月 10 日听写 64%，gave/showed/felt 系统性丢分），文里埋了 faced、looked、checked、turned、listened、cheered 等 20 多个过去式动词；同时加练短语动词连读 went out、came back on、sat down、turned back on，呼应你 EnglishPod 笔记里 pick up a、fill me in、kicked me out 这类连读弱项。主题换成家庭日常——停电的一晚，B1 复合句（when、while、after、so）密度保持，听写仍按 B1、跟读保持 A2。",
+ "vocab": [
+  {
+   "word": "power cut",
+   "phonetic": "/ˈpaʊə kʌt/",
+   "note": "名词短语：停电；cut 在这里是名词"
+  },
+  {
+   "word": "go out",
+   "phonetic": "/ɡəʊ aʊt/",
+   "note": "短语动词：（灯）熄灭；停电时说 the lights went out"
+  },
+  {
+   "word": "flashlight",
+   "phonetic": "/ˈflæʃlaɪt/",
+   "note": "名词：手电筒；美式说法，英式叫 torch"
+  },
+  {
+   "word": "candle",
+   "phonetic": "/ˈkændl/",
+   "note": "名词：蜡烛；lit two candles 点了两支蜡烛"
+  },
+  {
+   "word": "drawer",
+   "phonetic": "/drɔːr/",
+   "note": "名词：抽屉；in a drawer 在抽屉里"
+  },
+  {
+   "word": "light / lit",
+   "phonetic": "/laɪt/ /lɪt/",
+   "note": "动词：点燃；lit 是 light 的过去式，注意 -t 结尾别漏听"
+  },
+  {
+   "word": "come back on",
+   "phonetic": "/kʌm bæk ɒn/",
+   "note": "短语动词：（电）恢复供应；on 在句尾要读出来"
+  },
+  {
+   "word": "pass the time",
+   "phonetic": "/pɑːs ðə taɪm/",
+   "note": "词组：打发时间；to pass the time 为了打发时间"
+  },
+  {
+   "word": "oil lamp",
+   "phonetic": "/ɔɪl læmp/",
+   "note": "名词短语：油灯；妈妈小时候家里每晚用的照明"
+  },
+  {
+   "word": "cheer",
+   "phonetic": "/tʃɪər/",
+   "note": "动词：欢呼；cheered 过去式，-ed 读 /d/"
+  }
+ ]
+}
