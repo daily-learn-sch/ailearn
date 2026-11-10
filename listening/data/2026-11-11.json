@@ -1,0 +1,94 @@
+{
+ "date": "2026-11-11",
+ "topic": "My first visit to the gym",
+ "topic_cn": "第一次去健身房",
+ "level": "B1",
+ "speed": 85,
+ "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11.mp3",
+ "passage": "Last month, I decided to join a gym near my home. Although I had wanted to exercise for a long time, I had always found an excuse to stay at home. One Saturday morning, I walked into the gym and signed up for a one-month pass. A young coach welcomed me and showed me around the hall. He explained that I should warm up for ten minutes before I worked out, and cool down slowly after I finished. First, I tried out the running machine and walked for fifteen minutes. Then the coach showed me how to lift light weights and use the rowing machine. My arms felt tired after only a few minutes, but I kept going because the coach counted loudly and cheered me on. After the class, I picked up a bottle of water and sat down on a bench. I looked around and saw many people who worked out every day. Some lifted heavy weights, and others stretched quietly in a corner. When I left the gym, my legs felt weak, but my heart felt light. I decided to come back three times a week, because a strong body helps me work and sleep better.",
+ "sentences": [
+  {
+   "text": "One Saturday morning, I walked into the gym and signed up for a one-month pass.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11-s0.mp3",
+   "hint_cn": "周六早上走进健身房，办了一个月卡"
+  },
+  {
+   "text": "He explained that I should warm up for ten minutes before I worked out, and cool down slowly after I finished.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11-s1.mp3",
+   "hint_cn": "教练讲解：练前热身十分钟、练后慢慢放松"
+  },
+  {
+   "text": "When I left the gym, my legs felt weak, but my heart felt light.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11-s2.mp3",
+   "hint_cn": "离开时腿发软，心情却很轻松"
+  }
+ ],
+ "shadow_sentences": [
+  {
+   "text": "I joined a gym near my home last month.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11-sh0.mp3"
+  },
+  {
+   "text": "The coach showed me how to use the machines.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11-sh1.mp3"
+  },
+  {
+   "text": "I want to exercise three times a week.",
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11-sh2.mp3"
+  }
+ ],
+ "shadow_level": "A2",
+ "coach_rationale": "今天继续本周重点：过去式动词结尾 -ed/-t/-d 的听辨（10 月 10 日听写 64%，gave/showed/felt 系统性丢分），文里埋了 decided、walked、welcomed、explained、lifted 等 20 多个过去式动词；同时加练短语动词连读 sign up、warm up、cool down、work out、try out，呼应你 EnglishPod 笔记里 pick up a、fill me in 这类连读弱项。Mac 通道本轮不通（restore 后仍连不上），按日志错题模式出题。主题换成健康——第一次去健身房，B1 复合句（although、because、when）密度保持，听写仍按 B1、跟读保持 A2。",
+ "vocab": [
+  {
+   "word": "sign up",
+   "phonetic": "/saɪn ʌp/",
+   "note": "短语动词：报名、注册；sign up for a one-month pass 办一个月卡"
+  },
+  {
+   "word": "warm up",
+   "phonetic": "/wɔːm ʌp/",
+   "note": "短语动词：热身；warm up for ten minutes 热身十分钟"
+  },
+  {
+   "word": "cool down",
+   "phonetic": "/kuːl daʊn/",
+   "note": "短语动词：放松、冷却；运动后慢慢放松"
+  },
+  {
+   "word": "work out",
+   "phonetic": "/wɜːk aʊt/",
+   "note": "短语动词：锻炼；worked out 是过去式，注意 -ed 结尾要读出来"
+  },
+  {
+   "word": "try out",
+   "phonetic": "/traɪ aʊt/",
+   "note": "短语动词：试用、试试；tried out the running machine 试了跑步机"
+  },
+  {
+   "word": "rowing machine",
+   "phonetic": "/ˈrəʊɪŋ məˈʃiːn/",
+   "note": "名词：划船机"
+  },
+  {
+   "word": "weights",
+   "phonetic": "/weɪts/",
+   "note": "名词：哑铃、杠铃；lift light weights 举轻重量"
+  },
+  {
+   "word": "stretch",
+   "phonetic": "/stretʃ/",
+   "note": "动词：伸展、拉伸；stretched quietly in a corner 在角落静静拉伸"
+  },
+  {
+   "word": "excuse",
+   "phonetic": "/ɪkˈskjuːs/",
+   "note": "名词：借口；found an excuse 找了个借口"
+  },
+  {
+   "word": "bench",
+   "phonetic": "/bentʃ/",
+   "note": "名词：长凳；sat down on a bench 坐在长凳上"
+  }
+ ]
+}
