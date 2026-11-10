@@ -1,6 +1,15 @@
 {
  "drills": [
   {
+   "date": "2026-11-11",
+   "topic": "My first visit to the gym",
+   "topic_cn": "第一次去健身房",
+   "level": "B1",
+   "speed": 85,
+   "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-11.mp3",
+   "data": "data/2026-11-11.json"
+  },
+  {
    "date": "2026-11-10",
    "topic": "A power cut at home",
    "topic_cn": "家里停电的一晚",
@@ -297,5 +306,5 @@
    "topic_cn": "早市"
   }
  ],
- "updated": "2026-11-10"
+ "updated": "2026-11-11"
 }
