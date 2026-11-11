@@ -1,0 +1,94 @@
+{
+  "date": "2026-11-12",
+  "topic": "My first job interview in English",
+  "topic_cn": "第一次用英语面试",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-12.mp3",
+  "passage": "Last Tuesday, I attended my first job interview in English, and I felt nervous before it started. The company invited me for a video call at nine in the morning. I woke up early, put on a clean shirt, and checked my camera twice. When the call started, the interviewer smiled and welcomed me warmly. She asked me to introduce myself, so I talked about my work as a Java developer and the projects I had finished in the past three years. Then she asked about a difficult problem I had solved, and I explained how my team fixed a slow system by changing the database. She listened carefully and asked many questions about my English study. I told her that I practiced listening every morning and that I wanted to work with a team in another country. At the end, she thanked me and said the team would reply within a week. After the call ended, I wrote down every question I remembered. Although I felt tired, I felt proud because I had finished the whole interview in English.",
+  "sentences": [
+    {
+      "text": "When the call started, the interviewer smiled and welcomed me warmly.",
+      "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-12-s0.mp3",
+      "hint_cn": "面试开始，面试官微笑欢迎我"
+    },
+    {
+      "text": "Then she asked about a difficult problem I had solved, and I explained how my team fixed a slow system by changing the database.",
+      "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-12-s1.mp3",
+      "hint_cn": "问我解决过的难题，我讲了修慢系统"
+    },
+    {
+      "text": "After the call ended, I wrote down every question I remembered.",
+      "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-12-s2.mp3",
+      "hint_cn": "结束后我记下了所有问题"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I had my first job interview in English last Tuesday.",
+      "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-12-sh0.mp3"
+    },
+    {
+      "text": "The interviewer asked me to talk about my work.",
+      "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-12-sh1.mp3"
+    },
+    {
+      "text": "I felt nervous, but I finished the whole interview.",
+      "audio": "https://pub-b3c4d99303d24c248ecae143fce58c61.r2.dev/2026-11-12-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今天继续本周重点：过去式动词结尾 -ed/-t/-d 的听辨（10 月 10 日听写 64%，gave/showed/felt 系统性丢分），文里埋了 attended、invited、welcomed、explained、finished 等 20 多个过去式动词；同时加练短语动词连读 put on、woke up、write down，呼应你 EnglishPod 笔记里 pick up a、fill me in 这类连读弱项。Mac 通道本轮不通（restore 后仍连不上），按日志错题模式出题。主题换成工作——第一次用英语面试，B1 复合句（although、because、when）密度保持，听写仍按 B1、跟读保持 A2。",
+  "vocab": [
+    {
+      "word": "interview",
+      "phonetic": "/ˈɪntəvjuː/",
+      "note": "名词：面试"
+    },
+    {
+      "word": "interviewer",
+      "phonetic": "/ˈɪntəvjuːər/",
+      "note": "名词：面试官"
+    },
+    {
+      "word": "introduce",
+      "phonetic": "/ˌɪntrəˈdjuːs/",
+      "note": "动词：介绍（introduce myself 自我介绍）"
+    },
+    {
+      "word": "nervous",
+      "phonetic": "/ˈnɜːvəs/",
+      "note": "形容词：紧张的"
+    },
+    {
+      "word": "warmly",
+      "phonetic": "/ˈwɔːmli/",
+      "note": "副词：热情地"
+    },
+    {
+      "word": "reply",
+      "phonetic": "/rɪˈplaɪ/",
+      "note": "动词：回复"
+    },
+    {
+      "word": "write down",
+      "phonetic": "/raɪt daʊn/",
+      "note": "短语动词：写下来（wrote down every question 记下每个问题）"
+    },
+    {
+      "word": "introduce myself",
+      "phonetic": "/ˌɪntrəˈdjuːs maɪˈself/",
+      "note": "短语：自我介绍"
+    },
+    {
+      "word": "at the end",
+      "phonetic": "/ət ði end/",
+      "note": "短语：最后"
+    },
+    {
+      "word": "within a week",
+      "phonetic": "/wɪˈðɪn ə wiːk/",
+      "note": "短语：在一周之内"
+    }
+  ]
+}
