@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-13",
+      "topic": "A visit to the dentist",
+      "topic_cn": "第一次去看牙医",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13.mp3",
+      "data": "data/2026-11-13.json"
+    },
+    {
       "date": "2026-11-12",
       "topic": "My first job interview in English",
       "topic_cn": "第一次用英语面试",
@@ -315,5 +324,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-12"
+  "updated": "2026-11-13"
 }
