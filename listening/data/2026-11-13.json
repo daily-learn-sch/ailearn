@@ -1,0 +1,94 @@
+{
+  "date": "2026-11-13",
+  "topic": "A visit to the dentist",
+  "topic_cn": "第一次去看牙医",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13.mp3",
+  "passage": "Last Tuesday morning, I visited the dentist for the first time in two years. Although I felt nervous, I knew I had to go because my tooth had hurt for three days. I called the clinic the day before and booked an appointment for ten in the morning. The dentist asked me to open my mouth wide and looked at the bad tooth carefully. He said the tooth needed a small filling, and he asked me to come back the next day. The nurse smiled and told me to relax. She handed me a glass of water and asked me to rinse my mouth. Then she picked up a small mirror and showed me the tooth on a screen. After the check, I walked to the front desk and paid the bill. The woman at the desk gave me a small card and reminded me to brush my teeth twice a day. On the way home, I stopped at a fruit shop and picked up some apples for my family. That evening, I told my wife about the visit, and she laughed because I had waited so long. I promised to visit the dentist every six months from now on.",
+  "sentences": [
+    {
+      "text": "Last Tuesday morning, I visited the dentist for the first time in two years.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13-s0.mp3",
+      "hint_cn": "周二早上第一次去看牙医（两年来的第一次）"
+    },
+    {
+      "text": "She handed me a glass of water and asked me to rinse my mouth.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13-s1.mp3",
+      "hint_cn": "护士递水让我漱口"
+    },
+    {
+      "text": "I promised to visit the dentist every six months from now on.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13-s2.mp3",
+      "hint_cn": "保证以后每半年看一次牙"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I went to the dentist last Tuesday morning.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13-sh0.mp3"
+    },
+    {
+      "text": "My tooth hurt, so I called the clinic for help.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13-sh1.mp3"
+    },
+    {
+      "text": "The nurse smiled and told me to relax.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-13-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今天继续本周重点——过去式动词结尾 -ed/-t/-d 的听辨：这篇看牙医的 B1 短文里埋了 20 多个过去式动词，重点练 visited/called/booked/handed/picked up 这类 -ed 结尾在连读里最容易丢的音；同时按你 EnglishPod365 笔记里暴露的弱项，加了 picked up、called the clinic、handed me 这类动词短语连读靶子。话题是全新的健康类（看牙医），难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "dentist",
+      "phonetic": "/ˈdentɪst/",
+      "note": "牙医；-ist 结尾别吞音"
+    },
+    {
+      "word": "appointment",
+      "phonetic": "/əˈpɔɪntmənt/",
+      "note": "预约；book an appointment 固定搭配"
+    },
+    {
+      "word": "filling",
+      "phonetic": "/ˈfɪlɪŋ/",
+      "note": "补牙填充物；a small filling"
+    },
+    {
+      "word": "rinse",
+      "phonetic": "/rɪns/",
+      "note": "漱口；rinse my mouth"
+    },
+    {
+      "word": "mirror",
+      "phonetic": "/ˈmɪrər/",
+      "note": "镜子；注意 -or 弱读"
+    },
+    {
+      "word": "remind",
+      "phonetic": "/rɪˈmaɪnd/",
+      "note": "提醒；reminded me to brush，-ed 读 /d/"
+    },
+    {
+      "word": "twice",
+      "phonetic": "/twaɪs/",
+      "note": "两次；twice a day"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "拾起、顺路买；pick + up 连读，-ed 弱读"
+    },
+    {
+      "word": "called",
+      "phonetic": "/kɔːld/",
+      "note": "打电话；called the clinic，-ed 读 /d/"
+    },
+    {
+      "word": "visited",
+      "phonetic": "/ˈvɪzɪtɪd/",
+      "note": "看望、就诊；visited the dentist，t 后 -ed 读 /ɪd/"
+    }
+  ]
+}
