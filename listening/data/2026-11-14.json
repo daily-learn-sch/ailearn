@@ -1,0 +1,94 @@
+{
+  "date": "2026-11-14",
+  "topic": "A quiet afternoon at the library",
+  "topic_cn": "在图书馆度过一个安静的下午",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-14.mp3",
+  "passage": "Last Saturday afternoon, I visited the city library for the first time in a long time. Although I had planned to stay for only one hour, I ended up spending the whole afternoon there. The library looked quiet and bright, and the shelves reached almost to the ceiling. I walked to the English section and looked for a book about daily life in America. A kind librarian noticed me and asked what I needed. She showed me the new books and helped me pick out three easy readers. Then she explained how to check out books with my library card, and she reminded me to return them within three weeks. I sat down near a big window and read for two hours. The room felt calm, and I almost forgot the time. On the way home, I stopped at a small shop and picked up some fruit for my family. When I told my wife about the visit, she laughed and asked me to take her there next weekend. I promised to go back every Saturday, because a quiet place to read makes my week feel better.",
+  "sentences": [
+    {
+      "text": "Although I had planned to stay for only one hour, I ended up spending the whole afternoon there.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-14-s0.mp3",
+      "hint_cn": "本想只待一小时，结果待了一整个下午"
+    },
+    {
+      "text": "She showed me the new books and helped me pick out three easy readers.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-14-s1.mp3",
+      "hint_cn": "馆员帮我挑了三本简易读物"
+    },
+    {
+      "text": "I sat down near a big window and read for two hours.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-14-s2.mp3",
+      "hint_cn": "在窗边坐下读了两小时书"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I visited the city library last Saturday afternoon.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-14-sh0.mp3"
+    },
+    {
+      "text": "The librarian helped me find three easy books.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-14-sh1.mp3"
+    },
+    {
+      "text": "I want to go back to the library every Saturday.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-14-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早 Mac 通道恢复，读了你的 EnglishPod365 笔记：第 5–7 周小结没有更新，主弱项仍是动词短语连读（fill me in、kicked me out、pick up a）和缩写时态，所以今天继续埋连读靶子。这篇图书馆 B1 短文里有 20 多个过去式动词，重点练 visited/planned/reached/reminded/promised 这类 -ed 结尾；pick out、check out、sat down、picked up 四组短语动词是今天的连读靶子。话题是全新的文化类（图书馆），难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "visited",
+      "phonetic": "/ˈvɪzɪtɪd/",
+      "note": "参观；visited the library，t 后 -ed 读 /ɪd/"
+    },
+    {
+      "word": "librarian",
+      "phonetic": "/laɪˈbreəriən/",
+      "note": "图书管理员；重音在第二音节"
+    },
+    {
+      "word": "ceiling",
+      "phonetic": "/ˈsiːlɪŋ/",
+      "note": "天花板；the shelves reached the ceiling"
+    },
+    {
+      "word": "pick out",
+      "phonetic": "/pɪk aʊt/",
+      "note": "挑出；pick out three easy readers，k + out 连读"
+    },
+    {
+      "word": "check out",
+      "phonetic": "/tʃek aʊt/",
+      "note": "借出（书）；check out books with my library card"
+    },
+    {
+      "word": "reminded",
+      "phonetic": "/rɪˈmaɪndɪd/",
+      "note": "提醒；reminded me to return，-ed 读 /ɪd/"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "承诺；promised to go back，-ed 读 /t/"
+    },
+    {
+      "word": "explained",
+      "phonetic": "/ɪkˈspleɪnd/",
+      "note": "解释；explained how to check out，-ed 读 /d/"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down near a big window"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "顺路买；picked up some fruit，-ed 弱读 + 连读"
+    }
+  ]
+}
