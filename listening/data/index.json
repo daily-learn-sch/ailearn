@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-15",
+      "topic": "Getting a haircut on Saturday morning",
+      "topic_cn": "周六早上去理发",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15.mp3",
+      "data": "data/2026-11-15.json"
+    },
+    {
       "date": "2026-11-14",
       "topic": "A quiet afternoon at the library",
       "topic_cn": "在图书馆度过一个安静的下午",
@@ -333,5 +342,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-14"
+  "updated": "2026-11-15"
 }
