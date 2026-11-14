@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-15",
+  "topic": "Getting a haircut on Saturday morning",
+  "topic_cn": "周六早上去理发",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15.mp3",
+  "passage": "Last Saturday morning, I went to a barber shop near my home for a haircut. Although I had planned to go after lunch, I set off early because the shop is often crowded on weekends. When I walked in, a young barber smiled and asked me to take off my jacket. I hung it up and sat down in front of the big mirror. He looked at my hair carefully and asked what style I wanted. I asked for a short cut, but I told him to keep a little length on the top. He covered my shoulders with a black cloth and started to cut. Small pieces of hair fell onto the floor. After twenty minutes, he held up a mirror and asked if I was happy with the result. I looked at the back and nodded. Then I put on my jacket, paid for the haircut, and walked out into the sunlight. On the way home, I stopped at a bakery and picked up some bread for my family. When I showed my wife the new haircut, she laughed and said I looked younger. I promised to go back to the same shop next month.",
+  "sentences": [
+    {
+      "text": "Although I had planned to go after lunch, I set off early because the shop is often crowded on weekends.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15-s0.mp3",
+      "hint_cn": "本想午饭后去，因周末常排队所以提早出发"
+    },
+    {
+      "text": "He looked at my hair carefully and asked what style I wanted.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15-s1.mp3",
+      "hint_cn": "理发师仔细看了头发并问想要什么发型"
+    },
+    {
+      "text": "Then I put on my jacket, paid for the haircut, and walked out into the sunlight.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15-s2.mp3",
+      "hint_cn": "穿上外套、付完钱后走到阳光里"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I went to the barber shop last Saturday morning.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15-sh0.mp3"
+    },
+    {
+      "text": "The barber asked me what style I wanted.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15-sh1.mp3"
+    },
+    {
+      "text": "I paid for the haircut and walked home.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-15-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早用了 Muse 导出的真实 drill 日志和任务定义，并直查了 drill_sessions。EnglishPod365 笔记仍停在第 5–7 周小结（无更新），主弱项仍是动词短语连读（fill me in、kicked me out、pick up a）和过去式 -ed 听辨，所以今天继续埋连读和 -ed 靶子。这篇「周六早上去理发」是全新日常话题，短文里有 20 多个过去式动词，重点练 planned/looked/asked/covered/started/nodded/promised 这类 -ed 结尾；set off、take off、sat down、asked for、put on、paid for、walked out、picked up 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "planned",
+      "phonetic": "/plænd/",
+      "note": "计划；had planned to go，-ed 读 /d/"
+    },
+    {
+      "word": "set off",
+      "phonetic": "/set ɒf/",
+      "note": "出发；set off early，t + off 连读"
+    },
+    {
+      "word": "crowded",
+      "phonetic": "/ˈkraʊdɪd/",
+      "note": "拥挤的；crowded on weekends，-ed 读 /ɪd/"
+    },
+    {
+      "word": "take off",
+      "phonetic": "/teɪk ɒf/",
+      "note": "脱掉；take off my jacket，k + off 连读"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down in front of the mirror"
+    },
+    {
+      "word": "looked at",
+      "phonetic": "/lʊkt æt/",
+      "note": "看；looked at my hair，-ed 弱读 + 连读"
+    },
+    {
+      "word": "asked for",
+      "phonetic": "/ɑːskt fɔː/",
+      "note": "请求要；asked for a short cut"
+    },
+    {
+      "word": "put on",
+      "phonetic": "/pʊt ɒn/",
+      "note": "穿上；put on my jacket"
+    },
+    {
+      "word": "paid for",
+      "phonetic": "/peɪd fɔː/",
+      "note": "为…付款；paid for the haircut"
+    },
+    {
+      "word": "walked out",
+      "phonetic": "/wɔːkt aʊt/",
+      "note": "走出；walked out into the sunlight，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "顺路买；picked up some bread，-ed 弱读 + 连读"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "承诺；promised to go back，-ed 读 /t/"
+    }
+  ]
+}
