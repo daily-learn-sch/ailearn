@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-16",
+  "topic": "A community recycling morning",
+  "topic_cn": "社区回收日的早晨",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16.mp3",
+  "passage": "Last Sunday morning, I joined a community recycling day in our building. The neighborhood committee had posted a notice on Friday, and I signed up because I wanted to help. I woke up at seven and put on an old pair of gloves. When I walked down to the courtyard, about twenty neighbors had already gathered. A young volunteer handed out green bags and pointed out three big boxes: paper, plastic, and glass. I picked up a pile of cardboard and carried it to the paper box. My neighbor Li Hua sorted plastic bottles and rinsed them with water. We worked together for two hours and filled up twelve bags. After we cleaned up the courtyard, the committee served hot tea and steamed buns. I took off my gloves, sat down, and talked with the volunteers about how to keep the building cleaner. I learned that food waste should be separated every day, not only on special days. Before I left, I wrote down the new recycling rules and promised to follow them at home. At home I showed my wife the rules, and we set up three bins.",
+  "sentences": [
+    {
+      "text": "A young volunteer handed out green bags and pointed out three big boxes: paper, plastic, and glass.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16-s0.mp3",
+      "hint_cn": "志愿者发绿袋并指出三类箱子"
+    },
+    {
+      "text": "We worked together for two hours and filled up twelve bags.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16-s1.mp3",
+      "hint_cn": "一起干了两小时并装满十二袋"
+    },
+    {
+      "text": "Before I left, I wrote down the new recycling rules and promised to follow them at home.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16-s2.mp3",
+      "hint_cn": "离开前记下新规则并答应遵守"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I joined a recycling day last Sunday morning.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16-sh0.mp3"
+    },
+    {
+      "text": "We filled up twelve bags in two hours.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16-sh1.mp3"
+    },
+    {
+      "text": "I wrote down the new rules at home.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录，主弱项继续是过去式 -ed 听辨和短语动词连读，所以今天把这两类靶子埋进短文。这篇「社区回收日的早晨」是全新的环境话题，短文里有 joined/posted/signed/gathered/handed/pointed/picked/carried/sorted/rinsed/worked/filled/cleaned/served/promised 等规则过去式；signed up、put on、walked down、handed out、pointed out、picked up、filled up、cleaned up、took off、sat down、wrote down、set up 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "joined",
+      "phonetic": "/dʒɔɪnd/",
+      "note": "参加；joined a recycling day，-ed 读 /d/"
+    },
+    {
+      "word": "posted",
+      "phonetic": "/ˈpəʊstɪd/",
+      "note": "张贴；had posted a notice，-ed 读 /ɪd/"
+    },
+    {
+      "word": "signed up",
+      "phonetic": "/saɪnd ʌp/",
+      "note": "报名；signed up because，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "put on",
+      "phonetic": "/pʊt ɒn/",
+      "note": "戴上/穿上；put on an old pair of gloves"
+    },
+    {
+      "word": "walked down",
+      "phonetic": "/wɔːkt daʊn/",
+      "note": "走下去；walked down to the courtyard，-ed 读 /t/"
+    },
+    {
+      "word": "gathered",
+      "phonetic": "/ˈɡæðəd/",
+      "note": "聚集；had already gathered，-ed 读 /d/"
+    },
+    {
+      "word": "handed out",
+      "phonetic": "/ˈhændɪd aʊt/",
+      "note": "分发；handed out green bags，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out three big boxes，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "捡起；picked up a pile of cardboard，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "filled up",
+      "phonetic": "/fɪld ʌp/",
+      "note": "装满；filled up twelve bags，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "cleaned up",
+      "phonetic": "/kliːnd ʌp/",
+      "note": "打扫干净；cleaned up the courtyard"
+    },
+    {
+      "word": "took off",
+      "phonetic": "/tʊk ɒf/",
+      "note": "脱下；took off my gloves"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down and talked"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down the new recycling rules"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised to follow them，-ed 读 /t/"
+    },
+    {
+      "word": "set up",
+      "phonetic": "/set ʌp/",
+      "note": "设置；set up three bins"
+    }
+  ]
+}
