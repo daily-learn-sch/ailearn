@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-16",
+      "topic": "A community recycling morning",
+      "topic_cn": "社区回收日的早晨",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-16.mp3",
+      "data": "data/2026-11-16.json"
+    },
+    {
       "date": "2026-11-15",
       "topic": "Getting a haircut on Saturday morning",
       "topic_cn": "周六早上去理发",
@@ -342,5 +351,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-15"
+  "updated": "2026-11-16"
 }
