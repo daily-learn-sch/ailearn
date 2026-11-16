@@ -1,0 +1,119 @@
+{
+  "date": "2026-11-17",
+  "topic": "Finding a lost wallet on the subway",
+  "topic_cn": "在地铁上捡到钱包",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17.mp3",
+  "passage": "Last Wednesday, I found a wallet on the subway. I was sitting near the door when a man jumped off at the last second and dropped it on the floor. I picked it up and called out, but the doors had already closed. I opened the wallet and looked inside. There was a bus card, some cash, and an old photo of a little girl. I wanted to return it, so I got off at the next station and walked up to the service desk. A kind officer wrote down my name, phoned the owner, and explained what happened. Twenty minutes later, the man rushed in and thanked me again and again. He had searched his bag three times and almost cried. I handed over the wallet with a smile. Then he pulled out a small box of tea and held it out. I turned it down at first, but he insisted and pushed the tea into my hand. I walked out of the station and felt happy all day, even though I arrived late for work.",
+  "sentences": [
+    {
+      "text": "I picked it up and called out, but the doors had already closed.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17-s0.mp3",
+      "hint_cn": "捡起钱包喊人但门已关"
+    },
+    {
+      "text": "A kind officer wrote down my name, phoned the owner, and explained what happened.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17-s1.mp3",
+      "hint_cn": "值班员记名字并打电话给失主"
+    },
+    {
+      "text": "I turned it down at first, but he insisted and pushed the tea into my hand.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17-s2.mp3",
+      "hint_cn": "起初推辞他硬塞了茶叶"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I found a wallet on the subway last Wednesday.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17-sh0.mp3"
+    },
+    {
+      "text": "The kind officer phoned the owner right away.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17-sh1.mp3"
+    },
+    {
+      "text": "I walked out of the station and felt happy.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录，主弱项继续是过去式 -ed 听辨和短语动词连读，所以今天继续把这两类靶子埋进短文。这篇「在地铁上捡到钱包」是全新的日常/出行话题，短文里有 jumped/dropped/picked/closed/opened/looked/wanted/walked/phoned/explained/rushed/thanked/searched/handed/pulled/insisted/arrived 等规则过去式；jumped off、picked up、called out、got off、walked up、wrote down、handed over、pulled out、held out、turned down 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "jumped off",
+      "phonetic": "/dʒʌmpt ɒf/",
+      "note": "跳下；jumped off at the last second，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "捡起；picked it up，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "called out",
+      "phonetic": "/kɔːld aʊt/",
+      "note": "喊出声；called out，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "got off",
+      "phonetic": "/ɡɒt ɒf/",
+      "note": "下车；got off at the next station"
+    },
+    {
+      "word": "walked up",
+      "phonetic": "/wɔːkt ʌp/",
+      "note": "走向；walked up to the service desk"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down my name"
+    },
+    {
+      "word": "phoned",
+      "phonetic": "/fəʊnd/",
+      "note": "打电话；phoned the owner，-ed 读 /d/"
+    },
+    {
+      "word": "explained",
+      "phonetic": "/ɪkˈspleɪnd/",
+      "note": "解释；explained what happened，-ed 读 /d/"
+    },
+    {
+      "word": "rushed in",
+      "phonetic": "/rʌʃt ɪn/",
+      "note": "冲进来；rushed in，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "searched",
+      "phonetic": "/sɜːtʃt/",
+      "note": "翻找；had searched his bag，-ed 读 /t/"
+    },
+    {
+      "word": "handed over",
+      "phonetic": "/ˈhændɪd ˈəʊvə/",
+      "note": "交还；handed over the wallet，-ed 读 /ɪd/"
+    },
+    {
+      "word": "pulled out",
+      "phonetic": "/pʊld aʊt/",
+      "note": "掏出；pulled out a small box of tea"
+    },
+    {
+      "word": "held out",
+      "phonetic": "/held aʊt/",
+      "note": "递出；held it out"
+    },
+    {
+      "word": "turned down",
+      "phonetic": "/tɜːnd daʊn/",
+      "note": "拒绝；turned it down at first"
+    },
+    {
+      "word": "insisted",
+      "phonetic": "/ɪnˈsɪstɪd/",
+      "note": "坚持；he insisted，-ed 读 /ɪd/"
+    }
+  ]
+}
