@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-17",
+      "topic": "Finding a lost wallet on the subway",
+      "topic_cn": "在地铁上捡到钱包",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-17.mp3",
+      "data": "data/2026-11-17.json"
+    },
+    {
       "date": "2026-11-16",
       "topic": "A community recycling morning",
       "topic_cn": "社区回收日的早晨",
@@ -351,5 +360,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-16"
+  "updated": "2026-11-17"
 }
