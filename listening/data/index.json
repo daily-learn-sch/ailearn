@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-18",
+      "topic": "Setting up my new work laptop",
+      "topic_cn": "给新工作电脑装系统",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18.mp3",
+      "data": "data/2026-11-18.json"
+    },
+    {
       "date": "2026-11-17",
       "topic": "Finding a lost wallet on the subway",
       "topic_cn": "在地铁上捡到钱包",
@@ -360,5 +369,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-17"
+  "updated": "2026-11-18"
 }
