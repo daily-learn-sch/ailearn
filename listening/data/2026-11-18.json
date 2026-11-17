@@ -1,0 +1,119 @@
+{
+  "date": "2026-11-18",
+  "topic": "Setting up my new work laptop",
+  "topic_cn": "给新工作电脑装系统",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18.mp3",
+  "passage": "Last Monday, my manager handed me a new laptop and asked me to set it up before lunch. I carried it back to my desk, opened the box, and plugged it in. The screen lit up after a few seconds, and I signed in with my work account. First, I looked up the setup guide on the company website and wrote down the steps on a sticky note. Then I downloaded the office tools and installed them one by one. The first try failed, so I restarted the laptop and tried again. This time it worked, and I felt a little relieved. After that, I copied my old files from a small hard drive and backed them up to the team folder. A colleague walked over and pointed out that I had missed the security software. I thanked him, searched for the package, and added it right away. At noon, I tested the camera and joined a short meeting to check the sound. I packed up the old laptop and dropped it off at the tech support desk. When I sat down again, I smiled, because the new machine made my work feel lighter.",
+  "sentences": [
+    {
+      "text": "First, I looked up the setup guide on the company website and wrote down the steps on a sticky note.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18-s0.mp3",
+      "hint_cn": "上网查安装指南并记下步骤"
+    },
+    {
+      "text": "A colleague walked over and pointed out that I had missed the security software.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18-s1.mp3",
+      "hint_cn": "同事走过指出漏装安全软件"
+    },
+    {
+      "text": "I packed up the old laptop and dropped it off at the tech support desk.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18-s2.mp3",
+      "hint_cn": "把旧电脑打包送到技术支持处"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "My manager handed me a new laptop last Monday.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18-sh0.mp3"
+    },
+    {
+      "text": "I restarted the laptop and tried the steps again.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18-sh1.mp3"
+    },
+    {
+      "text": "I sat down again and smiled at my new machine.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-18-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录，主弱项继续是过去式 -ed 听辨和短语动词连读，所以今天继续把这两类靶子埋进短文。这篇「给新工作电脑装系统」是全新的工作科技话题，短文里有 handed/asked/carried/opened/plugged/signed/looked/downloaded/installed/failed/restarted/tried/worked/copied/backed/walked/pointed/missed/thanked/searched/added/tested/joined/packed/dropped/smiled 等规则过去式；set up、plugged in、lit up、signed in、looked up、wrote down、backed up、walked over、pointed out、packed up、dropped off、sat down 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "set up",
+      "phonetic": "/set ʌp/",
+      "note": "安装、配置；set it up before lunch"
+    },
+    {
+      "word": "plugged in",
+      "phonetic": "/plʌɡd ɪn/",
+      "note": "插上电源；plugged it in，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "lit up",
+      "phonetic": "/lɪt ʌp/",
+      "note": "亮起来；the screen lit up"
+    },
+    {
+      "word": "signed in",
+      "phonetic": "/saɪnd ɪn/",
+      "note": "登录；signed in with my work account，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "looked up",
+      "phonetic": "/lʊkt ʌp/",
+      "note": "查阅；looked up the setup guide，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down the steps"
+    },
+    {
+      "word": "downloaded",
+      "phonetic": "/ˌdaʊnˈləʊdɪd/",
+      "note": "下载；downloaded the office tools，-ed 读 /ɪd/"
+    },
+    {
+      "word": "installed",
+      "phonetic": "/ɪnˈstɔːld/",
+      "note": "安装；installed them one by one，-ed 读 /d/"
+    },
+    {
+      "word": "restarted",
+      "phonetic": "/ˌriːˈstɑːtɪd/",
+      "note": "重启；restarted the laptop，-ed 读 /ɪd/"
+    },
+    {
+      "word": "backed up",
+      "phonetic": "/bækt ʌp/",
+      "note": "备份；backed them up to the team folder，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "walked over",
+      "phonetic": "/wɔːkt ˈəʊvə/",
+      "note": "走过来；walked over，-ed 读 /t/"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out that I had missed，-ed 读 /ɪd/"
+    },
+    {
+      "word": "packed up",
+      "phonetic": "/pækt ʌp/",
+      "note": "打包收起；packed up the old laptop，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "dropped off",
+      "phonetic": "/drɒpt ɒf/",
+      "note": "送到；dropped it off at the tech support desk，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down again"
+    }
+  ]
+}
