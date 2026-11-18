@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-19",
+      "topic": "A delayed train after work",
+      "topic_cn": "下班后火车晚点了",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-19.mp3",
+      "data": "data/2026-11-19.json"
+    },
+    {
       "date": "2026-11-18",
       "topic": "Setting up my new work laptop",
       "topic_cn": "给新工作电脑装系统",
@@ -369,5 +378,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-18"
+  "updated": "2026-11-19"
 }
