@@ -1,0 +1,149 @@
+{
+  "date": "2026-11-20",
+  "topic": "Trying a pottery class after work",
+  "topic_cn": "下班后去上陶艺课",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-20.mp3",
+  "passage": "Last Wednesday, I signed up for a pottery class after work. I had never tried clay before, so I looked up a small studio near the subway and wrote down the address. I finished work at six, packed up my bag, and hurried over to the studio. When I walked in, the teacher smiled and handed me an apron. I put it on, washed my hands, and sat down at a wooden table. She pointed out a lump of soft clay and asked me to press it down with both hands. At first the clay slipped away, and I almost gave up. Then I slowed down, rolled it out, and tried again. After twenty minutes, a small bowl showed up on the wheel. I cleaned up the table, washed off the clay, and took off the apron. The teacher looked over my bowl and praised my first try. I wrapped it up carefully and headed home. I dropped it off on the kitchen shelf and sat down for tea. I smiled, because I had finally tried something new.",
+  "sentences": [
+    {
+      "text": "I looked up a small studio near the subway and wrote down the address.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-20-s0.mp3",
+      "hint_cn": "查附近教室并记下地址"
+    },
+    {
+      "text": "She pointed out a lump of soft clay and asked me to press it down with both hands.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-20-s1.mp3",
+      "hint_cn": "指出软泥并让我双手按下去"
+    },
+    {
+      "text": "I dropped it off on the kitchen shelf and sat down for tea.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-20-s2.mp3",
+      "hint_cn": "把作品放到厨房架子后坐下喝茶"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I signed up for a pottery class after work.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-20-sh0.mp3"
+    },
+    {
+      "text": "The teacher smiled and handed me an apron.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-20-sh1.mp3"
+    },
+    {
+      "text": "I wrapped it up carefully and headed home.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-20-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录，主弱项继续是过去式 -ed 听辨和短语动词连读，所以今天继续把这两类靶子埋进短文。这篇「下班后去上陶艺课」是全新的文化话题，短文里有 signed/looked/finished/packed/hurried/walked/smiled/handed/washed/pointed/asked/slipped/slowed/rolled/tried/showed/cleaned/praised/wrapped/headed/dropped 等规则过去式；signed up、looked up、wrote down、packed up、hurried over、walked in、put on、sat down、pointed out、pressed down、slipped away、gave up、slowed down、rolled out、showed up、cleaned up、washed off、took off、looked over、wrapped up、dropped off 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "signed up",
+      "phonetic": "/saɪnd ʌp/",
+      "note": "报名；signed up for a pottery class，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "looked up",
+      "phonetic": "/lʊkt ʌp/",
+      "note": "查阅；looked up a small studio，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down the address"
+    },
+    {
+      "word": "packed up",
+      "phonetic": "/pækt ʌp/",
+      "note": "收拾好；packed up my bag，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "hurried over",
+      "phonetic": "/ˈhʌrid ˈəʊvə/",
+      "note": "赶过去；hurried over to the studio，-ed 读 /d/"
+    },
+    {
+      "word": "walked in",
+      "phonetic": "/wɔːkt ɪn/",
+      "note": "走进去；walked in，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "put on",
+      "phonetic": "/pʊt ɒn/",
+      "note": "穿上；put it on"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down at a wooden table"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out a lump of soft clay，-ed 读 /ɪd/"
+    },
+    {
+      "word": "pressed down",
+      "phonetic": "/prest daʊn/",
+      "note": "按下去；press it down"
+    },
+    {
+      "word": "slipped away",
+      "phonetic": "/slɪpt əˈweɪ/",
+      "note": "滑掉；slipped away，-ed 读 /t/"
+    },
+    {
+      "word": "gave up",
+      "phonetic": "/ɡeɪv ʌp/",
+      "note": "放弃；almost gave up"
+    },
+    {
+      "word": "slowed down",
+      "phonetic": "/sləʊd daʊn/",
+      "note": "放慢；slowed down，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "rolled out",
+      "phonetic": "/rəʊld aʊt/",
+      "note": "擀开/滚出；rolled it out，-ed 读 /d/"
+    },
+    {
+      "word": "showed up",
+      "phonetic": "/ʃəʊd ʌp/",
+      "note": "出现；a small bowl showed up，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "cleaned up",
+      "phonetic": "/kliːnd ʌp/",
+      "note": "收拾干净；cleaned up the table，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "washed off",
+      "phonetic": "/wɒʃt ɒf/",
+      "note": "洗掉；washed off the clay，-ed 读 /t/"
+    },
+    {
+      "word": "took off",
+      "phonetic": "/tʊk ɒf/",
+      "note": "脱下；took off the apron"
+    },
+    {
+      "word": "looked over",
+      "phonetic": "/lʊkt ˈəʊvə/",
+      "note": "查看；looked over my bowl，-ed 读 /t/"
+    },
+    {
+      "word": "wrapped up",
+      "phonetic": "/ræpt ʌp/",
+      "note": "包起来；wrapped it up，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "dropped off",
+      "phonetic": "/drɒpt ɒf/",
+      "note": "放下/放到；dropped it off，-ed 读 /t/ + 连读"
+    }
+  ]
+}
