@@ -1,0 +1,149 @@
+{
+  "date": "2026-11-21",
+  "topic": "Chatting with a taxi driver on the way home",
+  "topic_cn": "回家路上和出租司机聊天",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21.mp3",
+  "passage": "Last Thursday, I finished work at seven and looked for a taxi at the gate. It was raining hard, so I pulled up my hood and waited. After five minutes, a green taxi slowed down and picked me up. I got in, sat down, and told the driver my street name. He turned on the radio, then turned it down so we could talk. He asked if I worked nearby, and I pointed out the office building behind us. I found out that he had driven taxis here for fifteen years. While we waited at a red light, he brought up the old bus station that had been torn down. I wrote down the street name he mentioned. The traffic cleared up, and he sped up along the river. He dropped me off at my building and handed me a card. I put it away, paid the fare, and thanked him. Before he drove off, he smiled and said I could call him next time. I walked in, took off my wet coat, and made a cup of tea. The short chat cheered me up after a long day.",
+  "sentences": [
+    {
+      "text": "After five minutes, a green taxi slowed down and picked me up.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21-s0.mp3",
+      "hint_cn": "绿色出租减速并让我上车"
+    },
+    {
+      "text": "While we waited at a red light, he brought up the old bus station that had been torn down.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21-s1.mp3",
+      "hint_cn": "红灯时他谈起被拆的旧车站"
+    },
+    {
+      "text": "He dropped me off at my building and handed me a card.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21-s2.mp3",
+      "hint_cn": "在楼下让我下车并递给名片"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I finished work at seven and looked for a taxi.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21-sh0.mp3"
+    },
+    {
+      "text": "The driver turned down the radio so we could talk.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21-sh1.mp3"
+    },
+    {
+      "text": "I took off my wet coat and made tea.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录，主弱项继续是过去式 -ed 听辨和短语动词连读，所以今天继续把这两类靶子埋进短文。这篇「回家路上和出租司机聊天」是全新的闲聊话题，短文里有 finished/looked/pulled/waited/slowed/picked/turned/asked/pointed/mentioned/cleared/dropped/handed/thanked/smiled/walked/cheered 等规则过去式；looked for、pulled up、slowed down、picked up、got in、sat down、turned on、turned down、pointed out、found out、brought up、torn down、wrote down、cleared up、sped up、dropped off、put away、drove off、walked in、took off、cheered up 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "looked for",
+      "phonetic": "/lʊkt fɔː/",
+      "note": "寻找；looked for a taxi，-ed 读 /t/"
+    },
+    {
+      "word": "pulled up",
+      "phonetic": "/pʊld ʌp/",
+      "note": "拉起；pulled up my hood，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "slowed down",
+      "phonetic": "/sləʊd daʊn/",
+      "note": "减速；slowed down，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "让…上车；picked me up，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "got in",
+      "phonetic": "/ɡɒt ɪn/",
+      "note": "上车；got in"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down"
+    },
+    {
+      "word": "turned on",
+      "phonetic": "/tɜːnd ɒn/",
+      "note": "打开；turned on the radio，-ed 读 /d/"
+    },
+    {
+      "word": "turned down",
+      "phonetic": "/tɜːnd daʊn/",
+      "note": "调低；turned it down，-ed 读 /d/"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out the office building，-ed 读 /ɪd/"
+    },
+    {
+      "word": "found out",
+      "phonetic": "/faʊnd aʊt/",
+      "note": "得知；found out that he had driven taxis"
+    },
+    {
+      "word": "brought up",
+      "phonetic": "/brɔːt ʌp/",
+      "note": "提起；brought up the old bus station"
+    },
+    {
+      "word": "torn down",
+      "phonetic": "/tɔːn daʊn/",
+      "note": "拆除；had been torn down"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down the street name"
+    },
+    {
+      "word": "cleared up",
+      "phonetic": "/klɪəd ʌp/",
+      "note": "疏通/好转；The traffic cleared up，-ed 读 /d/"
+    },
+    {
+      "word": "sped up",
+      "phonetic": "/sped ʌp/",
+      "note": "加速；sped up along the river"
+    },
+    {
+      "word": "dropped off",
+      "phonetic": "/drɒpt ɒf/",
+      "note": "让…下车；dropped me off，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "put away",
+      "phonetic": "/pʊt əˈweɪ/",
+      "note": "收好；put it away"
+    },
+    {
+      "word": "drove off",
+      "phonetic": "/drəʊv ɒf/",
+      "note": "开走；Before he drove off"
+    },
+    {
+      "word": "walked in",
+      "phonetic": "/wɔːkt ɪn/",
+      "note": "走进去；walked in，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "took off",
+      "phonetic": "/tʊk ɒf/",
+      "note": "脱下；took off my wet coat"
+    },
+    {
+      "word": "cheered up",
+      "phonetic": "/tʃɪəd ʌp/",
+      "note": "让人高兴起来；cheered me up，-ed 读 /d/"
+    }
+  ]
+}
