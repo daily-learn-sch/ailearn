@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-21",
+      "topic": "Chatting with a taxi driver on the way home",
+      "topic_cn": "回家路上和出租司机聊天",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-21.mp3",
+      "data": "data/2026-11-21.json"
+    },
+    {
       "date": "2026-11-20",
       "topic": "Trying a pottery class after work",
       "topic_cn": "下班后去上陶艺课",
@@ -387,5 +396,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-20"
+  "updated": "2026-11-21"
 }
