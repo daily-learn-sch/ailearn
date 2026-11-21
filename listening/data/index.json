@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-22",
+      "topic": "Getting an eye exam and new glasses",
+      "topic_cn": "去验光配新眼镜",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22.mp3",
+      "data": "data/2026-11-22.json"
+    },
+    {
       "date": "2026-11-21",
       "topic": "Chatting with a taxi driver on the way home",
       "topic_cn": "回家路上和出租司机聊天",
@@ -396,5 +405,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-21"
+  "updated": "2026-11-22"
 }
