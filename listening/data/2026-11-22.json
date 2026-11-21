@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-22",
+  "topic": "Getting an eye exam and new glasses",
+  "topic_cn": "去验光配新眼镜",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22.mp3",
+  "passage": "Last Saturday morning, I booked an eye exam because the words on my screen looked blurred. I arrived at the shop at nine and filled out a short form at the desk. A young doctor called my name and showed me into a quiet room. I sat down, took off my old glasses, and looked at a chart on the wall. She pointed out several letters I could not read clearly. Then she tried out different lenses and asked me to compare them. I picked out the pair that made the signs sharp again. She wrote down my new numbers and explained that I had worked too long at the computer. I paid at the front desk and waited for the frames I had chosen. After twenty minutes, the assistant handed me the new glasses. I put them on, walked outside, and looked around the street. The trees and shop signs seemed clearer than before. I called my wife and told her the news. In the evening, I turned down the screen brightness and promised to take more breaks. The visit took only one hour, but it cheered me up.",
+  "sentences": [
+    {
+      "text": "I arrived at the shop at nine and filled out a short form at the desk.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22-s0.mp3",
+      "hint_cn": "九点到店并填写了表格"
+    },
+    {
+      "text": "She pointed out several letters I could not read clearly.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22-s1.mp3",
+      "hint_cn": "她指出几块看不清的字母"
+    },
+    {
+      "text": "I put them on, walked outside, and looked around the street.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22-s2.mp3",
+      "hint_cn": "戴上新眼镜并在街上四处看"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I arrived at the shop at nine in the morning.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22-sh0.mp3"
+    },
+    {
+      "text": "The doctor asked me to look at a chart.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22-sh1.mp3"
+    },
+    {
+      "text": "I put on my new glasses and walked outside.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-22-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录，主弱项继续是过去式 -ed 听辨和短语动词连读，所以今天继续把这两类靶子埋进短文。这篇「去验光配新眼镜」是全新的健康话题，短文里有 booked/looked/arrived/filled/called/showed/pointed/tried/asked/picked/explained/worked/waited/handed/walked/seemed/turned/promised/cheered 等规则过去式；filled out、showed me into、sat down、took off、looked at、pointed out、tried out、picked out、wrote down、put them on、looked around、turned down、cheered me up 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "booked",
+      "phonetic": "/bʊkt/",
+      "note": "预约；booked an eye exam，-ed 读 /t/"
+    },
+    {
+      "word": "looked",
+      "phonetic": "/lʊkt/",
+      "note": "看起来；looked blurred，-ed 读 /t/"
+    },
+    {
+      "word": "arrived",
+      "phonetic": "/əˈraɪvd/",
+      "note": "到达；arrived at the shop，-ed 读 /d/"
+    },
+    {
+      "word": "filled out",
+      "phonetic": "/fɪld aʊt/",
+      "note": "填写；filled out a short form，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "called",
+      "phonetic": "/kɔːld/",
+      "note": "叫到；called my name，-ed 读 /d/"
+    },
+    {
+      "word": "showed me into",
+      "phonetic": "/ʃəʊd mi ˈɪntuː/",
+      "note": "领进；showed me into a quiet room，-ed 读 /d/"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down"
+    },
+    {
+      "word": "took off",
+      "phonetic": "/tʊk ɒf/",
+      "note": "摘下；took off my old glasses"
+    },
+    {
+      "word": "looked at",
+      "phonetic": "/lʊkt æt/",
+      "note": "看；looked at a chart，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out several letters，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "tried out",
+      "phonetic": "/traɪd aʊt/",
+      "note": "试用；tried out different lenses，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "picked out",
+      "phonetic": "/pɪkt aʊt/",
+      "note": "选出；picked out the pair，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "记下；wrote down my new numbers"
+    },
+    {
+      "word": "explained",
+      "phonetic": "/ɪkˈspleɪnd/",
+      "note": "解释；explained that I had worked，-ed 读 /d/"
+    },
+    {
+      "word": "worked",
+      "phonetic": "/wɜːkt/",
+      "note": "工作；had worked too long，-ed 读 /t/"
+    },
+    {
+      "word": "waited",
+      "phonetic": "/ˈweɪtɪd/",
+      "note": "等待；waited for the frames，-ed 读 /ɪd/"
+    },
+    {
+      "word": "handed",
+      "phonetic": "/ˈhændɪd/",
+      "note": "递给；handed me the new glasses，-ed 读 /ɪd/"
+    },
+    {
+      "word": "put them on",
+      "phonetic": "/pʊt ðəm ɒn/",
+      "note": "戴上；I put them on"
+    },
+    {
+      "word": "walked",
+      "phonetic": "/wɔːkt/",
+      "note": "走；walked outside，-ed 读 /t/"
+    },
+    {
+      "word": "looked around",
+      "phonetic": "/lʊkt əˈraʊnd/",
+      "note": "四处看；looked around the street，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "turned down",
+      "phonetic": "/tɜːnd daʊn/",
+      "note": "调低；turned down the screen brightness，-ed 读 /d/"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised to take more breaks，-ed 读 /t/"
+    },
+    {
+      "word": "cheered me up",
+      "phonetic": "/tʃɪəd mi ʌp/",
+      "note": "让人高兴起来；cheered me up，-ed 读 /d/"
+    }
+  ]
+}
