@@ -1,0 +1,179 @@
+{
+  "date": "2026-11-23",
+  "topic": "Turning on the heating for the first time this winter",
+  "topic_cn": "今冬第一次开暖气",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-23.mp3",
+  "passage": "Last Sunday night, the living room felt colder than usual. I looked at the thermometer and saw that it had dropped to ten degrees. I decided to turn on the heating for the first time this winter. First, I looked up the instructions in an old notebook and wiped the dust off the heater. Then I plugged it in and turned the switch on. Nothing happened at first, so I checked the plug and tried again. After a few seconds, the heater started. I sat down on the sofa and waited, but the air still felt cold. My wife walked over and pointed out that the window was still open. I jumped up, closed it, and pulled the curtains together. Then I turned the heat up a little and put on a thick sweater. Twenty minutes later, the room warmed up, and we took out a blanket and watched a short film. I wrote down a reminder to clean the filter next week. Before bed, I turned the heat down and promised not to leave it on all night. The first warm evening of winter cheered us up.",
+  "sentences": [
+    {
+      "text": "First, I looked up the instructions in an old notebook and wiped the dust off the heater.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-23-s0.mp3",
+      "hint_cn": "先查说明书并擦掉暖气上的灰"
+    },
+    {
+      "text": "My wife walked over and pointed out that the window was still open.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-23-s1.mp3",
+      "hint_cn": "妻子走过指出窗户还开着"
+    },
+    {
+      "text": "Before bed, I turned the heat down and promised not to leave it on all night.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-23-s2.mp3",
+      "hint_cn": "睡前调低暖气并答应不整晚开着"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I decided to turn on the heating last Sunday.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-23-sh0.mp3"
+    },
+    {
+      "text": "My wife pointed out that the window was open.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-23-sh1.mp3"
+    },
+    {
+      "text": "I turned the heat down before bed.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-23-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录，主弱项继续是过去式 -ed 听辨和短语动词连读，所以今天继续把这两类靶子埋进短文。这篇「今冬第一次开暖气」是全新的日常话题，短文里有 looked/dropped/decided/wiped/plugged/turned/checked/tried/started/waited/walked/pointed/jumped/closed/pulled/warmed/watched/promised/cheered 等规则过去式；looked at、turn on、looked up、wiped off、plugged it in、sat down、walked over、pointed out、jumped up、turned the heat up、put on、warmed up、took out、wrote down、turned the heat down、cheered us up 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "looked at",
+      "phonetic": "/lʊkt æt/",
+      "note": "看；looked at the thermometer，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "dropped",
+      "phonetic": "/drɒpt/",
+      "note": "下降；had dropped to ten degrees，-ed 读 /t/"
+    },
+    {
+      "word": "decided",
+      "phonetic": "/dɪˈsaɪdɪd/",
+      "note": "决定；decided to turn on，-ed 读 /ɪd/"
+    },
+    {
+      "word": "turn on",
+      "phonetic": "/tɜːn ɒn/",
+      "note": "打开；turn on the heating"
+    },
+    {
+      "word": "looked up",
+      "phonetic": "/lʊkt ʌp/",
+      "note": "查找；looked up the instructions，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "wiped off",
+      "phonetic": "/waɪpt ɒf/",
+      "note": "擦掉；wiped the dust off，-ed 读 /t/，别漏 off"
+    },
+    {
+      "word": "plugged it in",
+      "phonetic": "/plʌɡd ɪt ɪn/",
+      "note": "插上电源；plugged it in，-ed 读 /d/"
+    },
+    {
+      "word": "turned",
+      "phonetic": "/tɜːnd/",
+      "note": "转动/调；turned the switch on，-ed 读 /d/"
+    },
+    {
+      "word": "checked",
+      "phonetic": "/tʃekt/",
+      "note": "检查；checked the plug，-ed 读 /t/"
+    },
+    {
+      "word": "tried",
+      "phonetic": "/traɪd/",
+      "note": "尝试；tried again，-ed 读 /d/"
+    },
+    {
+      "word": "started",
+      "phonetic": "/ˈstɑːtɪd/",
+      "note": "启动；the heater started，-ed 读 /ɪd/"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down on the sofa"
+    },
+    {
+      "word": "waited",
+      "phonetic": "/ˈweɪtɪd/",
+      "note": "等待；waited，-ed 读 /ɪd/"
+    },
+    {
+      "word": "walked over",
+      "phonetic": "/wɔːkt ˈəʊvə/",
+      "note": "走过来；walked over，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out that the window was still open，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "jumped up",
+      "phonetic": "/dʒʌmpt ʌp/",
+      "note": "跳起来；jumped up，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "closed",
+      "phonetic": "/kləʊzd/",
+      "note": "关上；closed it，-ed 读 /d/"
+    },
+    {
+      "word": "pulled",
+      "phonetic": "/pʊld/",
+      "note": "拉上；pulled the curtains together，-ed 读 /d/"
+    },
+    {
+      "word": "turned the heat up",
+      "phonetic": "/tɜːnd ðə hiːt ʌp/",
+      "note": "把暖气调高；turned the heat up，-ed 读 /d/"
+    },
+    {
+      "word": "put on",
+      "phonetic": "/pʊt ɒn/",
+      "note": "穿上；put on a thick sweater"
+    },
+    {
+      "word": "warmed up",
+      "phonetic": "/wɔːmd ʌp/",
+      "note": "暖和起来；the room warmed up，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "took out",
+      "phonetic": "/tʊk aʊt/",
+      "note": "拿出；took out a blanket"
+    },
+    {
+      "word": "watched",
+      "phonetic": "/wɒtʃt/",
+      "note": "观看；watched a short film，-ed 读 /t/"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "记下；wrote down a reminder"
+    },
+    {
+      "word": "turned the heat down",
+      "phonetic": "/tɜːnd ðə hiːt daʊn/",
+      "note": "把暖气调低；turned the heat down，-ed 读 /d/"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised not to leave it on，-ed 读 /t/"
+    },
+    {
+      "word": "cheered us up",
+      "phonetic": "/tʃɪəd ʌs ʌp/",
+      "note": "让我们高兴起来；cheered us up，-ed 读 /d/"
+    }
+  ]
+}
