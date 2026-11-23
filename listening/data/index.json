@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-24",
+      "topic": "Helping a colleague review his code",
+      "topic_cn": "帮同事做代码评审",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24.mp3",
+      "data": "data/2026-11-24.json"
+    },
+    {
       "date": "2026-11-23",
       "topic": "Turning on the heating for the first time this winter",
       "topic_cn": "今冬第一次开暖气",
@@ -414,5 +423,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-23"
+  "updated": "2026-11-24"
 }
