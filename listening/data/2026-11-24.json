@@ -1,0 +1,189 @@
+{
+  "date": "2026-11-24",
+  "topic": "Helping a colleague review his code",
+  "topic_cn": "帮同事做代码评审",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24.mp3",
+  "passage": "Last Tuesday afternoon, my teammate asked me to look through his new code. He had worked on a small tool that printed student reports. I sat down at my desk and opened the project on my laptop. First, I looked over the main file and noticed a few spelling mistakes. Then I pointed out a method that mixed two different tasks. He nodded and asked me to walk him through a better design. We talked for twenty minutes and wrote down three simple steps. After that, he cleaned up the messy names and pulled out the extra lines. I checked the tests and found that two cases had failed. He fixed the first one quickly, but the second one turned out to be harder. We went back to the log and figured out that an empty value had slipped in. He added a check and ran the tests again. This time every test passed. I praised his patience and added a short comment on the request. Before we wrapped up, he thanked me and promised to go over the notes after dinner. The review took almost one hour, but the tool looked much clearer in the end.",
+  "sentences": [
+    {
+      "text": "First, I looked over the main file and noticed a few spelling mistakes.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24-s0.mp3",
+      "hint_cn": "先通读主文件并发现几处拼写错误"
+    },
+    {
+      "text": "He fixed the first one quickly, but the second one turned out to be harder.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24-s1.mp3",
+      "hint_cn": "第一处很快修好但第二处更难"
+    },
+    {
+      "text": "Before we wrapped up, he thanked me and promised to go over the notes after dinner.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24-s2.mp3",
+      "hint_cn": "结束前他道谢并答应晚饭后再看笔记"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I looked through his new code last Tuesday.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24-sh0.mp3"
+    },
+    {
+      "text": "He cleaned up the messy names in the file.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24-sh1.mp3"
+    },
+    {
+      "text": "Every test passed after he added a check.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-24-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录；Mac 上的 EnglishPod365 笔记最新仍停在 10 月中旬的 EP0012，弱项还是短语动词连读和过去式听辨，所以今天继续把这两类靶子埋进短文。这篇「帮同事做代码评审」是全新的工作科技话题，短文里有 asked/worked/printed/opened/looked/noticed/pointed/nodded/talked/cleaned/pulled/checked/failed/fixed/turned/figured/slipped/added/passed/praised/wrapped/thanked/promised 等规则过去式；look through、sat down、looked over、pointed out、walk him through、wrote down、cleaned up、pulled out、turned out、went back、figured out、slipped in、wrapped up、go over 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "look through",
+      "phonetic": "/lʊk θruː/",
+      "note": "仔细查看；look through his new code"
+    },
+    {
+      "word": "asked",
+      "phonetic": "/ɑːskt/",
+      "note": "请求；asked me to look through，-ed 读 /t/"
+    },
+    {
+      "word": "worked",
+      "phonetic": "/wɜːkt/",
+      "note": "从事；had worked on，-ed 读 /t/"
+    },
+    {
+      "word": "printed",
+      "phonetic": "/ˈprɪntɪd/",
+      "note": "打印；printed student reports，-ed 读 /ɪd/"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down at my desk"
+    },
+    {
+      "word": "opened",
+      "phonetic": "/ˈəʊpənd/",
+      "note": "打开；opened the project，-ed 读 /d/"
+    },
+    {
+      "word": "looked over",
+      "phonetic": "/lʊkt ˈəʊvə/",
+      "note": "仔细看一遍；looked over the main file，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "noticed",
+      "phonetic": "/ˈnəʊtɪst/",
+      "note": "注意到；noticed a few spelling mistakes，-ed 读 /t/"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out a method，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "nodded",
+      "phonetic": "/ˈnɒdɪd/",
+      "note": "点头；He nodded，-ed 读 /ɪd/"
+    },
+    {
+      "word": "walk him through",
+      "phonetic": "/wɔːk ɪm θruː/",
+      "note": "逐步讲解；walk him through a better design"
+    },
+    {
+      "word": "talked",
+      "phonetic": "/tɔːkt/",
+      "note": "交谈；talked for twenty minutes，-ed 读 /t/"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down three simple steps"
+    },
+    {
+      "word": "cleaned up",
+      "phonetic": "/kliːnd ʌp/",
+      "note": "清理整理；cleaned up the messy names，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "pulled out",
+      "phonetic": "/pʊld aʊt/",
+      "note": "去掉/抽出；pulled out the extra lines，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "checked",
+      "phonetic": "/tʃekt/",
+      "note": "检查；checked the tests，-ed 读 /t/"
+    },
+    {
+      "word": "failed",
+      "phonetic": "/feɪld/",
+      "note": "失败；two cases had failed，-ed 读 /d/"
+    },
+    {
+      "word": "fixed",
+      "phonetic": "/fɪkst/",
+      "note": "修好；fixed the first one，-ed 读 /t/"
+    },
+    {
+      "word": "turned out",
+      "phonetic": "/tɜːnd aʊt/",
+      "note": "结果是；turned out to be harder，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "went back",
+      "phonetic": "/went bæk/",
+      "note": "回到；went back to the log"
+    },
+    {
+      "word": "figured out",
+      "phonetic": "/ˈfɪɡəd aʊt/",
+      "note": "弄明白；figured out that an empty value，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "slipped in",
+      "phonetic": "/slɪpt ɪn/",
+      "note": "混进来；had slipped in，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "added",
+      "phonetic": "/ˈædɪd/",
+      "note": "加上；added a check，-ed 读 /ɪd/"
+    },
+    {
+      "word": "passed",
+      "phonetic": "/pɑːst/",
+      "note": "通过；every test passed，-ed 读 /t/"
+    },
+    {
+      "word": "praised",
+      "phonetic": "/preɪzd/",
+      "note": "称赞；praised his patience，-ed 读 /d/"
+    },
+    {
+      "word": "wrapped up",
+      "phonetic": "/ræpt ʌp/",
+      "note": "结束；wrapped up，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "thanked",
+      "phonetic": "/θæŋkt/",
+      "note": "感谢；thanked me，-ed 读 /t/"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised to go over the notes，-ed 读 /t/"
+    },
+    {
+      "word": "go over",
+      "phonetic": "/ɡəʊ ˈəʊvə/",
+      "note": "再看一遍；go over the notes after dinner"
+    }
+  ]
+}
