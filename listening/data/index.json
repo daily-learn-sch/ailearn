@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-25",
+      "topic": "Taking old winter clothes to a donation box",
+      "topic_cn": "把旧冬衣送到捐赠箱",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25.mp3",
+      "data": "data/2026-11-25.json"
+    },
+    {
       "date": "2026-11-24",
       "topic": "Helping a colleague review his code",
       "topic_cn": "帮同事做代码评审",
@@ -423,5 +432,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-24"
+  "updated": "2026-11-25"
 }
