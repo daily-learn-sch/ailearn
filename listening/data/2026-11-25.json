@@ -1,0 +1,179 @@
+{
+  "date": "2026-11-25",
+  "topic": "Taking old winter clothes to a donation box",
+  "topic_cn": "把旧冬衣送到捐赠箱",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25.mp3",
+  "passage": "Last Saturday morning, I packed up a bag of old winter clothes. I had gone through my closet the night before and pulled out coats I no longer used. My wife helped me sort out the shirts and folded them into two piles. We set aside a warm jacket for my parents and put the rest into a big bag. After breakfast, I picked up the bag and walked to the community donation box. It stood near the gate, and a volunteer waited beside it. I put down the bag and filled out a short form with my name. Then I handed over the clothes and checked the list twice. The volunteer looked over each item and pointed out a shirt with a small hole. I took it back and dropped off the others. She thanked me and wrote down the number of coats. On the way home, I thought about the people who would try on those warm clothes this winter. I ended up feeling lighter, and I promised to give away unused things more often. When I got back, I hung up the leftover jacket and cleaned up the closet floor.",
+  "sentences": [
+    {
+      "text": "I had gone through my closet the night before and pulled out coats I no longer used.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25-s0.mp3",
+      "hint_cn": "前一晚翻衣柜并拿出不再穿的外套"
+    },
+    {
+      "text": "The volunteer looked over each item and pointed out a shirt with a small hole.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25-s1.mp3",
+      "hint_cn": "志愿者仔细检查并指出一件有小洞的衬衫"
+    },
+    {
+      "text": "I ended up feeling lighter, and I promised to give away unused things more often.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25-s2.mp3",
+      "hint_cn": "最后心里轻松并答应以后多捐赠闲置衣物"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "I packed up a bag of old winter clothes.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25-sh0.mp3"
+    },
+    {
+      "text": "She thanked me and wrote down the number.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25-sh1.mp3"
+    },
+    {
+      "text": "I dropped off the clothes at the box.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-25-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录；今日未连 Mac 读笔记，按日志错题模式出题，弱项还是短语动词连读和过去式听辨，所以今天继续把这两类靶子埋进短文。这篇「把旧冬衣送到捐赠箱」是全新的环境话题，短文里有 packed/helped/folded/picked/walked/waited/filled/handed/checked/looked/pointed/dropped/thanked/ended/promised/cleaned/used 等规则过去式；packed up、gone through、pulled out、sort out、set aside、picked up、put down、filled out、handed over、looked over、pointed out、dropped off、wrote down、try on、ended up、give away、hung up、cleaned up、got back 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "packed up",
+      "phonetic": "/pækt ʌp/",
+      "note": "收拾打包；packed up a bag，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "gone through",
+      "phonetic": "/ɡɒn θruː/",
+      "note": "仔细翻一遍；gone through my closet"
+    },
+    {
+      "word": "pulled out",
+      "phonetic": "/pʊld aʊt/",
+      "note": "拿出；pulled out coats，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "used",
+      "phonetic": "/juːzd/",
+      "note": "使用；no longer used，-ed 读 /d/"
+    },
+    {
+      "word": "helped",
+      "phonetic": "/helpt/",
+      "note": "帮助；helped me sort out，-ed 读 /t/"
+    },
+    {
+      "word": "sort out",
+      "phonetic": "/sɔːt aʊt/",
+      "note": "分类整理；sort out the shirts"
+    },
+    {
+      "word": "folded",
+      "phonetic": "/ˈfəʊldɪd/",
+      "note": "叠好；folded them into two piles，-ed 读 /ɪd/"
+    },
+    {
+      "word": "set aside",
+      "phonetic": "/set əˈsaɪd/",
+      "note": "留出；set aside a warm jacket"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "拿起；picked up the bag，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "walked",
+      "phonetic": "/wɔːkt/",
+      "note": "走；walked to the donation box，-ed 读 /t/"
+    },
+    {
+      "word": "waited",
+      "phonetic": "/ˈweɪtɪd/",
+      "note": "等待；a volunteer waited，-ed 读 /ɪd/"
+    },
+    {
+      "word": "put down",
+      "phonetic": "/pʊt daʊn/",
+      "note": "放下；put down the bag"
+    },
+    {
+      "word": "filled out",
+      "phonetic": "/fɪld aʊt/",
+      "note": "填写；filled out a short form，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "handed over",
+      "phonetic": "/ˈhændɪd ˈəʊvə/",
+      "note": "交给；handed over the clothes，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "checked",
+      "phonetic": "/tʃekt/",
+      "note": "核对；checked the list twice，-ed 读 /t/"
+    },
+    {
+      "word": "looked over",
+      "phonetic": "/lʊkt ˈəʊvə/",
+      "note": "仔细查看；looked over each item，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out a shirt，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "dropped off",
+      "phonetic": "/drɒpt ɒf/",
+      "note": "放下/送到；dropped off the others，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "thanked",
+      "phonetic": "/θæŋkt/",
+      "note": "感谢；thanked me，-ed 读 /t/"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down the number of coats"
+    },
+    {
+      "word": "try on",
+      "phonetic": "/traɪ ɒn/",
+      "note": "试穿；try on those warm clothes"
+    },
+    {
+      "word": "ended up",
+      "phonetic": "/ˈendɪd ʌp/",
+      "note": "最终变得；ended up feeling lighter，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised to give away，-ed 读 /t/"
+    },
+    {
+      "word": "give away",
+      "phonetic": "/ɡɪv əˈweɪ/",
+      "note": "捐赠/送掉；give away unused things"
+    },
+    {
+      "word": "got back",
+      "phonetic": "/ɡɒt bæk/",
+      "note": "回到；When I got back"
+    },
+    {
+      "word": "hung up",
+      "phonetic": "/hʌŋ ʌp/",
+      "note": "挂起；hung up the leftover jacket"
+    },
+    {
+      "word": "cleaned up",
+      "phonetic": "/kliːnd ʌp/",
+      "note": "收拾干净；cleaned up the closet floor，-ed 读 /d/ + 连读"
+    }
+  ]
+}
