@@ -1,0 +1,194 @@
+{
+  "date": "2026-11-26",
+  "topic": "A ferry trip to a small island",
+  "topic_cn": "坐渡船去小岛",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26.mp3",
+  "passage": "Last Sunday morning, we set off for a small island by ferry. I packed up a small bag and checked the tickets twice. We arrived at the port at seven and lined up at the window. I filled out a short form and handed over our identity cards. Then we got on the ferry and sat down by a window. The boat pulled away at half past seven, and the city faded behind us. I looked out at the water and pointed out a group of white birds. After one hour, the ferry slowed down and pulled into a quiet harbor. We got off and walked around the old streets. We sat down, ordered two bowls of noodles, and the food tasted fresh. We ended up staying longer than we had planned. In the afternoon, we climbed a short hill and looked over the whole island. The wind picked up, so we put on our jackets and headed back. We caught the last ferry at four and got back after dark. I hung up our wet coats and washed our hands. It was a simple trip, and we promised to go again next spring.",
+  "sentences": [
+    {
+      "text": "I filled out a short form and handed over our identity cards.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26-s0.mp3",
+      "hint_cn": "填完短表并把证件交了上去"
+    },
+    {
+      "text": "After one hour, the ferry slowed down and pulled into a quiet harbor.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26-s1.mp3",
+      "hint_cn": "一小时后渡船减速并驶进安静港口"
+    },
+    {
+      "text": "The wind picked up, so we put on our jackets and headed back.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26-s2.mp3",
+      "hint_cn": "风变大后我们穿上外套往回走"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "We set off for a small island by ferry.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26-sh0.mp3"
+    },
+    {
+      "text": "We got off and walked around the old streets.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26-sh1.mp3"
+    },
+    {
+      "text": "I hung up our wet coats and washed our hands.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录；今日未连 Mac 读笔记，按日志错题模式出题，弱项还是短语动词连读和过去式听辨，所以今天继续把这两类靶子埋进短文。这篇「坐渡船去小岛」是全新的旅行话题，短文里有 packed/checked/arrived/lined/filled/handed/pulled/faded/looked/pointed/passed/slowed/walked/showed/ordered/tasted/ended/planned/climbed/picked/headed/washed/promised 等规则过去式；set off、packed up、lined up、filled out、handed over、got on、sat down、pulled away、looked out、pointed out、took out、slowed down、pulled into、got off、walked around、wrote down、ended up、looked over、picked up、put on、headed back、got back、hung up 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "set off",
+      "phonetic": "/set ɒf/",
+      "note": "出发；set off for a small island"
+    },
+    {
+      "word": "packed up",
+      "phonetic": "/pækt ʌp/",
+      "note": "收拾打包；packed up a small bag，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "checked",
+      "phonetic": "/tʃekt/",
+      "note": "核对；checked the tickets twice，-ed 读 /t/"
+    },
+    {
+      "word": "arrived",
+      "phonetic": "/əˈraɪvd/",
+      "note": "到达；arrived at the port，-ed 读 /d/"
+    },
+    {
+      "word": "lined up",
+      "phonetic": "/laɪnd ʌp/",
+      "note": "排队；lined up at the window，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "filled out",
+      "phonetic": "/fɪld aʊt/",
+      "note": "填写；filled out a short form，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "handed over",
+      "phonetic": "/ˈhændɪd ˈəʊvə/",
+      "note": "交给；handed over our identity cards，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "got on",
+      "phonetic": "/ɡɒt ɒn/",
+      "note": "登上；got on the ferry"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down by a window"
+    },
+    {
+      "word": "pulled away",
+      "phonetic": "/pʊld əˈweɪ/",
+      "note": "驶离；The boat pulled away，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "faded",
+      "phonetic": "/ˈfeɪdɪd/",
+      "note": "渐渐消失；the city faded behind us，-ed 读 /ɪd/"
+    },
+    {
+      "word": "looked out",
+      "phonetic": "/lʊkt aʊt/",
+      "note": "向外看；looked out at the water，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out a group of white birds，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "slowed down",
+      "phonetic": "/sləʊd daʊn/",
+      "note": "减速；the ferry slowed down，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "pulled into",
+      "phonetic": "/pʊld ˈɪntə/",
+      "note": "驶入；pulled into a quiet harbor，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "got off",
+      "phonetic": "/ɡɒt ɒf/",
+      "note": "下船；We got off"
+    },
+    {
+      "word": "walked around",
+      "phonetic": "/wɔːkt əˈraʊnd/",
+      "note": "四处走；walked around the old streets，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "ordered",
+      "phonetic": "/ˈɔːdəd/",
+      "note": "点餐；ordered two bowls of noodles，-ed 读 /d/"
+    },
+    {
+      "word": "tasted",
+      "phonetic": "/ˈteɪstɪd/",
+      "note": "尝起来；the food tasted fresh，-ed 读 /ɪd/"
+    },
+    {
+      "word": "ended up",
+      "phonetic": "/ˈendɪd ʌp/",
+      "note": "最终变得；ended up staying longer，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "planned",
+      "phonetic": "/plænd/",
+      "note": "计划；longer than we had planned，-ed 读 /d/"
+    },
+    {
+      "word": "climbed",
+      "phonetic": "/klaɪmd/",
+      "note": "爬；climbed a short hill，-ed 读 /d/"
+    },
+    {
+      "word": "looked over",
+      "phonetic": "/lʊkt ˈəʊvə/",
+      "note": "眺望/查看；looked over the whole island，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "这里是风变大；The wind picked up，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "put on",
+      "phonetic": "/pʊt ɒn/",
+      "note": "穿上；put on our jackets"
+    },
+    {
+      "word": "headed back",
+      "phonetic": "/ˈhedɪd bæk/",
+      "note": "往回走；headed back，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "got back",
+      "phonetic": "/ɡɒt bæk/",
+      "note": "回到；got back after dark"
+    },
+    {
+      "word": "hung up",
+      "phonetic": "/hʌŋ ʌp/",
+      "note": "挂起；hung up our wet coats"
+    },
+    {
+      "word": "washed",
+      "phonetic": "/wɒʃt/",
+      "note": "洗；washed our hands，-ed 读 /t/"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised to go again，-ed 读 /t/"
+    }
+  ]
+}
