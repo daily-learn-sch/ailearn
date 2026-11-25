@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-26",
+      "topic": "A ferry trip to a small island",
+      "topic_cn": "坐渡船去小岛",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-26.mp3",
+      "data": "data/2026-11-26.json"
+    },
+    {
       "date": "2026-11-25",
       "topic": "Taking old winter clothes to a donation box",
       "topic_cn": "把旧冬衣送到捐赠箱",
@@ -432,5 +441,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-25"
+  "updated": "2026-11-26"
 }
