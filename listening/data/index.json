@@ -1,6 +1,15 @@
 {
   "drills": [
     {
+      "date": "2026-11-27",
+      "topic": "A weekend visit to the botanical garden",
+      "topic_cn": "周末去植物园",
+      "level": "B1",
+      "speed": 85,
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27.mp3",
+      "data": "data/2026-11-27.json"
+    },
+    {
       "date": "2026-11-26",
       "topic": "A ferry trip to a small island",
       "topic_cn": "坐渡船去小岛",
@@ -441,5 +450,5 @@
       "topic_cn": "早市"
     }
   ],
-  "updated": "2026-11-26"
+  "updated": "2026-11-27"
 }
