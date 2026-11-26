@@ -1,0 +1,194 @@
+{
+  "date": "2026-11-27",
+  "topic": "A weekend visit to the botanical garden",
+  "topic_cn": "周末去植物园",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27.mp3",
+  "passage": "Last Saturday morning, I set off for the city botanical garden with my wife. I looked up the opening hours and wrote down the gate number. We arrived at nine and lined up at the ticket window. I paid for two tickets and handed one over to her. Then we walked in and looked around the glass house. A guide pointed out a tall palm and asked us to slow down near the signs. I picked up a map and put on my cap, because the sun came out. We walked through a wet path and stopped to look at a group of red flowers. After one hour, we looked over the map, sat down by a small pond, and took out some water. We ended up staying longer than we had planned. In the afternoon, the rain picked up, so we put away the map and headed back to the gate. I hung up our wet jackets and washed our hands. We dropped the map off at the desk and walked out with a small pot of green leaves. I smiled, because the garden had felt so quiet and fresh. We promised to come back in spring.",
+  "sentences": [
+    {
+      "text": "I looked up the opening hours and wrote down the gate number.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27-s0.mp3",
+      "hint_cn": "查了开放时间并记下门口编号"
+    },
+    {
+      "text": "A guide pointed out a tall palm and asked us to slow down near the signs.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27-s1.mp3",
+      "hint_cn": "导游指出高棕榈并让我们在标牌旁放慢"
+    },
+    {
+      "text": "In the afternoon, the rain picked up, so we put away the map and headed back to the gate.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27-s2.mp3",
+      "hint_cn": "下午雨变大后我们收起地图往门口走"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "We arrived at the botanical garden at nine in the morning.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27-sh0.mp3"
+    },
+    {
+      "text": "I picked up a map and put on my cap.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27-sh1.mp3"
+    },
+    {
+      "text": "We sat down by a small pond and took out some water.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-27-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录；今日未连 Mac 读笔记，按日志错题模式出题，弱项还是短语动词连读和过去式听辨，所以今天继续把这两类靶子埋进短文。这篇「周末去植物园」是全新的环境话题，短文里有 looked/arrived/lined/handed/walked/pointed/asked/picked/stopped/ended/planned/headed/washed/dropped/smiled/promised 等规则过去式；set off、looked up、wrote down、lined up、handed over、walked in、looked around、pointed out、slow down、picked up、put on、came out、walked through、sat down、took out、ended up、looked over、put away、headed back、hung up、dropped off、walked out、come back 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "set off",
+      "phonetic": "/set ɒf/",
+      "note": "出发；set off for the city botanical garden"
+    },
+    {
+      "word": "looked up",
+      "phonetic": "/lʊkt ʌp/",
+      "note": "查阅；looked up the opening hours，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down the gate number"
+    },
+    {
+      "word": "arrived",
+      "phonetic": "/əˈraɪvd/",
+      "note": "到达；arrived at nine，-ed 读 /d/"
+    },
+    {
+      "word": "lined up",
+      "phonetic": "/laɪnd ʌp/",
+      "note": "排队；lined up at the ticket window，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "handed over",
+      "phonetic": "/ˈhændɪd ˈəʊvə/",
+      "note": "交给；handed one over to her，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "walked in",
+      "phonetic": "/wɔːkt ɪn/",
+      "note": "走进；we walked in，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "looked around",
+      "phonetic": "/lʊkt əˈraʊnd/",
+      "note": "四处看；looked around the glass house，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out a tall palm，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "asked",
+      "phonetic": "/ɑːskt/",
+      "note": "要求/询问；asked us to slow down，-ed 读 /t/"
+    },
+    {
+      "word": "slow down",
+      "phonetic": "/sləʊ daʊn/",
+      "note": "放慢；asked us to slow down near the signs"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "拿起；或指雨变大 The rain picked up，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "put on",
+      "phonetic": "/pʊt ɒn/",
+      "note": "戴上/穿上；put on my cap"
+    },
+    {
+      "word": "came out",
+      "phonetic": "/keɪm aʊt/",
+      "note": "出来；the sun came out"
+    },
+    {
+      "word": "walked through",
+      "phonetic": "/wɔːkt θruː/",
+      "note": "走过；walked through a wet path，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "stopped",
+      "phonetic": "/stɒpt/",
+      "note": "停下；stopped to look at，-ed 读 /t/"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down by a small pond"
+    },
+    {
+      "word": "took out",
+      "phonetic": "/tʊk aʊt/",
+      "note": "拿出；took out some water"
+    },
+    {
+      "word": "ended up",
+      "phonetic": "/ˈendɪd ʌp/",
+      "note": "最终变得；ended up staying longer，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "planned",
+      "phonetic": "/plænd/",
+      "note": "计划；longer than we had planned，-ed 读 /d/"
+    },
+    {
+      "word": "looked over",
+      "phonetic": "/lʊkt ˈəʊvə/",
+      "note": "眺望/查看；looked over the trees，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "put away",
+      "phonetic": "/pʊt əˈweɪ/",
+      "note": "收起来；put away the map"
+    },
+    {
+      "word": "headed back",
+      "phonetic": "/ˈhedɪd bæk/",
+      "note": "往回走；headed back to the gate，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "hung up",
+      "phonetic": "/hʌŋ ʌp/",
+      "note": "挂起；hung up our wet jackets"
+    },
+    {
+      "word": "washed",
+      "phonetic": "/wɒʃt/",
+      "note": "洗；washed our hands，-ed 读 /t/"
+    },
+    {
+      "word": "dropped off",
+      "phonetic": "/drɒpt ɒf/",
+      "note": "放下/交还；dropped the map off at the desk，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "walked out",
+      "phonetic": "/wɔːkt aʊt/",
+      "note": "走出去；walked out with a small pot，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "smiled",
+      "phonetic": "/smaɪld/",
+      "note": "微笑；I smiled，-ed 读 /d/"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised to come back，-ed 读 /t/"
+    },
+    {
+      "word": "come back",
+      "phonetic": "/kʌm bæk/",
+      "note": "再来；promised to come back in spring"
+    }
+  ]
+}
