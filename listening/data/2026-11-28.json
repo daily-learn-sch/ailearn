@@ -1,0 +1,209 @@
+{
+  "date": "2026-11-28",
+  "topic": "Going to the cinema on Saturday evening",
+  "topic_cn": "周末晚上去电影院",
+  "level": "B1",
+  "speed": 85,
+  "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-28.mp3",
+  "passage": "Last Saturday evening, I booked two tickets for a new film. I looked up the start time and wrote down the hall number. After dinner, we set off and arrived at the cinema at seven. We lined up at the door and handed over our tickets. A clerk pointed out the seats we had picked out. We walked in, took off our coats, and sat down in the middle row. I turned off my phone and put it away. The lights went out, and the story started slowly. I had looked forward to this film for two weeks. Halfway through, someone called out, so I turned around for a second. My wife leaned over and asked me to keep watching. When the film ended, we stood up and walked out with the crowd. The wind picked up outside, so I put on my coat and pulled it tight. We talked about the ending on the way home and ended up buying tea at a small shop. I smiled, because the evening had cheered us up. We promised to come back next month.",
+  "sentences": [
+    {
+      "text": "I looked up the start time and wrote down the hall number.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-28-s0.mp3",
+      "hint_cn": "查了开场时间并记下厅号"
+    },
+    {
+      "text": "A clerk pointed out the seats we had picked out.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-28-s1.mp3",
+      "hint_cn": "工作人员指出我们选好的座位"
+    },
+    {
+      "text": "The wind picked up outside, so I put on my coat and pulled it tight.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-28-s2.mp3",
+      "hint_cn": "外面风变大后我穿上外套并拉紧"
+    }
+  ],
+  "shadow_sentences": [
+    {
+      "text": "We arrived at the cinema at seven in the evening.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-28-sh0.mp3"
+    },
+    {
+      "text": "I turned off my phone and put it away.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-28-sh1.mp3"
+    },
+    {
+      "text": "We walked out with the crowd after the film.",
+      "audio": "https://daily-learn-sch.github.io/ailearn/listening/audio/2026-11-28-sh2.mp3"
+    }
+  ],
+  "shadow_level": "A2",
+  "coach_rationale": "今早直查了 drill_sessions：有分听写仍是 7 次，最近一次仍是 10-22，样本未增加。EnglishPod365 仍无带 error_types 的新记录；今日未连 Mac 读笔记（电脑离线），按日志错题模式出题，弱项还是短语动词连读和过去式听辨，所以今天继续把这两类靶子埋进短文。这篇「周末晚上去电影院」是全新的文化话题，短文里有 booked/looked/arrived/lined/handed/pointed/picked/walked/started/called/turned/leaned/asked/ended/pulled/talked/smiled/promised 等规则过去式；looked up、wrote down、set off、lined up、handed over、pointed out、picked out、walked in、took off、sat down、turned off、put away、went out、looked forward to、called out、turned around、leaned over、stood up、walked out、picked up、put on、ended up、cheered up、come back 是今天的短语动词连读靶子。难度保持听写 B1、跟读 A2。",
+  "vocab": [
+    {
+      "word": "booked",
+      "phonetic": "/bʊkt/",
+      "note": "预订；booked two tickets，-ed 读 /t/"
+    },
+    {
+      "word": "looked up",
+      "phonetic": "/lʊkt ʌp/",
+      "note": "查阅；looked up the start time，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "wrote down",
+      "phonetic": "/rəʊt daʊn/",
+      "note": "写下；wrote down the hall number"
+    },
+    {
+      "word": "set off",
+      "phonetic": "/set ɒf/",
+      "note": "出发；we set off and arrived"
+    },
+    {
+      "word": "arrived",
+      "phonetic": "/əˈraɪvd/",
+      "note": "到达；arrived at the cinema，-ed 读 /d/"
+    },
+    {
+      "word": "lined up",
+      "phonetic": "/laɪnd ʌp/",
+      "note": "排队；lined up at the door，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "handed over",
+      "phonetic": "/ˈhændɪd ˈəʊvə/",
+      "note": "交给；handed over our tickets，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "pointed out",
+      "phonetic": "/ˈpɔɪntɪd aʊt/",
+      "note": "指出；pointed out the seats，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "picked out",
+      "phonetic": "/pɪkt aʊt/",
+      "note": "选好；the seats we had picked out，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "walked in",
+      "phonetic": "/wɔːkt ɪn/",
+      "note": "走进；we walked in，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "took off",
+      "phonetic": "/tʊk ɒf/",
+      "note": "脱下；took off our coats"
+    },
+    {
+      "word": "sat down",
+      "phonetic": "/sæt daʊn/",
+      "note": "坐下；sat down in the middle row"
+    },
+    {
+      "word": "turned off",
+      "phonetic": "/tɜːnd ɒf/",
+      "note": "关掉；turned off my phone，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "put away",
+      "phonetic": "/pʊt əˈweɪ/",
+      "note": "收起来；put it away"
+    },
+    {
+      "word": "went out",
+      "phonetic": "/went aʊt/",
+      "note": "熄灭；the lights went out"
+    },
+    {
+      "word": "started",
+      "phonetic": "/ˈstɑːtɪd/",
+      "note": "开始；the story started slowly，-ed 读 /ɪd/"
+    },
+    {
+      "word": "looked forward to",
+      "phonetic": "/lʊkt ˈfɔːwəd tuː/",
+      "note": "期待；had looked forward to this film，-ed 读 /t/"
+    },
+    {
+      "word": "called out",
+      "phonetic": "/kɔːld aʊt/",
+      "note": "喊出声；someone called out，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "turned around",
+      "phonetic": "/tɜːnd əˈraʊnd/",
+      "note": "转身；I turned around，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "leaned over",
+      "phonetic": "/liːnd ˈəʊvə/",
+      "note": "探过身；leaned over and asked me，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "asked",
+      "phonetic": "/ɑːskt/",
+      "note": "要求；asked me to keep watching，-ed 读 /t/"
+    },
+    {
+      "word": "ended",
+      "phonetic": "/ˈendɪd/",
+      "note": "结束；when the film ended，-ed 读 /ɪd/"
+    },
+    {
+      "word": "stood up",
+      "phonetic": "/stʊd ʌp/",
+      "note": "站起来；we stood up"
+    },
+    {
+      "word": "walked out",
+      "phonetic": "/wɔːkt aʊt/",
+      "note": "走出去；walked out with the crowd，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "picked up",
+      "phonetic": "/pɪkt ʌp/",
+      "note": "变大；the wind picked up outside，-ed 读 /t/ + 连读"
+    },
+    {
+      "word": "put on",
+      "phonetic": "/pʊt ɒn/",
+      "note": "穿上；I put on my coat"
+    },
+    {
+      "word": "pulled",
+      "phonetic": "/pʊld/",
+      "note": "拉紧；pulled it tight，-ed 读 /d/"
+    },
+    {
+      "word": "talked",
+      "phonetic": "/tɔːkt/",
+      "note": "谈论；talked about the ending，-ed 读 /t/"
+    },
+    {
+      "word": "ended up",
+      "phonetic": "/ˈendɪd ʌp/",
+      "note": "最终；ended up buying tea，-ed 读 /ɪd/ + 连读"
+    },
+    {
+      "word": "smiled",
+      "phonetic": "/smaɪld/",
+      "note": "微笑；I smiled，-ed 读 /d/"
+    },
+    {
+      "word": "cheered up",
+      "phonetic": "/tʃɪəd ʌp/",
+      "note": "让人高兴；had cheered us up，-ed 读 /d/ + 连读"
+    },
+    {
+      "word": "promised",
+      "phonetic": "/ˈprɒmɪst/",
+      "note": "答应；promised to come back，-ed 读 /t/"
+    },
+    {
+      "word": "come back",
+      "phonetic": "/kʌm bæk/",
+      "note": "再来；promised to come back next month"
+    }
+  ]
+}
